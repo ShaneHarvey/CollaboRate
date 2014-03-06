@@ -1,0 +1,226 @@
+/* Main.css is used for all styling not related to bootstrap. */
+
+/* Default color is cyber grape */
+html, body {
+	color:#58427C;
+}
+
+/* Center text */
+.tc {
+	text-align: center;
+}
+
+/* Center an object */
+.ce {
+ 	display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+/* Footer div*/
+.footer {
+	padding-top:30px;
+	min-height: 175px;
+}
+
+/* Body div */
+.body {
+	min-height:400px;
+	margin-top:53px;
+	padding-top: 75px;
+	padding-bottom: 75px;
+}
+
+/* Display gap with hr */
+hr {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 0;
+	border-top: 2px solid #EEE;
+}
+
+/* Cyber-Grape colored button */
+.btn-cg {
+	color: #FFF;
+	background-color: #58427C;
+}
+.btn-cg:hover {
+	color: #FFF;
+	text-shadow:0 0 1px #FFF;
+}
+
+/* Display brand name in large font*/
+.brand-name {
+	font-size: 36px;
+}
+
+/* Header of a section on a page */
+.section-header {
+	font-size:28px;
+	font-style: italic;
+	font-weight: bold;
+}
+
+/* Italisize */
+.role {
+	font-style: italic;
+}
+
+/* Adding 150px padding to left side */
+.left-padding-150 {
+	padding-left:150px;
+}
+
+/* Body of pages*/
+.body {
+	margin-top:53px; 
+	width:100%;
+	background-color: #DDD;
+	padding-top:75px;
+	padding-bottom:75px;
+	min-height: 500px;
+}
+
+/* Center div of login / signup pages */
+.login-center-div{
+    text-align: left;
+    background: #FFF;
+    border: 1px solid #BBB;
+    padding: 40px;
+    margin: 0 auto;
+    width: 35%;
+    color: #58427C;
+}
+
+/* Center div of home page */
+.body-center-div {
+    background: #FFF;
+    border: 1px solid #BBB;
+    padding: 30px;
+    margin: 0 auto;
+    width: 70%;
+    margin-top: -25px;
+    margin-bottom: -25px;
+    text-align: left;
+}
+
+/* Input box on login / signup page */
+.login-input {
+	font-size: 20px;
+	padding: 10px;
+	display: block;
+	margin: 20px auto;
+	width: 95%;
+}
+.login-input:focus {
+	border: 2px solid #58427C;
+	outline: none;
+}
+
+/* Cut vertical padding on signup page in half */
+.cut-vertical-padding {
+	padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Move checkbox label over and make font smaller */
+.checkbox-label {
+	font-size: 12px;
+	margin-left: 5px;
+}
+
+/* Table used to display topics for a given subject */
+.topic-table {
+	margin: 10px auto;
+}
+
+/* Underline rows in topic table */
+.content-table tr {
+	border-bottom: 1px solid #DDD;
+}
+
+/* Special settings to style links in content table */
+.content-table a, .content-holder a {
+	color:#58427C;
+}
+.content-table a:hover, .content-holder a:hover, .question-answers li:hover {
+	text-shadow:0 0 1px #58427C;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* Surround with a rounded border */
+.content-holder {
+	border: 1px solid #DDD;
+	border-radius:25px;
+	padding-bottom:10px;
+}
+
+/* Make something green */
+.green {
+	color:green;
+}
+
+/* Make something yellow */
+.yellow {
+	color:yellow;
+}
+
+/* Used to shift something right 2 pixels */
+.shift-right-2 {
+	margin-left: 2px;
+	margin-right:-2px;
+}
+
+/* Used to shift something right 4 pixels */
+.shift-right-4 {
+	margin-left:4px;
+	margin-right:-4px;
+}
+
+/* Detail */
+.detail {
+	font-weight: bold;
+	padding-left:5px;
+}
+
+/* Style bread crumbs displayed on pages */
+.bread-crumbs {
+	margin-top: -15px;
+	margin-left: -10px;
+}
+
+/* Div containing video rating */
+.video-rate {
+	text-align: right;
+	font-size: 18px;
+	margin-top:10px;
+}
+
+/* Style embedded video */
+.video-embed {
+	width: 640px;
+	height: 480px;
+	padding-top: 25px;
+	margin-bottom: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Div containing question answers */
+.question-answers {
+	font-size: 20px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 25px;
+	padding-left: 35%;
+	margin-bottom: 25px;
+}
+
+/* Surround with a rounded border */
+.selected-answer {
+	border-radius:10px;
+	background-color: green;
+	color: #FFF;
+	padding:5px;
+}

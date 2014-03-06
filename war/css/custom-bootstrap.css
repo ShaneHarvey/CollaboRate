@@ -1,0 +1,41 @@
+/* custom-bootstrap.css is for customizing default bootstrap styles to fit our needs. */
+
+/* CUSTOM NAVBAR*/
+.navbar {
+	background-color: #58427C;
+	margin-bottom: 0px;
+}
+.navbar-nav>li>a {
+	color: #FFF;
+	font-weight: bold;
+}
+.navbar-nav>li>a:hover {
+	background-color: inherit;
+	text-shadow:0 0 1px #FFF;
+}
+.navbar-nav>li {
+	color: #FFF;
+}
+
+/* CUSTOM CAROUSEL*/
+.carousel .item {
+  height: 500px;
+  background-color: #FFF;
+}
+.carousel-caption>h1, .carousel-caption>p {
+	color: #58427C;
+}
+.carousel-indicators li {
+	border:1px solid #58427C;
+}
+.carousel-indicators> li.active {
+	background-color: #58427C;
+}
+
+/* CUSTOM DROPDOWN STYLING*/
+.dropdown-toggle {
+	background-color: #58427C !important;
+}
+.open>.dropdown-toggle {
+	text-shadow:0 0 1px #FFF;
+}
