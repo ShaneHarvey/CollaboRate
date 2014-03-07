@@ -49,6 +49,12 @@ hr {
 	text-shadow:0 0 1px #FFF;
 }
 
+/* Big button */
+.mega-btn {
+	font-size: 20px;
+	padding: 12px 24px;
+}
+
 /* Display brand name in large font*/
 .brand-name {
 	font-size: 36px;
@@ -154,6 +160,7 @@ hr {
 	border: 1px solid #DDD;
 	border-radius:25px;
 	padding-bottom:10px;
+	margin-bottom:10px;
 }
 
 /* Make something green */
@@ -166,16 +173,14 @@ hr {
 	color:yellow;
 }
 
-/* Used to shift something right 2 pixels */
-.shift-right-2 {
-	margin-left: 2px;
-	margin-right:-2px;
+/* Shift over 5 pixels */
+.shift-right-5 {
+	margin-left: 5px;
+	margin-right:-5px;
 }
-
-/* Used to shift something right 4 pixels */
-.shift-right-4 {
-	margin-left:4px;
-	margin-right:-4px;
+.shift-left-5 {
+	margin-left: -5px;
+	margin-right: 5px;
 }
 
 /* Detail */
@@ -223,4 +228,28 @@ hr {
 	background-color: green;
 	color: #FFF;
 	padding:5px;
+}
+
+/* Topic not available */
+.not-available {
+   color: #AAA; 
+}
+
+/* Style disabled input box */
+input[disabled] {
+    border: none;
+    background: #FFF;
+}
+
+/* Div containing account info */
+.account-info {
+	font-size:18px;
+	margin-left:20%;
+}
+
+/* Span containing account info title */
+.title {
+	margin-bottom:10px;
+	margin-right: 10px;
+	font-weight: bold;
 }

@@ -10,26 +10,7 @@
 </head>
 <body>
 
-	<!-- Navbar -->
-	<div class="navbar navbar-fixed-top" role="navigation">
-		<div class="navbar inner">
-  			<div class="container">
-  				  <!-- This will collapse to dropdown menu if not enough room to display list -->
-    				<div class="navbar-collapse collapse">
-        				<ul class="nav navbar-nav">
-    			        	<li><a class="brand-name" href="index.html">Educator</a></li>
-      			        <li><a href="index.html#about-us">About</a></li>
-      			        <li><a href="index.html#contact-us">Contact</a></li>
-    			      </ul>
-  			        <!-- Right side of nav bar -->
-  			        <ul class="nav navbar-nav navbar-right">
-  			        	  <li><a href="login.html">Log In</a></li>
-  			            <li><a href="signup.html">Sign Up</a></li>
-    			      </ul>
-    			    </div>
-    			</div>
-  		</div>
-	</div>
+	<%@include file="/includes/header-logged-out.html"%>
 
 	<!-- Carousel Wrapper -->
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -125,31 +106,19 @@
     		<div class="col-lg-6">
     			<h3 class="tc">Email</h3>
     			<div class="left-padding-150">
-    				<form>
-              <h5>Name:</h5>
-	    				<input type="text" name="name"/>
-	    				
-              <h5>Email Address:</h5>
-	    				<input type="email" name="email"/>
-
-              <h5>Message:</h5>
-	    				<textarea name="message"></textarea>
-	    				
-              <br />
-	    				<input type="submit" class="btn btn-cg">
-    				</form>
+		          <h5>Name:</h5>
+			      <input type="text" name="name"/>		
+		          <h5>Email Address:</h5>
+			      <input type="email" name="email"/>
+		          <h5>Message:</h5>
+			      <textarea name="message"></textarea>		
+		          <br />
+			      <a class="btn btn-cg">Submit</a>
     			</div>
     		</div>
     </div>
 
-
-
-    <!-- FOOTER -->
-    <div class="container tc footer">
-		<hr />
-		<p> <a href="index.html">Homepage</a> · <a href="sitemap.html">Site Map</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms and Conditions</a></p>
-    	<p>Copyright © 2014 Cyber Grape Learning, Inc. All rights reserved.</p>
-  	</div>
+    <%@include file="/includes/footer.html" %>
 
 </body>
 <!-- Scripts at end of page to speed up page loading -->

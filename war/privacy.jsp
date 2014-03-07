@@ -10,26 +10,7 @@
 </head>
 <body>
 
-	<!-- Navbar -->
-	<div class="navbar navbar-fixed-top" role="navigation">
-		<div class="navbar inner">
-			<div class="container">
-				<!-- This will collapse to dropdown menu if not enough room to display list -->
-				<div class="navbar-collapse collapse">
-      				<ul class="nav navbar-nav">
-			        	  <li><a class="brand-name" href="index.html">Educator</a></li>
-			            <li><a href="index.html#about-us">About</a></li>
-			            <li><a href="index.html#contact-us">Contact</a></li>
-			        </ul>
-			        <!-- Right side of nav bar -->
-			        <ul class="nav navbar-nav navbar-right">
-			        	<li><a href="login.html">Log In</a></li>
-			            <li><a href="signup.html">Sign Up</a></li>
-			        </ul>
-			    </div>
-			</div>
-		</div>
-	</div>
+    <%@include file="/includes/header-logged-out.html"%>
 
   <div class="body">
       
@@ -71,20 +52,11 @@
               We are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained. 
             </p>    
 
-    
-  
-
-      
         </div>
 
   </div>
 
-  <!-- FOOTER -->
-  <div class="container tc footer">
-      <hr />
-      <p> <a href="index.html">Homepage</a> · <a href="sitemap.html">Site Map</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms and Conditions</a></p>
-  	  <p>Copyright © 2014 Cyber Grape Learning, Inc. All rights reserved.</p>
-  </div>
+    <%@include file="/includes/footer.html"%>
 
 </body>
 </html>

@@ -10,47 +10,11 @@
 </head>
 <body>
 
-	<!-- Navbar -->
-	<div class="navbar navbar-fixed-top" role="navigation">
-		<div class="navbar inner">
-			<div class="container">
-				<!-- This will collapse to dropdown menu if not enough room to display list -->
-				<div class="navbar-collapse collapse">
-      				<ul class="nav navbar-nav">
-			        	<li><a class="brand-name" href="home.html">Educator</a></li>
-			            <li class="dropdown">
-			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Subject<span class="caret"></span></a>
-			            	<ul class="dropdown-menu">
-			            		<li class="dropdown-header">Science</li>
-			            		<li><a href="subject.html">Chemistry</a></li>
-			            		<li><a href="#">Earth Science</a></li>
-			            		<li class="divider"></li>
-			          			<li class="dropdown-header">Math</li>
-			            		<li><a href="#">Calculus I</a></li>
-			            		<li><a href="#">Calculus II</a></li>
-			            		<li class="divider"></li>
-			            		<li class="dropdown-header"><a href="#">Request a Subject</a></li>
-			            	</ul>
-			            </li>
-			        </ul>
-			        <!-- Right side of nav bar -->
-			        <ul class="nav navbar-nav navbar-right">
-			            <li class="dropdown">
-			            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">jlapine93@gmail.com<span class="caret"></span></a>
-			            	<ul class="dropdown-menu">
-			            		<li><a href="#">My Account</a></li>
-			            		<li><a href="index.html">Log Out</a></li>
-			            	</ul>
-			            </li>
-			        </ul>
-			    </div>
-			</div>
-		</div>
-	</div>
+    <%@include file="/includes/header-logged-in.html"%>
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="home.html">Home</a> / Chemistry</div>
+			<div class="bread-crumbs"><a href="home.jsp">Home</a> / Chemistry</div>
 			<h1 class="tc">Chemistry</h1>
 			<div class="row">
 				<div class="col-lg-4 content-holder">
@@ -60,13 +24,13 @@
 						<tr><td><span class="glyphicon glyphicon-ok green"></span>Atomic Concepts</td></tr>
 						<tr><td><span class="glyphicon glyphicon-asterisk yellow"></span>Periodic Table</td></tr>
 						<tr><td><span class="glyphicon glyphicon-asterisk yellow"></span>Moles/Stoichiometry</td></tr>
-						<tr><td><a href="topic.html">Chemical Bonding</a></td></tr>
+						<tr><td><a href="topic.jsp">Chemical Bonding</a></td></tr>
 						<tr><td>Physical Behavior of Matter</td></tr>
 						<tr><td>Kinetics/Equilibrium</td></tr>
 						<tr><td>Organic Chemistry</td></tr>
 						<tr><td>Oxidation-Reduction</td></tr>
-						<tr><td>Acids, Bases and Salts</td></tr>
-						<tr><td>Nuclear Chemistry</td></tr>
+						<tr><td class="not-available">Acids, Bases and Salts</td></tr>
+						<tr><td class="not-available">Nuclear Chemistry</td></tr>
 					</table>
 				</div>
 				<div class="col-lg-8 content-holder shift-right-2">
@@ -104,12 +68,7 @@
 		</div>
 	</div>
 
-  <!-- FOOTER -->
-  <div class="container tc footer ">
-      <hr />
-      <p> <a href="index.html">Homepage</a> · <a href="sitemap.html">Site Map</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms and Conditions</a></p>
-  	  <p>Copyright © 2014 Cyber Grape Learning, Inc. All rights reserved.</p>
-  </div>
+    <%@include file="/includes/footer.html"%>
 
 </body>
 <!-- Scripts at end of page to speed up page loading -->
