@@ -17,7 +17,7 @@
 			<div class="bread-crumbs"><a href="home.jsp">Home</a> / Chemistry</div>
 			<h1 class="tc">Chemistry</h1>
 			<div class="row">
-				<div class="col-lg-4 content-holder">
+				<div class="col-lg-4 content-holder shift-left-5">
 					<h3 class="tc">Topics</h3>
 					<table class="content-table">
 						<tr><td><span class="glyphicon glyphicon-ok green"></span>Math Skills needed for Chemistry</td></tr>
@@ -33,7 +33,7 @@
 						<tr><td class="not-available">Nuclear Chemistry</td></tr>
 					</table>
 				</div>
-				<div class="col-lg-8 content-holder shift-right-2">
+				<div class="col-lg-8 content-holder shift-right-5">
 					<h3 class="tc">Statistics</h3>
 					<div class="col-lg-6">
 						<h4 class="tc">Global</h4>

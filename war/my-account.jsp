@@ -28,6 +28,9 @@
 		    <br />
             <div class="tc">
                 <a href="#">Edit Info</a>
+                <br />
+                <br />
+                <a href="#">Deactivate Account</a>
             </div>
 		</div>
 	</div>

@@ -51,8 +51,12 @@
 					<div class="tc"><a>Load More...</a></div>
 				</div>
 				<div class="col-lg-6 shift-right-5">
-				    <div class="tc" style="margin-top:20%;">
-				        <a class="mega-btn btn btn-cg" href="question.jsp">Random Questions</a>
+				    <div class="tc">
+				        <br />
+                        <br />
+                        <br />
+                        <br />
+				        <a class="mega-btn btn btn-cg" href="take-test.jsp">Take Test</a>
 				    </div>
 				</div>	
 			</div>
