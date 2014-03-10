@@ -10,6 +10,8 @@
 </head>
 <body>
 
+    <%@include file="/includes/header-logged-in.html"%>
+    
     <div class="body">
         <div class="body-center-div">
             <div class="bread-crumbs"><a href="home.jsp">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Question #37638 </div>
