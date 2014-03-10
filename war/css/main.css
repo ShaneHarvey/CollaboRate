@@ -41,12 +41,12 @@ hr {
 
 /* Cyber-Grape colored button */
 .btn-cg {
-	color: #FFF;
-	background-color: #58427C;
+	color: #FFF !important;
+	background-color: #58427C !important;
 }
 .btn-cg:hover {
-	color: #FFF;
-	text-shadow:0 0 1px #FFF;
+	color: #FFF !important;
+	text-shadow:0 0 1px #FFF !important;
 }
 
 /* Big button */
@@ -118,7 +118,7 @@ hr {
 	margin: 20px auto;
 	width: 95%;
 }
-.login-input:focus {
+.login-input:focus, .discussion-question-responce:focus {
 	border: 2px solid #58427C;
 	outline: none;
 }
@@ -186,6 +186,13 @@ hr {
 	margin-left: -5px;
 	margin-right: 5px;
 }
+
+/* Add 10px margins to each side */
+.side-margins-10 {
+	margin-left:10px;
+	margin-right:10px;
+}
+
 
 /* Detail */
 .detail {
@@ -262,4 +269,30 @@ input[disabled] {
 .questions-remaining {
 	text-align: right;
 	font-size: 16px;
+}
+
+/* Div containing a discussion question on discussion board */
+.discussion-board-question {
+	padding: 15px;
+}
+.discussion-board-question>a {
+	font-size: 16px;
+	text-decoration: underline;
+}
+.discussion-board-question>a:hover {
+	text-decoration:underline;
+}
+.discussion-board-question>.timestamp {
+	text-align:right;
+}
+.discussion-board-question>.author {
+	margin-left: 10px;
+}
+
+/* Paragraph describing discussion question on discussion-question page */
+.discussion-question {
+	font-size: 16px;
+}
+.discussion-question-responce {
+	width:100%;
 }

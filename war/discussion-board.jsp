@@ -14,7 +14,18 @@
 
 	<div class="body">
 		<div class="body-center-div">
+		    <div class="bread-crumbs"><a href="home.jsp">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Discussion Board </div>
 			<h1 class="tc">Discussion Board</h1>
+			<div class="content-holder discussion-board-question">
+			    <a href="discussion-question.jsp">What is the difference between an ionic and covalent bond?</a>
+			    <div class="author">By: Cyber Grapes</div>
+			    <div class="timestamp">Posted at 2:06am on March 09, 2014</div>
+			</div>
+			<div class="content-holder discussion-board-question">
+                <a href="discussion-question.jsp">How many valence electrons do alkali earth metals have?</a>
+                <div class="author">By: Jamie Lapine</div>
+                <div class="timestamp">Posted at 12:036am on March 09, 2014</div>
+            </div>
 		</div>
 	</div>
 
