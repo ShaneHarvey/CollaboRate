@@ -27,8 +27,10 @@
             <div class="tc">
                 <a href="home.jsp" class="btn btn-cg">Submit</a>
             </div>
+            <!--
             <br />
-            <a href="#">Forgot Password?</a>
+            NOT YET IMPLEMENTED
+            <a href="#">Forgot Password?</a>-->
       
         </div>
 
@@ -37,4 +39,7 @@
     <%@include file="/includes/footer.html" %>
 
 </body>
+<!-- Scripts at end of page to speed up page loading -->
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 </html>

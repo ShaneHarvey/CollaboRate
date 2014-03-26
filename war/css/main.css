@@ -1,5 +1,14 @@
 /* Main.css is used for all styling not related to bootstrap. */
 
+/* 
+ * FONT OBTAINED FROM GOOGLE FONTS LIBRARY (https://www.google.com/fonts)
+ * Woff file downloaded from http://themes.googleusercontent.com/static/fonts/germaniaone/v2/3_6AyUql_-FbDi1e68jHdHhCUOGz7vYGh680lGh-uXM.woff
+ */
+@font-face {
+    font-family: "Germania One";
+    src: url("/fonts/germania-one.woff") format('woff');
+}
+
 /* Default color is cyber grape */
 html, body {
 	color:#58427C;
@@ -58,6 +67,7 @@ hr {
 /* Display brand name in large font*/
 .brand-name {
 	font-size: 36px;
+	font-family: "Germania One"
 }
 
 /* Header of a section on a page */
@@ -118,7 +128,7 @@ hr {
 	margin: 20px auto;
 	width: 95%;
 }
-.login-input:focus, .discussion-question-responce:focus {
+.login-input:focus, .discussion-question:focus {
 	border: 2px solid #58427C;
 	outline: none;
 }
@@ -293,6 +303,28 @@ input[disabled] {
 .discussion-question {
 	font-size: 16px;
 }
-.discussion-question-responce {
+.discussion-question {
 	width:100%;
+}
+
+/* Span containing X glyphicon for removing posts / comments from discussion board */
+.remove-button {
+	color: #C00;
+	font-size: 24px;
+	margin-left: 50px;
+}
+.remove-button:hover {
+	text-shadow: 0 0 1px #C00;
+}
+.del-button-holder {
+	text-align:right;
+	margin-top: -20px;
+	margin-right: 20px;
+	margin-bottom: -10px;
+}
+.del-button-holder-ques {
+    text-align:right;
+    margin-top: -30px;
+    margin-right: 30px;
+    margin-bottom: -10px;
 }

@@ -44,9 +44,10 @@
                 </div>
             </div>
         </div>
-        <!-- Left and right side indicators -->
+        <!-- Left and right side indicators
         <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
         <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+         -->
         <!-- Bottom Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -55,7 +56,7 @@
         </ol>
     </div>
 
-    <div id="about-us" class="container">
+    <div class="container">
 
    		<h1 class="section-header tc">About Us:</h1>
 
@@ -88,7 +89,7 @@
 
 
     <!-- Contact us -->
-    <div id="contact-us" class="container">
+    <div class="container">
 
     	<hr />
 
