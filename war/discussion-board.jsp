@@ -19,7 +19,7 @@
 			<div class="content-holder discussion-board-question">
 			    <a href="discussion-question.jsp">What is the difference between an ionic and covalent bond?</a>
 			    <div class="del-button-holder"><a href="#"><span class="glyphicon glyphicon-remove remove-button"></span></a></div>
-			    <div class="author">By: Cyber Grapes</div>
+			    <div class="author">By: Cyber Grape Learning</div>
 			    <div class="timestamp">Posted at 2:06am on March 09, 2014</div>
 			</div>
 			<div class="content-holder discussion-board-question">
