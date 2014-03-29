@@ -14,40 +14,53 @@ import com.google.appengine.api.datastore.PreparedQuery;
 
 import static settings.Settings.*;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 
-public class Account {
+public class Account implements Serializable {
 	private String email;
 	private String password;
 	private String displayName;
+	private String actorType;
 	private Key key;
-	private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	private static final String passwordRegEx = "^(.{0,}(([a-zA-Z][^a-zA-Z])|"
+			+ "([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|"
+			+ "([^a-zA-Z][a-zA-Z])).{3,})|(.{2,}(([a-zA-Z][^a-zA-Z])|"
+			+ "([^a-zA-Z][a-zA-Z])).{2,})|(.{3,}(([a-zA-Z][^a-zA-Z])|"
+			+ "([^a-zA-Z][a-zA-Z])).{1,})|(.{4,}(([a-zA-Z][^a-zA-Z])|"
+			+ "([^a-zA-Z][a-zA-Z])).{0,})$";
+	private static final String emailRegEx = "^[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)(.[a-z]{2,4})$";
+	
+	//"^(.{0,}(([a-zA-Z][^a-zA-Z])|([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|([^a-zA-Z][a-zA-Z])).{3,})|(.{2,}(([a-zA-Z][^a-zA-Z])|([^a-zA-Z][a-zA-Z])).{2,})|(.{3,}(([a-zA-Z][^a-zA-Z])|([^a-zA-Z][a-zA-Z])).{1,})|(.{4,}(([a-zA-Z][^a-zA-Z])|([^a-zA-Z][a-zA-Z])).{0,})$";
+					
+	//private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
 	private Account(Entity user){
 		key = user.getKey();
-		email = (String)user.getProperty(USER_EMAIL);
+		email = (String)user.getProperty(ACCOUNT_EMAIL);
 		password = (String)user.getProperty(PASSWORD);
 		displayName = (String)user.getProperty(DISPLAY_NAME);
+		actorType = (String)user.getProperty(ACTOR_TYPE);
+		
+		
 	}
 	
-	public static Account createAccount(String email, String password){
-		Pattern passwordRegex = Pattern.compile("^(.{0,}(([a-zA-Z][^a-zA-Z])|"
-				+ "([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|"
-				+ "([^a-zA-Z][a-zA-Z])).{3,})|(.{2,}(([a-zA-Z][^a-zA-Z])|"
-				+ "([^a-zA-Z][a-zA-Z])).{2,})|(.{3,}(([a-zA-Z][^a-zA-Z])|"
-				+ "([^a-zA-Z][a-zA-Z])).{1,})|(.{4,}(([a-zA-Z][^a-zA-Z])|"
-				+ "([^a-zA-Z][a-zA-Z])).{0,})$");
-		Pattern  emailRegex = Pattern.compile("^[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)(.[a-zA-Z]{2,4})$");
+	public static Account createUserAccount(String email, String password){
+		Pattern passwordRegex = Pattern.compile(passwordRegEx);
+		Pattern  emailRegex = Pattern.compile(emailRegEx);
 		Matcher passwordMatcher = passwordRegex.matcher(password);
 		Matcher emailMatcher = emailRegex.matcher(email);
-		if (!passwordMatcher.matches() || !emailMatcher.matches()){
+		if (!passwordMatcher.matches()){	
+			return null;
+		}
+		if (!emailMatcher.matches()){
 			return null;
 		}
 		// Check if the email exists in the datastore
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter emailFilter = new FilterPredicate(USER_EMAIL,
+		Filter emailFilter = new FilterPredicate(ACCOUNT_EMAIL,
 				   FilterOperator.EQUAL,
 				   email);
 		Query q = new Query(ACCOUNT).setFilter(emailFilter);
@@ -57,8 +70,9 @@ public class Account {
 		}
 		// Create Account
 		Entity newUser = new Entity(ACCOUNT);
-		newUser.setProperty(USER_EMAIL, email);
+		newUser.setProperty(ACCOUNT_EMAIL, email);
 		newUser.setProperty(PASSWORD, password);
+		newUser.setProperty(ACTOR_TYPE, USER);
 		DatastoreServiceFactory.getDatastoreService().put(newUser);
 		return new Account(newUser);		
 	}
@@ -66,7 +80,7 @@ public class Account {
 	public static Account verifyAccount(String email, String password){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter emailFilter =
-				new FilterPredicate(USER_EMAIL,
+				new FilterPredicate(ACCOUNT_EMAIL,
 				   FilterOperator.EQUAL,
 				   email);
 		Query q = new Query(ACCOUNT).setFilter(emailFilter);

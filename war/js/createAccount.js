@@ -41,7 +41,7 @@ $(function(){
 		// Try to create account
 		$.ajax({
             type: 'POST',
-            data: '{ "email" : "' + encodeURIComponent($('#signupEmail').val()) + '" , "password" : "' + encodeURIComponent($('#singupPassword')) + '", "action" : "createAccount" }',
+            data: 'email=' + encodeURIComponent($('#signupEmail').val()) + '&password=' + encodeURIComponent($('#signupPassword').val()) + '&action=createaccount',
             url: 'signup',
             success: function(data) {
             	$('#signupLoading').hide();

@@ -23,7 +23,7 @@ $(function(){
 		// Try to log in
 		$.ajax({
             type: 'POST',
-            data: '{ "email" : "' + encodeURIComponent($('#loginEmail').val()) + '" , "password" : "' + encodeURIComponent($('#loginPassword')) + '", "action" : "login"  }',
+            data: 'email=' + encodeURIComponent($('#loginEmail').val()) + '&password=' + encodeURIComponent($('#loginPassword').val()) + '&action=login',
             url: 'login',
             success: function(data) {
             	$('#loginLoading').hide();
