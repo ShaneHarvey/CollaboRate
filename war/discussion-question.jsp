@@ -19,7 +19,7 @@
 			<div class="content-holder discussion-board-question">
 			    <p class="discussion-question">What is the difference between an ionic and covalent bond?</p>
 			    <div class="del-button-holder-ques"><a href="#"><span class="glyphicon glyphicon-remove remove-button"></span></a></div>
-			    <div class="author">By: Cyber Grapes</div>
+			    <div class="author">By: Cyber Grape Learning</div>
 			    <div class="timestamp">Posted at 2:06am on March 09, 2014</div>
 			    <br />
 			    <div class="content-holder discussion-board-question">
@@ -30,7 +30,7 @@
                 <div class="content-holder discussion-board-question">
                     <p>Thank you so much for clearing that up!</p>
                     <div class="del-button-holder-ques"><a href="#"><span class="glyphicon glyphicon-remove remove-button"></span></a></div>
-                    <div class="author">By: Cyber Grapes</div>
+                    <div class="author">By: Cyber Grape Learning</div>
                     <div class="timestamp">Posted at 3:47am on March 09, 2014</div>
                 </div>
                 <textarea class="discussion-question"></textarea>

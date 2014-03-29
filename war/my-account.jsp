@@ -18,19 +18,40 @@
 			<h1 class="tc">My Account</h1>
 			<br />
 			<div class="account-info">
-				<span class="title">Display Name:</span><input type="text" value="cse 308" disabled>
-				<br />
-				<span class="title">Email:</span><input type="email" value="cse.308.cyber.grapes@gmail.com" disabled>
-				<br />
-			    <span class="title">Password</span><input type="password" value="password" disabled>
+			     <table>
+			         <tr>
+			             <td><span class="title">Display Name:</span></td>
+			             <td><input id="displayName" type="text" value="cse 308" disabled></td>
+			         </tr>
+			         <tr>
+			             <td><span class="title">Email:</span></td>
+			             <td><input id="email" type="email" value="cse.308.cyber.grapes@gmail.com" disabled></td>
+			         </tr>
+			         <tr class="hideGroup" style="display:none;">
+			             <td><span class="title">New Password:</span></td>
+			             <td><input id="newPassword" type="password" disabled></td>
+			         </tr>
+			         <tr class="hideGroup" style="display:none;">
+			             <td><span class="title">Confirm Password:</span></td>
+			             <td><input id="confirmNewPassword" type="password" disabled></td>
+			         </tr>
+			         <tr class="hideGroup" style="display:none;">
+	                      <td><span class="title">Current Password:</span></td>
+	                      <td><input id="currentPassword" type="password" disabled></td>		         
+			         </tr>
+			     </table>
+			    <br />
+		        <div class="hideGroup tc" style="display:none;">
+                    <a id="editInfoButton" class="hoverHand">Submit Changes</a>
+                </div>
 		    </div>
 		    <br />
 		    <br />
             <div class="tc">
-                <a href="#">Edit Info</a>
+                <a id="allowEditButton" class="hoverHand">Edit Info</a>
                 <br />
                 <br />
-                <a href="#">Deactivate Account</a>
+                <a id="deactiveButton" class="hoverHand">Deactivate Account</a>
             </div>
 		</div>
 	</div>
@@ -41,4 +62,5 @@
 <!-- Scripts at end of page to speed up page loading -->
 <script src="js/jquery-2.1.0.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/accountSettings.js"></script>
 </html>

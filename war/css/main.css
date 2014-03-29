@@ -127,10 +127,19 @@ hr {
 	display: block;
 	margin: 20px auto;
 	width: 95%;
+	min-height: 55px;
 }
 .login-input:focus, .discussion-question:focus {
 	border: 2px solid #58427C;
 	outline: none;
+}
+.ui-effects-wrapper >.login-input {
+    border: 2px solid #58427C;
+}
+
+.loadingDiv {
+	margin-top: 10px;
+	margin-bottom: -30px;
 }
 
 /* Cut vertical padding on signup page in half */
@@ -327,4 +336,8 @@ input[disabled] {
     margin-top: -30px;
     margin-right: 30px;
     margin-bottom: -10px;
+}
+
+.hoverHand {
+	cursor:pointer;
 }

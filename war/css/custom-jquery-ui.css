@@ -1,0 +1,5 @@
+/* Wrapper holding jquery ui element */
+
+.ui-effects-wrapper {
+	height: auto !important;
+}
