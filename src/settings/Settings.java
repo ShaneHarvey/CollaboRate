@@ -1,10 +1,10 @@
 package settings;
 
 public class Settings {
-	public static final  String USER_DATASTORE = "User";
-	public static final  String USER_NAME_PROPERTY = "userName";
-	public static final  String DISPLAY_NAME_PROPERTY = "displayName";
-	public static final  String PASSWORD_PROPERTY = "password";
-	public static final  String ADMIN_PROPERTY = "isAdmin";
+	public static final  String ACCOUNT = "Account";
+	public static final  String USER_EMAIL= "email";
+	public static final  String DISPLAY_NAME = "displayName";
+	public static final  String PASSWORD= "password";
+	public static final  String ADMIN= "isAdmin";
 
 }
