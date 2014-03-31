@@ -3,18 +3,15 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/custom-bootstrap.css">
-<link rel="stylesheet" href="css/main.css">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+<%@include file="/includes/css.html" %>
 </head>
 <body>
 
-    <%@include file="/includes/header-logged-in.html"%>
+    <jsp:include page="/includes/header.jsp"></jsp:include>
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="home.jsp">Home</a> / <a href="subject.jsp">Chemistry</a> / Chemical Bonding</div>
+			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / Chemical Bonding</div>
 			<h1 class="tc">Chemical Bonding</h1>
 			<div class="row">
 				<div class="col-lg-6 content-holder shift-left-5">
