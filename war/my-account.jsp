@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+<%@page import="settings.Settings"%>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
 <%@include file="/includes/css.html" %>
+
+<%@page import="account.Account"%>
 <link rel="stylesheet" href="/css/custom-jquery-ui.css">
 </head>
 <body>
@@ -19,11 +22,12 @@
 			     <table>
 			         <tr>
                          <td><span class="title">Email:</span></td>
-                         <td><input id="email" type="email" value="FILL FROM SERVLET REPSONSE" disabled></td>
+                         <%Account a = (Account)session.getAttribute(Settings.ACCOUNT);%>
+                         <td><input id="email" type="email" value="<%=a.getEmail()%>" disabled></td>
                      </tr>
 			         <tr>
 			             <td><span class="title">Display Name:</span></td>
-			             <td><input id="displayName" type="text" value="FILL FROM SERVLET RESPONSE" disabled></td>
+			             <td><input id="displayName" type="text" value="<%=a.getDisplayName()%>" disabled></td>
 			         </tr>
 			         <tr class="hideGroup" style="display:none;">
                           <td><span class="title">Current Password:</span></td>

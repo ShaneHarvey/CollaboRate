@@ -105,7 +105,7 @@ public class Account implements Serializable {
 	public String getType(){
 		return actorType;
 	}
-	public static Account updateAccount(String email, String password, String displayName){
+	public static Account updateAccount(String email, String displayName, String currentPassword, String newPassword){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter emailFilter =
 				new FilterPredicate(ACCOUNT_EMAIL,
@@ -115,10 +115,13 @@ public class Account implements Serializable {
 		try{
 			PreparedQuery pq = datastore.prepare(q);
 			Entity account = pq.asSingleEntity();
-			if(account != null && password.equals((String)account.getProperty(PASSWORD))){
-				if(password!=null && !password.equals("")){
-					account.setProperty(PASSWORD, password);
+			//Make sure the c
+			if(account != null && currentPassword.equals((String)account.getProperty(PASSWORD))){
+				//Set the new Password 
+				if(newPassword!=null && !newPassword.equals("")){
+					account.setProperty(PASSWORD, newPassword);
 				}
+				//Set the new displayname
 				if(displayName != null && !displayName.equals("")){
 					account.setProperty(DISPLAY_NAME, displayName);
 				}
