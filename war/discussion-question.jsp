@@ -3,18 +3,15 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/custom-bootstrap.css">
-<link rel="stylesheet" href="css/main.css">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+<%@include file="/includes/css.html" %>
 </head>
 <body>
 
-    <%@include file="/includes/header-logged-in.html" %>
+    <jsp:include page="/includes/header.jsp"></jsp:include>
 
 	<div class="body">
 		<div class="body-center-div">
-		    <div class="bread-crumbs"><a href="home.jsp">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / <a href="discussion-board.jsp">Discussion Board</a> / Discussion Question </div>
+		    <div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / <a href="discussion-board.jsp">Discussion Board</a> / Discussion Question </div>
 			<h1 class="tc">Discussion Question</h1>
 			<div class="content-holder discussion-board-question">
 			    <p class="discussion-question">What is the difference between an ionic and covalent bond?</p>
@@ -44,7 +41,5 @@
     <%@include file="/includes/footer.html" %>
 
 </body>
-<!-- Scripts at end of page to speed up page loading -->
-<script src="js/jquery-2.1.0.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<%@include file="/includes/js.html" %>
 </html>

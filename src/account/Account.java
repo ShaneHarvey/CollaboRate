@@ -37,14 +37,13 @@ public class Account implements Serializable {
 					
 	//private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
+	
 	private Account(Entity user){
 		key = user.getKey();
 		email = (String)user.getProperty(ACCOUNT_EMAIL);
 		password = (String)user.getProperty(PASSWORD);
 		displayName = (String)user.getProperty(DISPLAY_NAME);
 		actorType = (String)user.getProperty(ACTOR_TYPE);
-		
-		
 	}
 	
 	public static Account createUserAccount(String email, String password){
@@ -95,6 +94,15 @@ public class Account implements Serializable {
 		} catch(PreparedQuery.TooManyResultsException e){
 			return null;
 		}
-		
+	}
+	
+	public String getEmail(){
+		return email;
+	}
+	public String getDisplayName(){
+		return displayName;
+	}
+	public String getType(){
+		return actorType;
 	}
 }

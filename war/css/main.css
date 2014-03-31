@@ -133,9 +133,6 @@ hr {
 	border: 2px solid #58427C;
 	outline: none;
 }
-.ui-effects-wrapper >.login-input {
-    border: 2px solid #58427C;
-}
 
 .loadingDiv {
 	margin-top: 10px;
@@ -275,6 +272,10 @@ input[disabled] {
 .account-info {
 	font-size:18px;
 	margin-left:20%;
+	margin-right:20%;
+}
+.account-info > table > tbody > tr > td {
+	padding-bottom: 1px;
 }
 
 /* Span containing account info title */

@@ -3,18 +3,15 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/custom-bootstrap.css">
-<link rel="stylesheet" href="css/main.css">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+<%@include file="/includes/css.html" %>
 </head>
 <body>
 
-    <%@include file="/includes/header-logged-in.html"%>
+    <jsp:include page="/includes/header.jsp"></jsp:include>
     
     <div class="body">
         <div class="body-center-div">
-            <div class="bread-crumbs"><a href="home.jsp">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Question #37638 </div>
+            <div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Question #37638 </div>
             <div class="questions-remaining">Answer <b>3</b> more questions in this topic <br /> to prove you have learned this top.</div>
             <h1 class="tc">The electrons in a nonpolar covalent bond are:</h1>
 

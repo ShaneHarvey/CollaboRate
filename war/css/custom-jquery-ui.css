@@ -3,3 +3,8 @@
 .ui-effects-wrapper {
 	height: auto !important;
 }
+.ui-effects-wrapper > input {
+    border: 2px solid #58427C;
+    width: auto !important;
+    height: auto !important;
+}

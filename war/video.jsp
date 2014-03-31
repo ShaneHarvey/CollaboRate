@@ -3,18 +3,15 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/custom-bootstrap.css">
-<link rel="stylesheet" href="css/main.css">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+<%@include file="/includes/css.html" %>
 </head>
 <body>
 
-    <%@include file="/includes/header-logged-in.html"%>
+    <jsp:include page="/includes/header.jsp"></jsp:include>
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="home.jsp">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Video #984649 </div>
+			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Video #984649 </div>
 			<h1 class="tc">Chemical Bonds: Covalent vs. Ionic</h1>
 			<div class="video-embed">
 				<iframe width="640" height="480" src="https://www.youtube-nocookie.com/embed/7DjsD7Hcd9U?wmode=transparent" frameborder="0" allowfullscreen></iframe>
