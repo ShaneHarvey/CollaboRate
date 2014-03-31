@@ -97,4 +97,30 @@ public class Account implements Serializable {
 		}
 		
 	}
+	public static Account updateAccount(String email, String password, String displayName){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter emailFilter =
+				new FilterPredicate(ACCOUNT_EMAIL,
+				   FilterOperator.EQUAL,
+				   email);
+		Query q = new Query(ACCOUNT).setFilter(emailFilter);
+		try{
+			PreparedQuery pq = datastore.prepare(q);
+			Entity account = pq.asSingleEntity();
+			if(account != null && password.equals((String)account.getProperty(PASSWORD))){
+				if(password!=null && !password.equals("")){
+					account.setProperty(PASSWORD, password);
+				}
+				if(displayName != null && !displayName.equals("")){
+					account.setProperty(DISPLAY_NAME, displayName);
+				}
+				DatastoreServiceFactory.getDatastoreService().put(account);
+				return new Account(account);
+			}else {
+				return null;
+			}
+		}catch (PreparedQuery.TooManyResultsException e){
+			return null;
+		}
+	}
 }
