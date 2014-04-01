@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
+<%@page  import="settings.Settings"%>
 <%@include file="/includes/css.html" %>
 </head>
 <body>
-
     <jsp:include page="/includes/header.jsp"></jsp:include>
 
 	<div class="body">

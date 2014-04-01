@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/css/custom-jquery-ui.css">
 </head>
 <body>
-
     <jsp:include page="/includes/header.jsp"></jsp:include>
 
 	<div class="body">
@@ -22,12 +21,17 @@
 			     <table>
 			         <tr>
                          <td><span class="title">Email:</span></td>
-                         <%Account a = (Account)session.getAttribute(Settings.ACCOUNT);%>
+                         <%Account a = (Account)session.getAttribute(Settings.ACCOUNT);
+                         	String dispName = (String)a.getDisplayName();
+                         	if(dispName==null){
+                         		dispName = "";
+                         	}
+                         %>
                          <td><input id="email" type="email" value="<%=a.getEmail()%>" disabled></td>
                      </tr>
 			         <tr>
 			             <td><span class="title">Display Name:</span></td>
-			             <td><input id="displayName" type="text" value="<%=a.getDisplayName()%>" disabled></td>
+			             <td><input id="displayName" type="text" value="<%=dispName%>" disabled></td>
 			         </tr>
 			         <tr class="hideGroup" style="display:none;">
                           <td><span class="title">Current Password:</span></td>

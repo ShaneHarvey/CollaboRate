@@ -1,7 +1,8 @@
 <%@page import="settings.Settings"%>
 <%@page import="account.Account"%>
 <% 
-    // Try to get account from session
+	response.setHeader("Cache-Control","no-store");
+	// Try to get account from session
     Account acc = (Account)session.getAttribute(Settings.ACCOUNT); 
 %>
 <!-- Navbar -->

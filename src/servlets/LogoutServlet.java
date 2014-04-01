@@ -15,7 +15,7 @@ public class LogoutServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
 		// Log user out (remove them from session)
-		request.getSession().removeAttribute(Settings.ACCOUNT);
+		request.getSession().invalidate();//.removeAttribute(Settings.ACCOUNT);
 		// Redirect to home page
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.sendRedirect("/home");

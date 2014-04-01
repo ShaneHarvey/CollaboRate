@@ -20,11 +20,11 @@ import java.util.regex.Matcher;
 
 
 public class Account implements Serializable {
-	private String email;
-	private String password;
-	private String displayName;
-	private String actorType;
-	private Key key;
+	private String email;//stores the actors email address
+	private String password;//stores the actors account password
+	private String displayName;//stores the actors display name
+	private String actorType;//stores the actors actorType
+	private Key key;//store the key for the datastore entity
 	private static final String passwordRegEx = "^(.{0,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{3,})|(.{2,}(([a-zA-Z][^a-zA-Z])|"
@@ -37,7 +37,10 @@ public class Account implements Serializable {
 					
 	//private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
-	
+	/**
+	 * Constructor for the Account object which constructs an account object that is stored in the session
+	 * @param user is the DataStore entity which has all the account properties
+	 */
 	private Account(Entity user){
 		key = user.getKey();
 		email = (String)user.getProperty(ACCOUNT_EMAIL);
@@ -45,7 +48,12 @@ public class Account implements Serializable {
 		displayName = (String)user.getProperty(DISPLAY_NAME);
 		actorType = (String)user.getProperty(ACTOR_TYPE);
 	}
-	
+	/**
+	 * Method that is called by SignUpServlet to create a new user actor
+	 * @param email email address associated with the account
+	 * @param password associated with the account
+	 * @return account object we construct
+	 */
 	public static Account createUserAccount(String email, String password){
 		Pattern passwordRegex = Pattern.compile(passwordRegEx);
 		Pattern  emailRegex = Pattern.compile(emailRegEx);
@@ -75,7 +83,12 @@ public class Account implements Serializable {
 		DatastoreServiceFactory.getDatastoreService().put(newUser);
 		return new Account(newUser);		
 	}
-	
+	/**
+	 * Method that is called by LoginServlet when an user wants to login. Verify the email and checks if the passwords match
+	 * @param email account email address
+	 * @param password account password
+	 * @return return the Account object that will be stored in the session 
+	 */
 	public static Account verifyAccount(String email, String password){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter emailFilter =
@@ -95,16 +108,35 @@ public class Account implements Serializable {
 			return null;
 		}
 	}
-	
+	/**
+	 * Getter for the email address for this Account
+	 * @return string which represents the email
+	 */
 	public String getEmail(){
 		return email;
 	}
+	/**
+	 * Getter for the displayName for this Account
+	 * @return string which represents the displayName
+	 */
 	public String getDisplayName(){
 		return displayName;
 	}
+	/**
+	 * Getter for the actorType of the Account
+	 * @return string which represents the actorType
+	 */
 	public String getType(){
 		return actorType;
 	}
+	/**
+	 * Method called by AccountServlet to update the password and displayname
+	 * @param email accounts associated email address
+	 * @param displayName new displayname to be shown 
+	 * @param currentPassword the current password
+	 * @param newPassword the new password
+	 * @return Account object which will be stored in the session
+	 */
 	public static Account updateAccount(String email, String displayName, String currentPassword, String newPassword){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter emailFilter =
