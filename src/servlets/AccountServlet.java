@@ -40,10 +40,14 @@ public class AccountServlet extends HttpServlet {
 			}
 			if(displayName != null && !"".equals(displayName))
 				acc.setDisplayName(displayName);
+			else 
+				acc.setDisplayName(null);
 			if(newPassword != null && !"".equals(newPassword))
 				acc.setPassword(newPassword);
-			if(acc.updateDB())
+			if(acc.updateDB())  {
+				request.getSession().setAttribute(Keys.ACCOUNT, acc);
 				response.getWriter().print("success");
+			}
 			else
 				response.getWriter().print("");
 		}
