@@ -194,6 +194,7 @@ public class Account implements Serializable {
 			PreparedQuery pq = datastore.prepare(q);
 			Entity account = pq.asSingleEntity();
 			if(account != null){
+				//Why not check the password here?
 				return new Account(account);
 			}else {
 				return null;
