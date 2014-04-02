@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import settings.Settings;
+import constants.Keys;
 import account.Account;;
 
 public class LogoutServlet extends HttpServlet {

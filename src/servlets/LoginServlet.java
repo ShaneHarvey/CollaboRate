@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import constants.Keys;
+
 import java.net.*;
 
-import settings.Settings;
 import account.*;
-import static settings.Settings.*;
+import static constants.Keys.*;
 
 public class LoginServlet extends HttpServlet {
 
@@ -28,16 +29,14 @@ public class LoginServlet extends HttpServlet {
 		else if(action.equals("login")){
 			String email = URLDecoder.decode((String)request.getParameter("email"), "UTF-8");
 			String password = URLDecoder.decode((String)request.getParameter("password"), "UTF-8");
-			Account check = Account.verifyAccount(email, password);
-			if( check == null){
+			Account acc = Account.loadAccount(email);
+			if(!acc.verifyPassword(password)) {
 				response.getWriter().print("");
 			}
 			else{
-				request.getSession().setAttribute(Settings.ACCOUNT, check);
-				response.getWriter().print("success");
-				
+				request.getSession().setAttribute(Keys.ACCOUNT, acc);
+				response.getWriter().print("success");	
 			}
-			
 		}
 		else{
 			response.getWriter().print("");

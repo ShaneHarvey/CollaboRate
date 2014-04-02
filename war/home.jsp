@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<%@page  import="settings.Settings"%>
+<%@page  import="constants.Keys"%>
 <%@include file="/includes/css.html" %>
 </head>
 <body>

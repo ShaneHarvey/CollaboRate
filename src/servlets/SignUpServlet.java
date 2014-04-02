@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import settings.Settings;
+import constants.Keys;
 import account.Account;
 
 public class SignUpServlet  extends HttpServlet {
@@ -32,7 +32,7 @@ public class SignUpServlet  extends HttpServlet {
 				response.getWriter().print("");
 			}
 			else{
-				request.getSession().setAttribute(Settings.ACCOUNT, check);
+				request.getSession().setAttribute(Keys.ACCOUNT, check);
 				response.getWriter().print("success");
 				
 			}

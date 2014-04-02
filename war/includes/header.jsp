@@ -1,9 +1,9 @@
-<%@page import="settings.Settings"%>
+<%@page import="constants.Keys"%>
 <%@page import="account.Account"%>
-<% 
+<%
 	response.setHeader("Cache-Control","no-store");
 	// Try to get account from session
-    Account acc = (Account)session.getAttribute(Settings.ACCOUNT); 
+    Account acc = (Account)session.getAttribute(Keys.ACCOUNT);
 %>
 <!-- Navbar -->
 <div class="navbar navbar-fixed-top" role="navigation">
@@ -27,9 +27,9 @@
                             <li class="dropdown-header"><a href="#">Request a Subject</a></li>
                         </ul>
                     </li>
-                    <% 
-                        // If this person is a user, display add content
-                        if(acc != null && Settings.USER.equals(acc.getType())) {
+                    <%
+                    	// If this person is a user, display add content
+                                            if(acc != null && (Account.ActorType.USER == acc.getType() || Account.ActorType.TRUSTED_USER == acc.getType())) {
                     %>
                             <li><a href="/add-content.jsp">Contribute</a></li>
                     <% 

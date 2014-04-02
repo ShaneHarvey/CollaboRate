@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@page import="settings.Settings"%>
+<%@page import="constants.Keys"%>
 <html>
 <head>
 <meta charset="utf-8">
@@ -21,17 +21,18 @@
 			     <table>
 			         <tr>
                          <td><span class="title">Email:</span></td>
-                         <%Account a = (Account)session.getAttribute(Settings.ACCOUNT);
-                         	String dispName = (String)a.getDisplayName();
-                         	if(dispName==null){
-                         		dispName = "";
-                         	}
+                         <%
+                         	Account a = (Account)session.getAttribute(Keys.ACCOUNT);
+                                                  	String dispName = (String)a.getDisplayName();
+                                                  	if(dispName==null){
+                                                  		dispName = "";
+                                                  	}
                          %>
-                         <td><input id="email" type="email" value="<%=a.getEmail()%>" disabled></td>
+                         <td><span><%=a.getEmail()%></span></td>
                      </tr>
 			         <tr>
 			             <td><span class="title">Display Name:</span></td>
-			             <td><input id="displayName" type="text" value="<%=dispName%>" disabled></td>
+			             <td><input id="displayName" type="text" value="<%=dispName%>" placeholder="<%="".equals(dispName) ? "none" : "" %>" disabled></td>
 			         </tr>
 			         <tr class="hideGroup" style="display:none;">
                           <td><span class="title">Current Password:</span></td>

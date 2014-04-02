@@ -68,7 +68,7 @@ $(function(){
 			editing = true;
 			// Show all hidden stuff
 			$('.hideGroup').show();
-			$('input').not('#email').removeAttr('disabled');
+			$('input').removeAttr('disabled');
 		}
 		else {
 			editing = false;
@@ -77,11 +77,6 @@ $(function(){
 		}
 	});
 	$('#editInfoButton').click(function(){
-		// Make sure display name not null
-		if($('#displayName').val() === '') {
-			$('#displayName').effect('shake')
-			return;
-		}
 		// Make sure current password is there
 		if($('#currentPassword').val() === '') {
 			$('#currentPassword').effect('shake');

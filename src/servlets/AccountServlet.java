@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import constants.Keys;
 import account.Account;
-import settings.Settings;
 
 public class AccountServlet extends HttpServlet {
 
@@ -19,7 +19,7 @@ public class AccountServlet extends HttpServlet {
 		
 		if(action == null){
 			// If user isn't logged in, redirect to home
-			if(request.getSession().getAttribute(Settings.ACCOUNT) == null) {
+			if(request.getSession().getAttribute(Keys.ACCOUNT) == null) {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				response.sendRedirect("/home");
 			}
@@ -31,19 +31,21 @@ public class AccountServlet extends HttpServlet {
 			String displayName = URLDecoder.decode((String)request.getParameter("displayName"), "UTF-8");
 			String currentPassword = URLDecoder.decode((String)request.getParameter("currentPassword"), "UTF-8");
 			String newPassword = URLDecoder.decode((String)request.getParameter("newPassword"), "UTF-8");
-			//String currentPassword = URLDecoder.decode((String)request.getParameter("currentPassword"), "UTF-8");
 			// Attempt to retrieve account from session
-			Account acc = (Account)request.getSession().getAttribute(Settings.ACCOUNT);
-			Account check = Account.updateAccount(acc.getEmail(),displayName ,currentPassword, newPassword);
-			if(check == null){
+			Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
+			// Make sure user entered correct password
+			if(!acc.verifyPassword(currentPassword)) {
 				response.getWriter().print("");
+				return;
 			}
-			else{
-				request.getSession().setAttribute(Settings.ACCOUNT, check);
+			if(displayName != null && !"".equals(displayName))
+				acc.setDisplayName(displayName);
+			if(newPassword != null && !"".equals(newPassword))
+				acc.setPassword(newPassword);
+			if(acc.updateDB())
 				response.getWriter().print("success");
-				
-			}
-			
+			else
+				response.getWriter().print("");
 		}
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
