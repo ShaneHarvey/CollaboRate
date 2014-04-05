@@ -11,9 +11,12 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import hashing.PasswordHash;
 
 public class Account implements Serializable {
 	private static final String passwordRegEx = "^(.{0,}(([a-zA-Z][^a-zA-Z])|"
@@ -140,8 +143,13 @@ public class Account implements Serializable {
 	 * @param password Potential password of this account
 	 * @return Do the passwords match?
 	 */
-	public boolean verifyPassword(String pass) {
-		return password.equals(pass);
+	public boolean verifyPassword(String password) {
+		try {
+			return PasswordHash.validatePassword(password, this.password);
+		} catch (Exception e){
+			System.out.println("ERROR: " + e);
+			return false;
+		}
 	}
 	
 	/**
@@ -151,6 +159,7 @@ public class Account implements Serializable {
 	 * @return account object we construct
 	 */
 	public static Account createUserAccount(String email, String password){
+		//Make sure the email is valid and password is secure
 		Pattern passwordRegex = Pattern.compile(passwordRegEx);
 		Pattern  emailRegex = Pattern.compile(emailRegEx);
 		Matcher passwordMatcher = passwordRegex.matcher(password);
@@ -159,7 +168,7 @@ public class Account implements Serializable {
 			return null;
 		}
 
-		// Check if the email exists in the datastore
+		// Check if the email exists in the datastore already
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter emailFilter = new FilterPredicate(ENT_ACCOUNT_EMAIL,
 				   FilterOperator.EQUAL,
@@ -169,13 +178,22 @@ public class Account implements Serializable {
 		if( pq.countEntities(FetchOptions.Builder.withLimit(1)) != 0){
 			return null;
 		}
-		// Create Account
-		Entity newUser = new Entity(ENT_ACCOUNT);
-		newUser.setProperty(ENT_ACCOUNT_EMAIL, email);
-		newUser.setProperty(ENT_PASSWORD, password);
-		newUser.setProperty(ENT_ACTOR_TYPE, ActorType.USER.val);
-		DatastoreServiceFactory.getDatastoreService().put(newUser);
-		return new Account(newUser);		
+		
+		try {
+			//Create secure hash
+			String hash = PasswordHash.createHash(password);	
+			// Create Account
+			Entity newUser = new Entity(ENT_ACCOUNT);
+			newUser.setProperty(ENT_ACCOUNT_EMAIL, email);
+			newUser.setProperty(ENT_PASSWORD, hash);
+			newUser.setProperty(ENT_ACTOR_TYPE, ActorType.USER.val);
+			DatastoreServiceFactory.getDatastoreService().put(newUser);
+			return new Account(newUser);	
+		} catch(Exception e){
+			System.out.println("ERROR: " + e);
+			return null;
+		}
+			
 	}
 	
 	/**
