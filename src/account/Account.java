@@ -54,7 +54,6 @@ public class Account implements Serializable {
 	private String password;//stores the actors account password
 	private String displayName;//stores the actors display name
 	
-	
 	/**
 	 * Constructor for the Account object which constructs an account object that is stored in the session
 	 * @param user is the DataStore entity which has all the account properties
@@ -124,8 +123,10 @@ public class Account implements Serializable {
 	 * Get an entity representation of this Account
 	 */
 	private Entity getEntity(){
+		if(this.key == null)
+			return null;
 		// Create Account
-		Entity ent = new Entity(this.key);
+		Entity ent = new Entity(ENT_ACCOUNT, this.key);
 		ent.setProperty(ENT_ACCOUNT_EMAIL, this.email);
 		ent.setProperty(ENT_PASSWORD, this.password);
 		ent.setProperty(ENT_ACTOR_TYPE, this.actorType);
