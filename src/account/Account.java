@@ -1,5 +1,6 @@
 package account;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -88,9 +89,18 @@ public class Account implements Serializable {
 	/**
 	 * Set the password of this account
 	 * @param password The new password for this Account
+	 * @return true if the update was successful, false if it fails
 	 */
-	public void setPassword(String pass) {
-		password = pass;
+	public boolean setPassword(String password) {
+		try {
+			//Create secure hash
+			String hash = PasswordHash.createHash(password);
+			this.password = hash;
+			return true;
+		} catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
@@ -118,6 +128,7 @@ public class Account implements Serializable {
 			return true;
 		}
 		catch (Exception e){
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -129,12 +140,19 @@ public class Account implements Serializable {
 		if(this.key == null)
 			return null;
 		// Create Account
-		Entity ent = new Entity(ENT_ACCOUNT, this.key);
-		ent.setProperty(ENT_ACCOUNT_EMAIL, this.email);
-		ent.setProperty(ENT_PASSWORD, this.password);
-		ent.setProperty(ENT_ACTOR_TYPE, this.actorType);
-		ent.setProperty(ENT_DISPLAY_NAME, this.displayName);
-		return ent;
+		try {
+			Entity ent = DatastoreServiceFactory.getDatastoreService().get(this.key);
+			ent.setProperty(ENT_ACCOUNT_EMAIL, this.email);
+			ent.setProperty(ENT_DISPLAY_NAME, this.displayName);
+			ent.setProperty(ENT_PASSWORD, this.password);
+			ent.setProperty(ENT_ACTOR_TYPE, this.actorType);
+			return ent;
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 	/**
@@ -147,9 +165,33 @@ public class Account implements Serializable {
 		try {
 			return PasswordHash.validatePassword(password, this.password);
 		} catch (Exception e){
-			System.out.println("ERROR: " + e);
+			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	/**
+	 * Method to verify that an email is a valid address
+	 * 
+	 * @param email email address
+	 * @return boolean true if email is a valid address, false otherwise
+	 */
+	public static boolean validateEmail(String email){
+		Pattern  emailRegex = Pattern.compile(emailRegEx);
+		Matcher emailMatcher = emailRegex.matcher(email);
+		return emailMatcher.matches();
+	}
+	
+	/**
+	 * Method to verify that a password is valid according to out specifications
+	 * 
+	 * @param email email address
+	 * @return boolean true if email is a valid address, false otherwise
+	 */
+	public static boolean validatePassword(String password){
+		Pattern  passwordRegex = Pattern.compile(passwordRegEx);
+		Matcher passwordMatcher = passwordRegex.matcher(password);
+		return passwordMatcher.matches();
 	}
 	
 	/**
@@ -159,12 +201,8 @@ public class Account implements Serializable {
 	 * @return account object we construct
 	 */
 	public static Account createUserAccount(String email, String password){
-		//Make sure the email is valid and password is secure
-		Pattern passwordRegex = Pattern.compile(passwordRegEx);
-		Pattern  emailRegex = Pattern.compile(emailRegEx);
-		Matcher passwordMatcher = passwordRegex.matcher(password);
-		Matcher emailMatcher = emailRegex.matcher(email);
-		if (!passwordMatcher.matches() || !emailMatcher.matches()){	
+		//Make sure the email is valid and password is secure enough
+		if (!validateEmail(email) || !validatePassword(password)){	
 			return null;
 		}
 
@@ -190,17 +228,17 @@ public class Account implements Serializable {
 			DatastoreServiceFactory.getDatastoreService().put(newUser);
 			return new Account(newUser);	
 		} catch(Exception e){
-			System.out.println("ERROR: " + e);
+			e.printStackTrace();
 			return null;
 		}
 			
 	}
 	
 	/**
-	 * Method that is called by LoginServlet when an user wants to login. Verify the email and checks if the passwords match
+	 * Method that is called by LoginServlet when an user wants to login.
+	 * 
 	 * @param email account email address
-	 * @param password account password
-	 * @return return the Account object that will be stored in the session 
+	 * @return Account object associated with email that will be stored in the session 
 	 */
 	public static Account loadAccount(String email){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -219,6 +257,7 @@ public class Account implements Serializable {
 				return null;
 			}
 		} catch(PreparedQuery.TooManyResultsException e){
+			e.printStackTrace();
 			return null;
 		}
 	}
