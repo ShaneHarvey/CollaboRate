@@ -30,6 +30,10 @@ public class LoginServlet extends HttpServlet {
 			String email = URLDecoder.decode((String)request.getParameter("email"), "UTF-8");
 			String password = URLDecoder.decode((String)request.getParameter("password"), "UTF-8");
 			Account acc = Account.loadAccount(email);
+			if(acc == null){
+				response.getWriter().print("");
+				return;
+			}
 			if(!acc.verifyPassword(password)) {
 				response.getWriter().print("");
 			}
