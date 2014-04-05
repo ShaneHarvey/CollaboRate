@@ -41,7 +41,7 @@ public class AccountServlet extends HttpServlet {
 			if(displayName != null && !"".equals(displayName))
 				acc.setDisplayName(displayName);
 			if(newPassword != null && !"".equals(newPassword))
-				acc.setPassword(newPassword);
+				acc.changePassword(currentPassword, newPassword);
 			if(acc.updateDB())
 				response.getWriter().print("success");
 			else

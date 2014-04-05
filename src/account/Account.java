@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import hashing.PasswordHash;
 
 public class Account implements Serializable {
+	private static final long serialVersionUID = 6746812229424845845L;
 	private static final String passwordRegEx = "^(.{0,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{3,})|(.{2,}(([a-zA-Z][^a-zA-Z])|"
@@ -45,58 +46,115 @@ public class Account implements Serializable {
 	}
 	
 	// Entity keys
-	private static final String ENT_ACCOUNT_EMAIL= "email";
+	private static final String ENT_ACCOUNT_EMAIL = "email";
 	private static final String ENT_DISPLAY_NAME = "displayName";
-	private static final String ENT_PASSWORD= "password";
+	private static final String ENT_HASH = "hash";
 	private static final String ENT_ACTOR_TYPE = "actorType";
 	private static final String ENT_ACCOUNT = "account";
 	
 	// Instance variables
-	private final String email;//stores the actors email address
-	private final long actorType;//stores the actors actorType
-	private final Key key;//store the key for the datastore entity
-	private String password;//stores the actors account password
-	private String displayName;//stores the actors display name
+	private Entity account;
 	
 	/**
 	 * Constructor for the Account object which constructs an account object that is stored in the session
-	 * @param user is the DataStore entity which has all the account properties
+	 * @param account is the DataStore entity which has all the account properties
 	 */
-	private Account(Entity user){
-		key = user.getKey();
-		email = (String)user.getProperty(ENT_ACCOUNT_EMAIL);
-		password = (String)user.getProperty(ENT_PASSWORD);
-		displayName = (String)user.getProperty(ENT_DISPLAY_NAME);
-		actorType = (long)user.getProperty(ENT_ACTOR_TYPE);
+	private Account(Entity account){
+		this.account = account;
 	}
 	
 	/**
-	 * Getter for the email address for this Account
-	 * @return string which represents the email
+	 * @return email of this account
 	 */
 	public String getEmail(){
-		return email;
+		return (String)account.getProperty(ENT_ACCOUNT_EMAIL);
 	}
 	
 	/**
-	 * Getter for the displayName for this Account
-	 * @return string which represents the displayName
+	 * @return hashed password of this account
+	 */
+	private String getHash(){
+		return (String)account.getProperty(ENT_HASH);
+	}
+	
+	/**
+	 * @return display name of this account (can be null)
 	 */
 	public String getDisplayName(){
-		return displayName;
+		return (String)account.getProperty(ENT_DISPLAY_NAME);
 	}
 	
 	/**
-	 * Set the password of this account
-	 * @param password The new password for this Account
+	 * @return actorType of this account
+	 */
+	public ActorType getType(){
+		return ActorType.fromValue((long)account.getProperty(ENT_ACTOR_TYPE));
+	}
+	
+	/**
+	 * @return key for this account
+	 */
+	public Key getKey(){
+		return account.getKey();
+	}
+	/**
+	 * @param newEmail must be a valid email address that is not in use already.
+	 */
+	private void setEmail(String newEmail){
+		account.setProperty(ENT_DISPLAY_NAME, newEmail);
+	}
+	
+	/**
+	 * @param newHash must be a valid hash, i.e. the return of PasswordHash.createHash()
+	 */
+	private void setHash(String newHash){
+		account.setProperty(ENT_HASH, newHash);
+	}
+	
+	/**
+	 * @param name The new display name of this Account
+	 */
+	public void setDisplayName(String name) {
+		account.setProperty(ENT_DISPLAY_NAME, name);
+	}
+	
+	/**
+	 * @param actorType must be a valid ActorType
+	 */
+	public void setType(ActorType actorType){
+		account.setProperty(ENT_ACTOR_TYPE,actorType);
+	}
+	
+	/**
+	 * Change the email of this account
+	 * @param currentPassword 	The current password for this Account
+	 * @param newEmail 			The new email address
+	 */
+	public void changeEmail(String currentPassword, String newEmail) {
+		try {
+			if(verifyPassword(currentPassword) && validateEmail(newEmail)
+					&& !isEmailInUse(newEmail)){
+				setEmail(newEmail);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Change the password of this account
+	 * @param oldPassword 	The new password for this Account
+	 * @param newPassword 	The new password for this Account
 	 * @return true if the update was successful, false if it fails
 	 */
-	public boolean setPassword(String password) {
+	public boolean changePassword(String currentPassword, String newPassword) {
 		try {
-			//Create secure hash
-			String hash = PasswordHash.createHash(password);
-			this.password = hash;
-			return true;
+			//Verify that the password is correct and the new password is secure
+			if(verifyPassword(currentPassword) && validatePassword(newPassword)){
+				setHash(PasswordHash.createHash(newPassword));
+				return true;
+			}
+			return false;
 		} catch(Exception e){
 			e.printStackTrace();
 			return false;
@@ -104,28 +162,11 @@ public class Account implements Serializable {
 	}
 	
 	/**
-	 * Set the displayName of this Account
-	 * @param name The new display name of this Account
-	 */
-	public void setDisplayName(String name) {
-		this.displayName = name;
-	}
-	
-	/**
-	 * Getter for the actorType of the Account
-	 * @return string which represents the actorType
-	 */
-	public ActorType getType(){
-		return ActorType.fromValue(actorType);
-	}
-	
-	/**
 	 * Update this Account
 	 */
 	public boolean updateDB(){
 		try{
-			DatastoreServiceFactory.getDatastoreService().put(getEntity());
-			
+			DatastoreServiceFactory.getDatastoreService().put(account);
 			return true;
 		}
 		catch (Exception e){
@@ -135,36 +176,14 @@ public class Account implements Serializable {
 	}
 	
 	/**
-	 * Get an entity representation of this Account
-	 */
-	private Entity getEntity(){
-		if(this.key == null)
-			return null;
-		// Create Account
-		try {
-			Entity ent = DatastoreServiceFactory.getDatastoreService().get(this.key);
-			ent.setProperty(ENT_ACCOUNT_EMAIL, this.email);
-			ent.setProperty(ENT_DISPLAY_NAME, this.displayName);
-			ent.setProperty(ENT_PASSWORD, this.password);
-			ent.setProperty(ENT_ACTOR_TYPE, this.actorType);
-			return ent;
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		
-	}
-	
-	/**
 	 * Verify that this is the users password
 	 * 
-	 * @param password Potential password of this account
+	 * @param password 	Potential password of this account
 	 * @return Do the passwords match?
 	 */
 	public boolean verifyPassword(String password) {
 		try {
-			return PasswordHash.validatePassword(password, this.password);
+			return PasswordHash.validatePassword(password, getHash());
 		} catch (Exception e){
 			e.printStackTrace();
 			return false;
@@ -174,7 +193,7 @@ public class Account implements Serializable {
 	/**
 	 * Method to verify that an email is a valid address
 	 * 
-	 * @param email email address
+	 * @param email 	email address to validate
 	 * @return boolean true if email is a valid address, false otherwise
 	 */
 	public static boolean validateEmail(String email){
@@ -196,9 +215,28 @@ public class Account implements Serializable {
 	}
 	
 	/**
+	 * Check if the email exists in the datastore already
+	 * 
+	 * @param email 
+	 * @return true if the email exists, false otherwise
+	 */
+	private static boolean isEmailInUse(String email){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter emailFilter = new FilterPredicate(ENT_ACCOUNT_EMAIL,
+				   FilterOperator.EQUAL,
+				   email);
+		Query q = new Query(ENT_ACCOUNT).setFilter(emailFilter);
+		PreparedQuery pq = datastore.prepare(q);
+		if( pq.countEntities(FetchOptions.Builder.withLimit(1)) != 0){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Method that is called by SignUpServlet to create a new user actor
-	 * @param email email address associated with the account
-	 * @param password associated with the account
+	 * @param email 	email address associated with the account
+	 * @param password 	associated with the account
 	 * @return account object we construct
 	 */
 	public static Account createUserAccount(String email, String password){
@@ -208,13 +246,7 @@ public class Account implements Serializable {
 		}
 
 		// Check if the email exists in the datastore already
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter emailFilter = new FilterPredicate(ENT_ACCOUNT_EMAIL,
-				   FilterOperator.EQUAL,
-				   email);
-		Query q = new Query(ENT_ACCOUNT).setFilter(emailFilter);
-		PreparedQuery pq = datastore.prepare(q);
-		if( pq.countEntities(FetchOptions.Builder.withLimit(1)) != 0){
+		if(isEmailInUse(email)){
 			return null;
 		}
 		
@@ -224,7 +256,7 @@ public class Account implements Serializable {
 			// Create Account
 			Entity newUser = new Entity(ENT_ACCOUNT);
 			newUser.setProperty(ENT_ACCOUNT_EMAIL, email);
-			newUser.setProperty(ENT_PASSWORD, hash);
+			newUser.setProperty(ENT_HASH, hash);
 			newUser.setProperty(ENT_ACTOR_TYPE, ActorType.USER.val);
 			DatastoreServiceFactory.getDatastoreService().put(newUser);
 			return new Account(newUser);	
