@@ -51,12 +51,7 @@ public class Video extends Material {
 		v.save();
 		return v;
 	}
-	/*public void saveVideo(){
-		DatastoreServiceFactory.getDatastoreService().put(entity);
-	}
-	public void deleteVideo(){
-		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
-	}*/
+
 	private void setVideoURL(String vURL){
 		entity.setProperty(ENT_VIDEO_URL, vURL);
 	}
@@ -85,7 +80,7 @@ public class Video extends Material {
 	public Key getVideoKey(){
 		return (Key)entity.getKey();
 	}
-	public static ArrayList<String> getFlaggedVideos(){
+	/*public static ArrayList<String> getFlaggedVideos(){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
@@ -123,5 +118,5 @@ public class Video extends Material {
 			topRatedVideos.add(jsonString);
 		}
 		return topRatedVideos;
-	}
+	}*/
 }

@@ -46,12 +46,7 @@ public class Lecture extends Material{
 			l.save();
 			return l;
 		}
-		/*public void saveVideo(){
-			DatastoreServiceFactory.getDatastoreService().put(entity);
-		}
-		public void deleteVideo(){
-			DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
-		}*/
+		
 		private void setLectureURL(String lURL){
 			entity.setProperty(ENT_LECTURE_URL, lURL);
 		}
@@ -80,7 +75,7 @@ public class Lecture extends Material{
 		public Key getLectureKey(){
 			return (Key)entity.getKey();
 		}
-		public static ArrayList<String> getFlaggedLectures(){
+		/*public static ArrayList<String> getFlaggedLectures(){
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Query photoQuery = new Query(ENT_LECTURE).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
 			PreparedQuery pq = datastore.prepare(photoQuery);
@@ -120,5 +115,5 @@ public class Lecture extends Material{
 				topRatedLectures.add(jsonString);
 			}
 			return topRatedLectures;
-		}
+		}*/
 }
