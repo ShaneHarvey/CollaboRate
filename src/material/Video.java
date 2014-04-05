@@ -1,5 +1,6 @@
 package material;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import account.Account;
 import account.Account.ActorType;
@@ -14,6 +15,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
 
@@ -38,22 +40,18 @@ public class Video extends Material {
 			return null;
 		}
 	}
-	public static Video createVideo(String vTitle, String vDescription, String vURL, String sKey){
+	public static Video createVideo(String vTitle, String vDescription, String vURL, String sKey, String authorKey){
 		Entity videoE = new Entity(ENT_VIDEO);
 		Video v = new Video(videoE);
 		v.setVideoTitle(vTitle);
 		v.setVideoDescription(vDescription);
 		v.setVideoURL(vURL);
 		v.setVideoSubtopic(sKey);
+		v.setAutor(authorKey);
 		v.save();
 		return v;
 	}
-	/*public void saveVideo(){
-		DatastoreServiceFactory.getDatastoreService().put(entity);
-	}
-	public void deleteVideo(){
-		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
-	}*/
+
 	private void setVideoURL(String vURL){
 		entity.setProperty(ENT_VIDEO_URL, vURL);
 	}
@@ -82,4 +80,43 @@ public class Video extends Material {
 	public Key getVideoKey(){
 		return (Key)entity.getKey();
 	}
+	/*public static ArrayList<String> getFlaggedVideos(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		ArrayList<String> listOfFlagged = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			String videoKey = KeyFactory.keyToString(result.getKey());
+			String videoTitle = (String)result.getProperty(ENT_VIDEO_TITLE); 
+			String jsonString = "{\"videoKey\":\""+videoKey +"\", \"lectureTitle\":\""+videoTitle+"\"}";
+			listOfFlagged.add(jsonString);
+		}
+		return listOfFlagged;
+	}
+	public static ArrayList<String> getTopRatedVideos(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_RATING, SortDirection.DESCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		ArrayList<String> topRatedVideos = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			String videoKey = KeyFactory.keyToString(result.getKey());
+			String videoTitle = (String)result.getProperty(ENT_VIDEO_TITLE);
+			String jsonString = "{\"videoKey\":\""+videoKey +"\", \"lectureTitle\":\""+videoTitle+"\"}";
+			topRatedVideos.add(jsonString);
+		}
+		return topRatedVideos;
+	}
+	public static ArrayList<String> getMostRecentVideos(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_DATE, SortDirection.DESCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		ArrayList<String> topRatedVideos = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			String videoKey = KeyFactory.keyToString(result.getKey());
+			String videoTitle = (String)result.getProperty(ENT_VIDEO_TITLE);
+			String jsonString = "{\"videoKey\":\""+videoKey +"\", \"lectureTitle\":\""+videoTitle+"\"}";
+			topRatedVideos.add(jsonString);
+		}
+		return topRatedVideos;
+	}*/
 }
