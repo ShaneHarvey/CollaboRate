@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/includes/css.jsp"></jsp:include>
 <link rel="stylesheet" href="/css/custom-jquery-ui.css">
 </head>
@@ -15,15 +14,15 @@
 		    <div class="bread-crumbs"><a href="/home">Home</a> / My Account </div>
 			<h1 class="tc">My Account</h1>
 			<br />
-			<div class="account-info">
+			<div class="table-wrapper">
 			     <table>
 			         <tr>
                          <td><span class="title">Email:</span></td>
-                         <td><c:out><span>${email}</span></c:out></td>
+                         <td><span>${email}</span></td>
                      </tr>
 			         <tr>
 			             <td><span class="title">Display Name:</span></td>
-			             <td><c:out><input id="displayName" type="text" value="${displayName}" placeholder="none" disabled></c:out></td>
+			             <td><input id="displayName" type="text" value="${displayName}" placeholder="none" disabled></td>
 			         </tr>
 			         <tr class="hideGroup" style="display:none;">
                           <td><span class="title">Current Password:</span></td>

@@ -268,13 +268,13 @@ input[disabled] {
     background: #FFF;
 }
 
-/* Div containing account info */
-.account-info {
+/* Style div containing a table */
+.table-wrapper {
 	font-size:18px;
-	margin-left:20%;
-	margin-right:20%;
+	margin-left:25%;
+	margin-right:25%;
 }
-.account-info > table > tbody > tr > td {
+.table-wrapper > table > tbody > tr > td {
 	padding-bottom: 1px;
 }
 
@@ -339,6 +339,15 @@ input[disabled] {
     margin-bottom: -10px;
 }
 
+/* Display cursor when hovering over */
 .hoverHand {
 	cursor:pointer;
+}
+
+/* Wrapper for subTopicTable */
+.subTopicTableWrapper {
+	padding-top: 10px;
+}
+.subTopicTableWrapper > table > tbody > tr > td {
+    padding-bottom: 1px;
 }
