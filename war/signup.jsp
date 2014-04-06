@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<%@include file="/includes/css.html" %>
+<jsp:include page="/includes/css.html"></jsp:include>
 <link rel="stylesheet" href="/css/custom-jquery-ui.css">
 </head>
 <body>
@@ -37,10 +37,10 @@
 
   </div>
 
-    <%@include file="/includes/footer.html"%>
+    <jsp:include page="/includes/footer.html"></jsp:include>
 
 </body>
-<%@include file="/includes/js.html" %>
+<jsp:include page="/includes/js.html"></jsp:include>
 <script src="/js/jquery-ui-1.10.4.min.js"></script>
 <script src="/js/account.js"></script>
 </html>

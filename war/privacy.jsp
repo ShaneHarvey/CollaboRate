@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Educator</title>
-<%@include file="/includes/css.html" %>
+<jsp:include page="/includes/css.html"></jsp:include>
 </head>
 <body>
 
@@ -53,8 +53,8 @@
 
   </div>
 
-    <%@include file="/includes/footer.html"%>
+    <jsp:include page="/includes/footer.html"></jsp:include>
 
 </body>
-<%@include file="/includes/js.html" %>
+<jsp:include page="/includes/js.html"></jsp:include>
 </html>

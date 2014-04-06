@@ -19,12 +19,16 @@ public class AccountServlet extends HttpServlet {
 		
 		if(action == null){
 			// If user isn't logged in, redirect to home
-			if(request.getSession().getAttribute(Keys.ACCOUNT) == null) {
+			Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
+			if(acc == null) {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				response.sendRedirect("/home");
 			}
-			else
+			else {
+				request.setAttribute(Keys.DISPLAY_NAME, (acc.getDisplayName() == null ? "" : acc.getDisplayName()));
+				request.setAttribute(Keys.EMAIL, acc.getEmail());
 				getServletContext().getRequestDispatcher("/my-account.jsp").forward(request, response);
+			}
 		}
 		else if(action.equals("updateaccount")){
 			// Update user's account
