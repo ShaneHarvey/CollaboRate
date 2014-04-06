@@ -8,3 +8,8 @@
     width: auto !important;
     height: auto !important;
 }
+.ui-effects-wrapper > textarea {
+    border: 2px solid #58427C;
+    width: auto !important;
+    height: auto !important;
+}

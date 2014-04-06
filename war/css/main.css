@@ -351,3 +351,12 @@ input[disabled] {
 .subTopicTableWrapper > table > tbody > tr > td {
     padding-bottom: 1px;
 }
+
+/* div containing added questions */
+.question-table-wrapper {
+    margin-left: 38%;
+}
+.question-table-wrapper > table > tbody > tr > td {
+	padding-left: 5px;
+	padding-bottom: 1px;
+}
