@@ -10,7 +10,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.DatastoreService;
-
 /**
  * Super class of Question, Video, and Lecture
  * @author Phil
@@ -113,6 +112,7 @@ public abstract class Material {
 			String jsonString = "{\"key\":\""+key +"\", \"title\":\""+title+"\"}";
 			list.add(jsonString);
 		}
+		
 		return list;
 	}
 }
