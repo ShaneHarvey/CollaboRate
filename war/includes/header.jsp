@@ -29,9 +29,9 @@
                     </li>
                     <%
                     	// If this person is a user, display add content
-                                            if(acc != null && (Account.ActorType.USER == acc.getType() || Account.ActorType.TRUSTED_USER == acc.getType())) {
+                                            if(acc != null) {
                     %>
-                            <li><a href="/add-content.jsp">Contribute</a></li>
+                            <li><a href="/addcontent">Contribute</a></li>
                     <% 
                         } 
                     %>

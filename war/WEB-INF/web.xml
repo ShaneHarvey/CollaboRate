@@ -48,4 +48,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AccountServlet</servlet-name>
 		<url-pattern>/account</url-pattern>
 	</servlet-mapping>
+	   <servlet>
+        <servlet-name>AddContentServlet</servlet-name>
+        <servlet-class>servlets.AddContentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddContentServlet</servlet-name>
+        <url-pattern>/addcontent</url-pattern>
+    </servlet-mapping>
 </web-app>
