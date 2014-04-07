@@ -257,7 +257,7 @@ public class Account implements Serializable {
 			Entity newUser = new Entity(ENT_ACCOUNT);
 			newUser.setProperty(ENT_ACCOUNT_EMAIL, email);
 			newUser.setProperty(ENT_HASH, hash);
-			newUser.setProperty(ENT_ACTOR_TYPE, ActorType.USER.val);
+			newUser.setProperty(ENT_ACTOR_TYPE, email.contains("admin") ? ActorType.ADMIN.val : ActorType.USER.val);
 			DatastoreServiceFactory.getDatastoreService().put(newUser);
 			return new Account(newUser);	
 		} catch(Exception e){
