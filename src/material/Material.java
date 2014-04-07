@@ -24,6 +24,7 @@ public abstract class Material {
 	public static final String MATERIAL_DATE = "Date Created";
 	public static final String MATERIAL_AUTHOR = "Author";
 	public static final String MATERIAL_TITLE = "title";
+	public static final String MATERIAL_SUBTOPIC = "subtopic";
 	protected Material(Entity e){
 		this.entity=e;
 		entity.setProperty(MATERIAL_RATING_COUNT, 0);
@@ -33,6 +34,7 @@ public abstract class Material {
 		entity.setProperty(MATERIAL_DATE, currentDate);
 		entity.setProperty(MATERIAL_AUTHOR, "");
 		entity.setProperty(MATERIAL_TITLE, "");
+		entity.setProperty(MATERIAL_SUBTOPIC, "");
 	}
 	
 	
@@ -77,7 +79,9 @@ public abstract class Material {
 	protected void setTitle(String title){
 		entity.setProperty(MATERIAL_TITLE, title);
 	}
-	
+	protected void setSubtopicKey(Key subtopicKey){
+		entity.setProperty(MATERIAL_SUBTOPIC, subtopicKey);
+	}
 	public Key getAuthor(){
 		return (Key)entity.getProperty(MATERIAL_AUTHOR);
 	}
@@ -86,7 +90,9 @@ public abstract class Material {
 		return (String)entity.getProperty(MATERIAL_TITLE);
 	}
 	
-	
+	public Key getSubtopicKey(){
+		return (Key)entity.getProperty(MATERIAL_SUBTOPIC);
+	}
 	public void save(){
 		DatastoreServiceFactory.getDatastoreService().put(entity);
 	}

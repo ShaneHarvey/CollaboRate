@@ -46,7 +46,8 @@ public class Video extends Material {
 		v.setVideoTitle(vTitle);
 		v.setVideoDescription(vDescription);
 		v.setVideoURL(vURL);
-		v.setVideoSubtopic(sKey);
+		v.setSubtopicKey(sKey);
+		//v.setVideoSubtopic(sKey);
 		v.setAutor(authorKey);
 		v.save();
 		return v;
@@ -61,10 +62,10 @@ public class Video extends Material {
 	private void setVideoDescription(String vDescription){
 		entity.setProperty(ENT_VIDEO_DESCRIPTION, vDescription);
 	}
-	private void setVideoSubtopic(Key sKey){
+	/*private void setVideoSubtopic(Key sKey){
 		//Key subTopicKey = KeyFactory.stringToKey(sKey);
 		entity.setProperty(ENT_VIDEO_SUBTOPIC, sKey);
-	}
+	}*/
 	public String getVideoURL(){
 		return (String)entity.getProperty(ENT_VIDEO_URL);
 	}
@@ -74,9 +75,9 @@ public class Video extends Material {
 	public String getVideoDescription(){
 		return (String)entity.getProperty(ENT_VIDEO_DESCRIPTION);
 	}
-	public String getVideoSubtopic(){
+	/*public String getVideoSubtopic(){
 		return (String)entity.getProperty(ENT_VIDEO_SUBTOPIC);
-	}
+	}*/
 	public Key getVideoKey(){
 		return (Key)entity.getKey();
 	}
