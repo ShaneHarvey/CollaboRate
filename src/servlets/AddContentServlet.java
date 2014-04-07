@@ -7,6 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import material.Subject;
+import material.Subtopic;
+import material.Video;
 
 import com.google.gson.*;
 
@@ -20,12 +25,15 @@ public class AddContentServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
 		Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
+		Subtopic subtopic = (Subtopic)request.getSession().getAttribute(Keys.SUBTOPIC);
 		if(acc == null) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.sendRedirect("/home");
 		}
 		else {
 			String action = request.getParameter("action");
+			HttpSession session = request.getSession();
+			
 			if(action == null)
 				getServletContext().getRequestDispatcher("/add-content.jsp").forward(request, response);
 			else if("createquestion".equals(action)) {
@@ -45,6 +53,7 @@ public class AddContentServlet extends HttpServlet {
 				String videoURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
 				// TODO: Create the video
+				Video.createVideo(videoDescription, videoDescription, videoURL, subtopic.getSubjectKey(), acc.getKey());
 				
 				response.getWriter().print("success");
 			}

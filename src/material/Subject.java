@@ -1,12 +1,21 @@
 package material;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.*;
 
-public class Subject {
+
+public class Subject implements Serializable{
 	private Entity subjectEntity;
 	private static final String ENT_SUBJECT_TITLE = "subjectTitle";
 	private static final String ENT_SUBJECT_DESCRIPTION ="subjectDescription";
@@ -58,13 +67,24 @@ public class Subject {
 	public String getDescription(){
 		return (String)subjectEntity.getProperty(ENT_SUBJECT_DESCRIPTION);
 	}
-	public String getSubjectKey(){
-		return KeyFactory.keyToString(subjectEntity.getKey());
+	public Key getSubjectKey(){
+		return subjectEntity.getKey();
 	}
 	public void saveSubject(){
 		DatastoreServiceFactory.getDatastoreService().put(subjectEntity);
 	}
 	public void deleteSubject(){
 		DatastoreServiceFactory.getDatastoreService().delete(subjectEntity.getKey());
+	}
+	public static ArrayList<Subject> getSubjects(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(ENT_SUBJECT).addSort(ENT_SUBJECT_TITLE, SortDirection.ASCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		ArrayList<Subject> subjects = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			Subject tempSubject = new Subject(result);
+			subjects.add(tempSubject);
+		}
+		return subjects;
 	}
 }

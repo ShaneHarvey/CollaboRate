@@ -31,16 +31,16 @@ public class Video extends Material {
 	private Video(Entity video){
 		super(video);
 	}
-	public static Video getVideo(String videoKey){
-		Key vKey = KeyFactory.stringToKey(videoKey);
+	public static Video getVideo(Key videoKey){
+		//Key vKey = KeyFactory.stringToKey(videoKey);
 		try {
-			Entity videoE = DatastoreServiceFactory.getDatastoreService().get(vKey);
+			Entity videoE = DatastoreServiceFactory.getDatastoreService().get(videoKey);
 			return new Video(videoE);
 		} catch (EntityNotFoundException e) {
 			return null;
 		}
 	}
-	public static Video createVideo(String vTitle, String vDescription, String vURL, String sKey, String authorKey){
+	public static Video createVideo(String vTitle, String vDescription, String vURL, Key sKey, Key authorKey){
 		Entity videoE = new Entity(ENT_VIDEO);
 		Video v = new Video(videoE);
 		v.setVideoTitle(vTitle);
@@ -61,9 +61,9 @@ public class Video extends Material {
 	private void setVideoDescription(String vDescription){
 		entity.setProperty(ENT_VIDEO_DESCRIPTION, vDescription);
 	}
-	private void setVideoSubtopic(String sKey){
-		Key subTopicKey = KeyFactory.stringToKey(sKey);
-		entity.setProperty(ENT_VIDEO_SUBTOPIC, subTopicKey);
+	private void setVideoSubtopic(Key sKey){
+		//Key subTopicKey = KeyFactory.stringToKey(sKey);
+		entity.setProperty(ENT_VIDEO_SUBTOPIC, sKey);
 	}
 	public String getVideoURL(){
 		return (String)entity.getProperty(ENT_VIDEO_URL);

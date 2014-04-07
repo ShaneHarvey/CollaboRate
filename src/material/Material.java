@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -69,16 +70,16 @@ public abstract class Material {
 		save();
 	}
 	
-	public void setAutor(String author){
-		entity.setProperty(MATERIAL_AUTHOR, KeyFactory.stringToKey(author));
+	public void setAutor(Key author){
+		entity.setProperty(MATERIAL_AUTHOR, author);
 	}
 	
 	protected void setTitle(String title){
 		entity.setProperty(MATERIAL_TITLE, title);
 	}
 	
-	public String getAuthor(){
-		return (String)entity.getProperty(MATERIAL_AUTHOR);
+	public Key getAuthor(){
+		return (Key)entity.getProperty(MATERIAL_AUTHOR);
 	}
 	
 	public String getTitle(){

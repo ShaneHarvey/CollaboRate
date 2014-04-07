@@ -26,16 +26,16 @@ public class Lecture extends Material{
 		private Lecture(Entity lectures){
 			super(lectures);
 		}
-		public static Lecture getVideo(String lectureKey){
-			Key lKey = KeyFactory.stringToKey(lectureKey);
+		public static Lecture getVideo(Key lectureKey){
+			//Key lKey = KeyFactory.stringToKey(lectureKey);
 			try {
-				Entity lectureE = DatastoreServiceFactory.getDatastoreService().get(lKey);
+				Entity lectureE = DatastoreServiceFactory.getDatastoreService().get(lectureKey);
 				return new Lecture(lectureE);
 			} catch (EntityNotFoundException e) {
 				return null;
 			}
 		}
-		public static Lecture createVideo(String lTitle, String lDescription, String lURL, String lKey, String authorKey){
+		public static Lecture createVideo(String lTitle, String lDescription, String lURL, Key lKey, Key authorKey){
 			Entity lectureE = new Entity(ENT_LECTURE);
 			Lecture l = new Lecture(lectureE);
 			l.setLectureTitle(lTitle);
@@ -56,9 +56,9 @@ public class Lecture extends Material{
 		private void setLectureDescription(String lDescription){
 			entity.setProperty(ENT_LECTURE_DESCRIPTION, lDescription);
 		}
-		private void setLectureSubtopic(String lKey){
-			Key subTopicKey = KeyFactory.stringToKey(lKey);
-			entity.setProperty(ENT_LECTURE_SUBTOPIC, subTopicKey);
+		private void setLectureSubtopic(Key lKey){
+			//Key subTopicKey = KeyFactory.stringToKey(lKey);
+			entity.setProperty(ENT_LECTURE_SUBTOPIC, lKey);
 		}
 		public String getLectureURL(){
 			return (String)entity.getProperty(ENT_LECTURE_URL);
