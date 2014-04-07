@@ -7,8 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import material.Notes;
+import material.Question;
 import material.Subject;
 import material.Subtopic;
 import material.Video;
@@ -32,7 +33,6 @@ public class AddContentServlet extends HttpServlet {
 		}
 		else {
 			String action = request.getParameter("action");
-			HttpSession session = request.getSession();
 			
 			if(action == null)
 				getServletContext().getRequestDispatcher("/add-content.jsp").forward(request, response);
@@ -40,10 +40,13 @@ public class AddContentServlet extends HttpServlet {
 				// Create a question
 				String questionDescription = URLDecoder.decode(request.getParameter("description"), "UTC-8");
 				String answersString = URLDecoder.decode(request.getParameter("answersList"), "UTC-8");
-				String[] answersList = new Gson().fromJson(answersString, String[].class);
+				//String[] answersList = new Gson().fromJson(answersString, String[].class);
+				//we are going to store the answers as json 
+				//we need to discuss 
 				int answerIndex = Integer.parseInt(request.getParameter("answerIndex"));
 				
 				// TODO: Create the question
+				Question.createQuestion(questionDescription, answersString, ?? ,answerIndex);
 				
 				response.getWriter().print("success");
 			}
@@ -63,6 +66,7 @@ public class AddContentServlet extends HttpServlet {
 				String notesURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
 				// TODO: Create the notes
+				Notes.createLecture(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
 				
 				response.getWriter().print("success");
 			}
