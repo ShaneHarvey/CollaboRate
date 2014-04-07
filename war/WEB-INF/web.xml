@@ -56,4 +56,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>AddContentServlet</servlet-name>
         <url-pattern>/addcontent</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>servlets.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+        <servlet>
+        <servlet-name>SubjectServlet</servlet-name>
+        <servlet-class>servlets.SubjectServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubjectServlet</servlet-name>
+        <url-pattern>/subject</url-pattern>
+    </servlet-mapping>
 </web-app>

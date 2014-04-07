@@ -40,8 +40,8 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'subjectName=' + encodeURIComponent($('#subjectName').val()) + '&subTopicList=' + encodeURIComponent(subTopicsString) + '&action=createSubject',
-            url: '/home',
+            data: 'subjectName=' + encodeURIComponent($('#subjectName').val()) + '&subTopicList=' + encodeURIComponent(subTopicsString) + '&action=createsubject',
+            url: '/admin',
             success: function(data) {
             	$('#subjectLoading').hide();
             	if(data === 'success') {
@@ -65,7 +65,5 @@ $(function(){
             	console.log(data);
             }
         });
-		
 	});
-	
 });

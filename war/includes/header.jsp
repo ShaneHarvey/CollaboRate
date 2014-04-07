@@ -1,5 +1,6 @@
 <%@page import="constants.Keys"%>
 <%@page import="account.Account"%>
+<%@page import="material.Subject" %>
 <%
 	response.setHeader("Cache-Control","no-store");
 	// Try to get account from session
@@ -16,20 +17,20 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Learn<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown-header">Science</li>
-                            <li><a href="/subject.jsp">Chemistry</a></li>
-                            <li><a href="#">Earth Science</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Math</li>
-                            <li><a href="#">Calculus I</a></li>
-                            <li><a href="#">Calculus II</a></li>
+                            <%
+                                 for(Subject s: Subject.getSubjects())  {
+                            %>
+                                    <li><a href="/subject?<%=Keys.SUBJECT_KEY + "=" + s.getSubjectKeyString()%>"><%=s.getTitle()%></a></li>
+                            <%
+                                 } 
+                            %>
                             <li class="divider"></li>
                             <li class="dropdown-header"><a href="#">Request a Subject</a></li>
                         </ul>
                     </li>
                     <%
                     	// If this person is a user, display add content
-                                            if(acc != null) {
+                        if(acc != null) {
                     %>
                             <li><a href="/addcontent">Contribute</a></li>
                     <% 

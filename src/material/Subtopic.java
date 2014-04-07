@@ -2,6 +2,8 @@ package material;
 
 import java.util.ArrayList;
 
+import javax.crypto.KeyGenerator;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -24,21 +26,25 @@ public class Subtopic {
 	private Subtopic(Entity sEntity){
 		subtopicEntity = sEntity;
 	}
-	public static Subtopic getSubject(String subtopicKey){
-		Key sKey = KeyFactory.stringToKey(subtopicKey);
+	public static Subtopic getSubtopic(Key key){
 		try {
-			Entity subtopicE = DatastoreServiceFactory.getDatastoreService().get(sKey);
+			Entity subtopicE = DatastoreServiceFactory.getDatastoreService().get(key);
 			return new Subtopic(subtopicE);
 		} catch (EntityNotFoundException e) {
 			return null;
 		}
 	}
-	public static Subtopic createSubtopic(String sTitle, Key sKey ,String sDescription){
+	public static Subtopic getSubtopicFromKeyString(String key) {
+		return getSubtopic(KeyFactory.stringToKey(key));
+	}
+	
+	public static Subtopic createSubtopic(String sTitle, Key subjectKey ,String sDescription){
 		Entity subtopicE = new Entity(ENT_SUBTOPIC);
 		Subtopic s = new Subtopic(subtopicE);
 		s.setTitle(sTitle);
-		s.setSubjectKey(sKey);
+		s.setSubjectKey(subjectKey);
 		s.setDescription(sDescription);
+		s.saveSubtopic();
 		return s;
 	}
 	private void setTitle(String subjectTitle){
@@ -56,11 +62,14 @@ public class Subtopic {
 	public String getDescription(){
 		return (String)subtopicEntity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
 	}
-	public String getSubtopicKey(){
-		return KeyFactory.keyToString(subtopicEntity.getKey());
+	public Key getSubtopicKey(){
+		return subtopicEntity.getKey();
+	}
+	public String getSubtopicKeyAsString() {
+		return KeyFactory.keyToString(getSubtopicKey());
 	}
 	public Key getSubjectKey(){
-		return subtopicEntity.getKey();
+		return (Key)subtopicEntity.getProperty(ENT_SUBTOPIC_SUBJECT);
 	}
 	public void saveSubtopic(){
 		DatastoreServiceFactory.getDatastoreService().put(subtopicEntity);
@@ -68,15 +77,14 @@ public class Subtopic {
 	public void deleteSubtopic(){
 		DatastoreServiceFactory.getDatastoreService().delete(subtopicEntity.getKey());
 	}
-	public static ArrayList<Subtopic> getSubtopics(String subjectKey){
+	public static ArrayList<Subtopic> getSubtopics(Key sKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Key sKey = KeyFactory.stringToKey(subjectKey);
 		Filter subjectFilter = new FilterPredicate(ENT_SUBTOPIC_SUBJECT,
 				   FilterOperator.EQUAL,
 				   sKey);
 		Query subtopicQuery = new Query(ENT_SUBTOPIC).addSort(ENT_SUBTOPIC_TITLE, SortDirection.ASCENDING).setFilter(subjectFilter); 
 		PreparedQuery pq = datastore.prepare(subtopicQuery);
-		ArrayList<Subtopic> subtopics = new ArrayList();
+		ArrayList<Subtopic> subtopics = new ArrayList<Subtopic>();
 		for (Entity result : pq.asIterable()) {
 			Subtopic tempSubtopic = new Subtopic(result);
 			subtopics.add(tempSubtopic);

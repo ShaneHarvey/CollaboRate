@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
     {
 		String action = (String)request.getParameter("action");
 		
-		if(action == null || request.getParameter("email") == null || request.getParameter("password") == null){
+		if(action == null){
 			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 		else if(action.equals("login")){

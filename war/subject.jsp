@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Educator</title>
 <jsp:include page="/includes/css.jsp"></jsp:include>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 </head>
 <body>
 
@@ -11,13 +12,16 @@
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="/home">Home</a> / Chemistry</div>
-			<h1 class="tc">Chemistry</h1>
+			<div class="bread-crumbs"><a href="/home">Home</a> / ${subjectName}</div>
+			<h1 class="tc">${subjectName}</h1>
 			<div class="row">
 				<div class="col-lg-4 content-holder shift-left-5">
 					<h3 class="tc">Topics</h3>
 					<table class="content-table">
-						<tr><td><span class="glyphicon glyphicon-ok green"></span>Math Skills needed for Chemistry</td></tr>
+					    <c:forEach items="${stlist}" var="st">
+					       <tr><td><a href="/subtopic?stid=${st.subtopicKeyAsString}">${st.title}</a></td></tr>
+					    </c:forEach>
+						<!--<tr><td><span class="glyphicon glyphicon-ok green"></span>Math Skills needed for Chemistry</td></tr>
 						<tr><td><span class="glyphicon glyphicon-ok green"></span>Atomic Concepts</td></tr>
 						<tr><td><span class="glyphicon glyphicon-asterisk yellow"></span>Periodic Table</td></tr>
 						<tr><td><span class="glyphicon glyphicon-asterisk yellow"></span>Moles/Stoichiometry</td></tr>
@@ -27,7 +31,7 @@
 						<tr><td>Organic Chemistry</td></tr>
 						<tr><td>Oxidation-Reduction</td></tr>
 						<tr><td class="not-available">Acids, Bases and Salts</td></tr>
-						<tr><td class="not-available">Nuclear Chemistry</td></tr>
+						<tr><td class="not-available">Nuclear Chemistry</td></tr>-->
 					</table>
 				</div>
 				<div class="col-lg-8 content-holder shift-right-5">

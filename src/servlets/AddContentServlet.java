@@ -27,10 +27,8 @@ public class AddContentServlet extends HttpServlet {
     {
 		Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
 		Subtopic subtopic = (Subtopic)request.getSession().getAttribute(Keys.SUBTOPIC);
-		if(acc == null) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		if(acc == null)
 			response.sendRedirect("/home");
-		}
 		else {
 			String action = request.getParameter("action");
 			
@@ -46,7 +44,7 @@ public class AddContentServlet extends HttpServlet {
 				int answerIndex = Integer.parseInt(request.getParameter("answerIndex"));
 				
 				// TODO: Create the question
-				Question.createQuestion(questionDescription, answersString, ?? ,answerIndex);
+				//Question.createQuestion(questionDescription, answersString, ?? ,answerIndex);
 				
 				response.getWriter().print("success");
 			}
@@ -60,13 +58,13 @@ public class AddContentServlet extends HttpServlet {
 				
 				response.getWriter().print("success");
 			}
-			if("addnotes".equals(action)) {
+			else if("addnotes".equals(action)) {
 				// Add notes
 				String notesDescription = URLDecoder.decode(request.getParameter("description"), "UTC-8");
 				String notesURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
 				// TODO: Create the notes
-				Notes.createLecture(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
+				//Notes.createLecture(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
 				
 				response.getWriter().print("success");
 			}
