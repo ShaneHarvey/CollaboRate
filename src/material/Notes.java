@@ -1,5 +1,6 @@
 package material;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +16,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 import material.Material;
-public class Notes extends Material{
+public class Notes extends Material implements Serializable{
 	//private Entity entity;
 		// Entity keys
 		private static final String ENT_LECTURE_URL= "lectureURL";
@@ -41,7 +42,8 @@ public class Notes extends Material{
 			l.setNotesTitle(lTitle);
 			l.setNotesDescription(lDescription);
 			l.setNotesURL(lURL);
-			l.setNotesSubtopic(lKey);
+			//l.setNotesSubtopic(lKey);
+			l.setSubtopicKey(lKey);
 			l.setAutor(authorKey);
 			l.save();
 			return l;
@@ -75,45 +77,35 @@ public class Notes extends Material{
 		public Key getNotesKey(){
 			return (Key)entity.getKey();
 		}
-		/*public static ArrayList<String> getFlaggedLectures(){
+		public static ArrayList<Notes> getFlaggedLectures(){
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Query photoQuery = new Query(ENT_LECTURE).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
 			PreparedQuery pq = datastore.prepare(photoQuery);
-			ArrayList<String> listOfFlagged = new ArrayList();
+			ArrayList<Notes> listOfFlagged = new ArrayList();
 			for (Entity result : pq.asIterable()) {
-				String lectureKey = KeyFactory.keyToString(result.getKey());
-				String lectureTitle = (String)result.getProperty(ENT_LECTURE_TITLE); 
-				String jsonString = "{\"lectureKey\":\""+lectureKey +"\", \"lectureTitle\":\""+lectureTitle+"\"}";
-				listOfFlagged.add(jsonString);
+				listOfFlagged.add(new Notes(result));
 			}
 			return listOfFlagged;
 		}
-		public static ArrayList<String> getTopRatedLectures(int limit){
+		public static ArrayList<Notes> getTopRatedLectures(int limit){
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Query photoQuery = new Query(ENT_LECTURE).addSort(MATERIAL_RATING, SortDirection.DESCENDING);  
 			PreparedQuery pq = datastore.prepare(photoQuery);
 			pq.asList(FetchOptions.Builder.withLimit(limit));
-			String returnString = "{\"Status\":\"ok\"";
-			ArrayList<String> topRatedLectures = new ArrayList();
+			ArrayList<Notes> topRatedLectures = new ArrayList();
 			for (Entity result : pq.asIterable()) {
-				String lectureKey = KeyFactory.keyToString(result.getKey());
-				String lectureTitle = (String)result.getProperty(ENT_LECTURE_TITLE);
-				String jsonString = "{\"lectureKey\":\""+lectureKey +"\", \"lectureTitle\":\""+lectureTitle+"\"}";
-				topRatedLectures.add(jsonString);
+				topRatedLectures.add(new Notes(result));
 			}
 			return topRatedLectures;
 		}
-		public static ArrayList<String>  getMostRecentVideos(){
+		public static ArrayList<Notes>  getMostRecentVideos(int limit){
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			Query photoQuery = new Query(ENT_LECTURE).addSort(MATERIAL_DATE, SortDirection.DESCENDING);  
 			PreparedQuery pq = datastore.prepare(photoQuery);
-			ArrayList<String> topRatedLectures = new ArrayList();
+			ArrayList<Notes> topRatedLectures = new ArrayList();
 			for (Entity result : pq.asIterable()) {
-				String lectureKey = KeyFactory.keyToString(result.getKey());
-				String lectureTitle = (String)result.getProperty(ENT_LECTURE_TITLE);
-				String jsonString = "{\"lectureKey\":\""+lectureKey +"\", \"lectureTitle\":\""+lectureTitle+"\"}";
-				topRatedLectures.add(jsonString);
+				topRatedLectures.add(new Notes(result));
 			}
 			return topRatedLectures;
-		}*/
+		}
 }

@@ -7,12 +7,13 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-
+import com.google.gson.*;
 public class Question extends Material implements Serializable{
 	
 	//private Entity entity;
@@ -39,7 +40,8 @@ public class Question extends Material implements Serializable{
 		entity.setProperty(QUESTION_BODY, questionBody);
 	}*/
 	
-	private void setAnswerChoices(ArrayList<String> jsonChoices){
+	private void setAnswerChoices(String[] choices){
+		String jsonChoices = new Gson().toJson(choices);
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
 	
@@ -60,8 +62,9 @@ public class Question extends Material implements Serializable{
 		return (String) entity.getProperty(QUESTION_BODY);
 	}*/
 	
-	public ArrayList<String> getAnswerChoices(){
-		return (ArrayList<String>) entity.getProperty(ANSWER_CHOICES);
+	public String[] getAnswerChoices(){
+		String jsonChoices = (String) entity.getProperty(ANSWER_CHOICES);
+		return new Gson().fromJson(jsonChoices, String[].class);
 	}
 	
 	public String getAnswerExplainations(){
@@ -98,7 +101,7 @@ public class Question extends Material implements Serializable{
 	 * @param correctIndex String - which choice is correct
 	 * @return
 	 */
-	public static Question createQuestion(String title, ArrayList<String> choicesJSON, String correctIndex){
+	public static Question createQuestion(String title, String[] choicesJSON, String correctIndex){
 		//Took String explanationsJSON out this week, will add back next week
 		
 		Question newQuestion = new Question();
@@ -120,11 +123,41 @@ public class Question extends Material implements Serializable{
 	 * @param correctIndex int - which choice is correct
 	 * @return
 	 */
-	public static Question createQuestion(String questionBody, ArrayList<String> choicesJSON, int correctIndex){
+	public static Question createQuestion(String questionBody, String[] choicesJSON, int correctIndex){
 		//String explaniationsJSON taken out will add back later
 		return createQuestion(questionBody, choicesJSON, String.valueOf(correctIndex));
 	}
-	
+	public static ArrayList<Question> getFlaggedLectures(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		ArrayList<Question> listOfFlagged = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			listOfFlagged.add(new Question(result));
+		}
+		return listOfFlagged;
+	}
+	public static ArrayList<Question> getTopRatedLectures(int limit){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_RATING, SortDirection.DESCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		pq.asList(FetchOptions.Builder.withLimit(limit));
+		ArrayList<Question> topRatedQuestions = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			topRatedQuestions.add(new Question(result));
+		}
+		return topRatedQuestions;
+	}
+	public static ArrayList<Question>  getMostRecentVideos(int limit){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE, SortDirection.DESCENDING);  
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		ArrayList<Question> topRatedQuestions = new ArrayList();
+		for (Entity result : pq.asIterable()) {
+			topRatedQuestions.add(new Question(result));
+		}
+		return topRatedQuestions;
+	}
 	
 
 }

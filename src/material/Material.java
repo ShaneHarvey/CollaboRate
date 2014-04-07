@@ -101,14 +101,15 @@ public abstract class Material {
 	}
 
 	
-	
+	/*
 	/**
+	 * I dont think this query will work 
 	 * Get a list of the given material in DESCENDING order, on the given propert
 	 * @param tableName String - the name of the table that stores the material in the datastore
 	 * @param property  String - the name of the property to sort on
 	 * @return ArrayList<String> - a list of JSON Strings that have the key and title of the entity.
 	 */
-	public static ArrayList<String> getSortedMaterial(String tableName, String property){
+	/*public static ArrayList<String> getSortedMaterial(String tableName, String property){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(tableName).addSort(property, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
@@ -121,5 +122,5 @@ public abstract class Material {
 		}
 		
 		return list;
-	}
+	}*/
 }

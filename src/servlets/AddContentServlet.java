@@ -44,7 +44,7 @@ public class AddContentServlet extends HttpServlet {
 				int answerIndex = Integer.parseInt(request.getParameter("answerIndex"));
 				
 				// TODO: Create the question
-				//Question.createQuestion(questionDescription, answersString, ?? ,answerIndex);
+				//Question.createQuestion(questionDescription, answersString, subtopic.getSubjectKey() ,answerIndex);
 				
 				response.getWriter().print("success");
 			}
@@ -53,7 +53,6 @@ public class AddContentServlet extends HttpServlet {
 				String videoDescription = URLDecoder.decode(request.getParameter("description"), "UTC-8");
 				String videoURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
-				// TODO: Create the video
 				Video.createVideo(videoDescription, videoDescription, videoURL, subtopic.getSubjectKey(), acc.getKey());
 				
 				response.getWriter().print("success");
@@ -63,8 +62,8 @@ public class AddContentServlet extends HttpServlet {
 				String notesDescription = URLDecoder.decode(request.getParameter("description"), "UTC-8");
 				String notesURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
-				// TODO: Create the notes
-				//Notes.createLecture(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
+				Notes.createNotes(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
+
 				
 				response.getWriter().print("success");
 			}

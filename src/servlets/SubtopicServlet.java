@@ -25,13 +25,11 @@ public class SubtopicServlet extends HttpServlet {
 			response.sendRedirect("/home");
 		}
 		else {
-			// Load subject and subtopics and put them into the response
-			//Subject sub = Subject.getSubjectFromString(subID);
-			//ArrayList<Subtopic> subtopics = sub.getSubtopics();
+
 			Subtopic st = Subtopic.getSubtopicFromKeyString(stID);
-			request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
-			request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
-			getServletContext().getRequestDispatcher("/subject.jsp").forward(request, response);
+			
+			request.setAttribute(Keys.SUBTOPIC_NAME, st.getTitle());
+			getServletContext().getRequestDispatcher("/topic.jsp").forward(request, response);
 		}
 	}
 
