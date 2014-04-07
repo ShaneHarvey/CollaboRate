@@ -24,7 +24,7 @@ public class Subtopic {
 	private Subtopic(Entity sEntity){
 		subtopicEntity = sEntity;
 	}
-	public static Subtopic getSubject(String subtopicKey){
+	public static Subtopic getSuptopic(String subtopicKey){
 		Key sKey = KeyFactory.stringToKey(subtopicKey);
 		try {
 			Entity subtopicE = DatastoreServiceFactory.getDatastoreService().get(sKey);
