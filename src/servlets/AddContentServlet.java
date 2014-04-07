@@ -46,7 +46,7 @@ public class AddContentServlet extends HttpServlet {
 				int answerIndex = Integer.parseInt(request.getParameter("answerIndex"));
 				
 				// TODO: Create the question
-				Question.createQuestion(questionDescription, answersString, ?? ,answerIndex);
+				//Question.createQuestion(questionDescription, answersString, ?? ,answerIndex);
 				
 				response.getWriter().print("success");
 			}
@@ -66,7 +66,7 @@ public class AddContentServlet extends HttpServlet {
 				String notesURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
 				// TODO: Create the notes
-				Notes.createLecture(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
+				Notes.createNotes(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
 				
 				response.getWriter().print("success");
 			}
