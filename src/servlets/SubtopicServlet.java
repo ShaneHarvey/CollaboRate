@@ -25,10 +25,11 @@ public class SubtopicServlet extends HttpServlet {
 			response.sendRedirect("/home");
 		}
 		else {
-
-			Subtopic st = Subtopic.getSubtopicFromKeyString(stID);
-			
+			// Get subtopic being loaded
+			Subtopic st = Subtopic.getFromKeyString(stID);
 			request.setAttribute(Keys.SUBTOPIC_NAME, st.getTitle());
+			// TODO: Place videos, notes, questions into session
+			
 			getServletContext().getRequestDispatcher("/topic.jsp").forward(request, response);
 		}
 	}

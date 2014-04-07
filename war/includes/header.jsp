@@ -20,7 +20,7 @@
                             <%
                                  for(Subject s: Subject.getSubjects())  {
                             %>
-                                    <li><a href="/subject?<%=Keys.SUBJECT_KEY + "=" + s.getSubjectKeyString()%>"><%=s.getTitle()%></a></li>
+                                    <li><a href="/subject?<%=Keys.SUBJECT_KEY + "=" + s.getKeyString()%>"><%=s.getTitle()%></a></li>
                             <%
                                  } 
                             %>

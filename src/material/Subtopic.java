@@ -19,10 +19,12 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 public class Subtopic {
 	private Entity subtopicEntity;
+	private Subject sub;
 	private static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
 	private static final String ENT_SUBTOPIC_DESCRIPTION ="subtopicDescription";
 	private static final String ENT_SUBTOPIC ="subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
+	
 	private Subtopic(Entity sEntity){
 		subtopicEntity = sEntity;
 	}
@@ -34,7 +36,7 @@ public class Subtopic {
 			return null;
 		}
 	}
-	public static Subtopic getSubtopicFromKeyString(String key) {
+	public static Subtopic getFromKeyString(String key) {
 		return getSubtopic(KeyFactory.stringToKey(key));
 	}
 	
@@ -62,14 +64,11 @@ public class Subtopic {
 	public String getDescription(){
 		return (String)subtopicEntity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
 	}
-	public Key getSubtopicKey(){
+	public Key getKey(){
 		return subtopicEntity.getKey();
 	}
-	public String getSubtopicKeyAsString() {
-		return KeyFactory.keyToString(getSubtopicKey());
-	}
-	public Key getSubjectKey(){
-		return (Key)subtopicEntity.getProperty(ENT_SUBTOPIC_SUBJECT);
+	public String getKeyAsString() {
+		return KeyFactory.keyToString(getKey());
 	}
 	public void saveSubtopic(){
 		DatastoreServiceFactory.getDatastoreService().put(subtopicEntity);
@@ -90,5 +89,10 @@ public class Subtopic {
 			subtopics.add(tempSubtopic);
 		}
 		return subtopics;
+	}
+	public Subject getSubject(){
+		if(sub == null)
+			sub = Subject.getSubject((Key)subtopicEntity.getProperty(ENT_SUBTOPIC_SUBJECT));
+		return sub;
 	}
 }

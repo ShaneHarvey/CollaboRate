@@ -47,7 +47,7 @@ public class Subject implements Serializable{
 	 * @param sKey the string representation of the key
 	 * @return The subject with this key
 	 */
-	public static Subject getSubjectFromKeyString(String sKey) {
+	public static Subject getFromKeyString(String sKey) {
 		return getSubject(KeyFactory.stringToKey(sKey));
 	}
 	
@@ -64,7 +64,7 @@ public class Subject implements Serializable{
 		s.setDescription(sDescription);
 		s.saveSubject();
 		for(String st: subtopics) {
-			Subtopic.createSubtopic(st, s.getSubjectKey(), st);
+			Subtopic.createSubtopic(st, s.getKey(), st);
 		}
 		return s;
 	}
@@ -80,11 +80,11 @@ public class Subject implements Serializable{
 	public String getDescription(){
 		return (String)subjectEntity.getProperty(ENT_SUBJECT_DESCRIPTION);
 	}
-	public Key getSubjectKey(){
+	public Key getKey(){
 		return subjectEntity.getKey();
 	}
-	public String getSubjectKeyString(){
-		return KeyFactory.keyToString(subjectEntity.getKey());
+	public String getKeyString(){
+		return KeyFactory.keyToString(getKey());
 	}
 	public void saveSubject(){
 		DatastoreServiceFactory.getDatastoreService().put(subjectEntity);

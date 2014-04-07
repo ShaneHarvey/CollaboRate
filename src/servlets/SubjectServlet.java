@@ -26,7 +26,7 @@ public class SubjectServlet extends HttpServlet {
 		}
 		else {
 			// Load subject and subtopics and put them into the response
-			Subject sub = Subject.getSubjectFromKeyString(subID);
+			Subject sub = Subject.getFromKeyString(subID);
 			ArrayList<Subtopic> subtopics = sub.getSubtopics();
 			request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
 			request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);

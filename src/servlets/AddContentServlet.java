@@ -53,7 +53,7 @@ public class AddContentServlet extends HttpServlet {
 				String videoDescription = URLDecoder.decode(request.getParameter("description"), "UTC-8");
 				String videoURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
-				Video.createVideo(videoDescription, videoDescription, videoURL, subtopic.getSubjectKey(), acc.getKey());
+				Video.createVideo(videoDescription, videoDescription, videoURL, subtopic.getKey(), acc.getKey());
 				
 				response.getWriter().print("success");
 			}
@@ -62,7 +62,7 @@ public class AddContentServlet extends HttpServlet {
 				String notesDescription = URLDecoder.decode(request.getParameter("description"), "UTC-8");
 				String notesURL = URLDecoder.decode(request.getParameter("url"), "UTC-8");
 				
-				Notes.createNotes(notesDescription, notesDescription, notesURL, subtopic.getSubjectKey(), acc.getKey());
+				Notes.createNotes(notesDescription, notesDescription, notesURL, subtopic.getKey(), acc.getKey());
 
 				
 				response.getWriter().print("success");

@@ -19,7 +19,7 @@
 					<h3 class="tc">Topics</h3>
 					<table class="content-table">
 					    <c:forEach items="${stlist}" var="st">
-					       <tr><td><a href="/subtopic?stid=${st.subtopicKeyAsString}">${st.title}</a></td></tr>
+					       <tr><td><a href="/subtopic?stid=${st.keyAsString}">${st.title}</a></td></tr>
 					    </c:forEach>
 						<!--<tr><td><span class="glyphicon glyphicon-ok green"></span>Math Skills needed for Chemistry</td></tr>
 						<tr><td><span class="glyphicon glyphicon-ok green"></span>Atomic Concepts</td></tr>
