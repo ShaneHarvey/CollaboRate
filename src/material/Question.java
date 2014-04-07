@@ -23,13 +23,14 @@ public class Question extends Material implements Serializable{
 	private final static String ANSWER_CHOICES = "answer_choices";
 	private final static String ANSWER_EXPLAINATIONS = "answer_explainations";
 	private final static String CORRECT_INDEX = "correct_index";
+	private final static String ENT_SUBTOPIC_KEY = "st_key";
 	//private final static String QU = "question";
 	
 	
 	
-	private Question(){
+	/*private Question(){
 		this(new Entity(QUESTION));		
-	}
+	}*/
 	
 	private Question(Entity e){
 		super(e);
@@ -52,11 +53,6 @@ public class Question extends Material implements Serializable{
 	private void setCorrectIndex(int index){
 		entity.setProperty(CORRECT_INDEX, String.valueOf(index));
 	}
-	
-	private void setCorrectIndex(String index){
-		entity.setProperty(CORRECT_INDEX, index);
-	}
-	
 	
 	/*public String getQuestionBody(){
 		return (String) entity.getProperty(QUESTION_BODY);
@@ -101,58 +97,47 @@ public class Question extends Material implements Serializable{
 	 * @param correctIndex String - which choice is correct
 	 * @return
 	 */
-	public static Question createQuestion(String title, String[] choicesJSON, String correctIndex){
+	public static Question createQuestion(String title, String[] choicesJSON, int correctIndex, Key subtopicKey){
 		//Took String explanationsJSON out this week, will add back next week
 		
-		Question newQuestion = new Question();
+		Entity ent = new Entity(QUESTION);
+		Question newQuestion = new Question(ent);
 		newQuestion.setTitle(title);
 		newQuestion.setAnswerChoices(choicesJSON);
 		//newQuestion.setAnswerExplainations(explainationsJSON);
 		newQuestion.setCorrectIndex(correctIndex);
+		newQuestion.setSubtopicKey(subtopicKey);
 		newQuestion.save();
 		
 		return newQuestion;
-		
 	}
 	
-	/**
-	 * Create a Question object, and entity, and put the entity in the datastore
-	 * @param title String - the actual question
-	 * @param choicesJSON String - the JSON representation of all the choices for this question
-	 * @param explainationsJSON String = the JSON representation of all the explainations for all the choices 
-	 * @param correctIndex int - which choice is correct
-	 * @return
-	 */
-	public static Question createQuestion(String questionBody, String[] choicesJSON, int correctIndex){
-		//String explaniationsJSON taken out will add back later
-		return createQuestion(questionBody, choicesJSON, String.valueOf(correctIndex));
-	}
-	public static ArrayList<Question> getFlaggedLectures(){
+	public static ArrayList<Question> getFlaggedQuestions(){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Question> listOfFlagged = new ArrayList();
+		ArrayList<Question> listOfFlagged = new ArrayList<Question>();
 		for (Entity result : pq.asIterable()) {
 			listOfFlagged.add(new Question(result));
 		}
 		return listOfFlagged;
 	}
-	public static ArrayList<Question> getTopRatedLectures(int limit){
+	public static ArrayList<Question> getTopRatedQuestions(int limit){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_RATING, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
 		pq.asList(FetchOptions.Builder.withLimit(limit));
-		ArrayList<Question> topRatedQuestions = new ArrayList();
+		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
 		for (Entity result : pq.asIterable()) {
 			topRatedQuestions.add(new Question(result));
 		}
 		return topRatedQuestions;
 	}
-	public static ArrayList<Question>  getMostRecentVideos(int limit){
+	public static ArrayList<Question>  getMostRecentQuestions(int limit){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Question> topRatedQuestions = new ArrayList();
+		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
 		for (Entity result : pq.asIterable()) {
 			topRatedQuestions.add(new Question(result));
 		}

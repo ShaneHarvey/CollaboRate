@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,57 +13,90 @@
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs">
-				<a href="/home">Home</a> / <a href="#">Science</a> / <a href="#">Chemistry</a>
-				/ <a href="#"> Chemical Bonding </a> / Add Content
-			</div>
-			<br />
-			<div class="content-holder tc">
-				<h1 class="tc">Create Question</h1>
-				<span class="title">Question Description:</span> <br />
-				<textarea id="questionDescription"></textarea>
-				<br /> <span class="title">Answers:</span> <br />
-				<div class="question-table-wrapper">
-					<table id="answerChoiceTable">
-						<tr>
-							<td><textarea rows="1"></textarea></td>
-							<td><input type="radio" name="answers" value="0" checked /></td>
-						</tr>
-						<tr>
-							<td><textarea rows="1"></textarea></td>
-							<td><input type="radio" name="answers" value="1" /></td>
-						</tr>
-					</table>
+			<c:if test="${subject == null && subtopic == null}">
+				<div class="bread-crumbs">
+					<a href="/home">Home</a> / Add Content
 				</div>
-				<span id="btn_addAnswer" class="glyphicon glyphicon-plus hoverHand"></span>
-				<br /> <br /> <a id="btn_addQuestion" class="btn btn-cg white">Create</a>
-				<div id="questionLoading" class="tc loadingDiv"
-					style="display: none;">
-					<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+				<br />
+				<div class="content-holder tc">
+					<h3>Choose a Subject</h3>
+					<select id="subjectSelector">
+						<c:forEach items="${subjectList}" var="sub">
+							<option value="${sub.keyString}">${sub.title}</option>
+						</c:forEach>
+					</select> <br /> <br /> <a id="btn_chooseSubject" class="btn btn-cg">Next</a>
 				</div>
-			</div>
-			<div class="content-holder tc">
-				<h1 class="tc">Add Video</h1>
-				<span class="title">Video URL:</span> <br /> <input id="videoURL"
-					type="text" /> <br /> <span class="title">Video
-					Description:</span> <br />
-				<textarea id="videoDescription"></textarea>
-				<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white">Add</a>
-				<div id="videoLoading" class="tc loadingDiv" style="display: none;">
-					<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+			</c:if>
+			<c:if test="${subject != null && subtopic == null}">
+				<div class="bread-crumbs">
+					<a href="/home">Home</a> / <a href="/addcontent">Add Content</a> /
+					${subject.title}
 				</div>
-			</div>
-			<div class="content-holder tc">
-				<h1 class="tc">Add Notes</h1>
-				<span class="title">Notes URL:</span> <br /> <input id="notesURL"
-					type="text"> <br /> <span class="title">Notes
-					Description:</span> <br />
-				<textarea id="notesDescription"></textarea>
-				<br /> <br /> <a id="btn_addNotes" class="btn btn-cg white">Add</a>
-				<div id="notesLoading" class="tc loadingDiv" style="display: none;">
-					<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+				<br />
+				<div class="content-holder tc">
+					<h3>Choose a Subtopic</h3>
+					<select id="subtopicSelector">
+						<c:forEach items="${subject.subtopics}" var="st">
+							<option value="${st.keyAsString}">${st.title}</option>
+						</c:forEach>
+					</select> <br /> <br /> <a id="btn_chooseSubtopic" class="btn btn-cg"
+						sid="${subject.keyString}">Next</a>
 				</div>
-			</div>
+			</c:if>
+			<c:if test="${subject != null && subtopic != null}">
+				<div class="bread-crumbs">
+					<a href="/home">Home</a> / <a href="/addcontent">Add Content</a> /
+					<a href="${subject.keyString}">${subject.title}</a> /
+					${subtopic.title}
+				</div>
+				<br />
+				<div class="content-holder tc">
+					<h1 class="tc">Create Question</h1>
+					<span class="title">Question Description:</span> <br />
+					<textarea id="questionDescription"></textarea>
+					<br /> <span class="title">Answers:</span> <br />
+					<div class="question-table-wrapper">
+						<table id="answerChoiceTable">
+							<tr>
+								<td><textarea rows="1"></textarea></td>
+								<td><input type="radio" name="answers" value="0" checked /></td>
+							</tr>
+							<tr>
+								<td><textarea rows="1"></textarea></td>
+								<td><input type="radio" name="answers" value="1" /></td>
+							</tr>
+						</table>
+					</div>
+					<span id="btn_addAnswer" class="glyphicon glyphicon-plus hoverHand"></span>
+					<br /> <br /> <a id="btn_addQuestion" class="btn btn-cg white">Create</a>
+					<div id="questionLoading" class="tc loadingDiv"
+						style="display: none;">
+						<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+					</div>
+				</div>
+				<div class="content-holder tc">
+					<h1 class="tc">Add Video</h1>
+					<span class="title">Video URL:</span> <br /> <input id="videoURL"
+						type="text" /> <br /> <span class="title">Video
+						Description:</span> <br />
+					<textarea id="videoDescription"></textarea>
+					<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white">Add</a>
+					<div id="videoLoading" class="tc loadingDiv" style="display: none;">
+						<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+					</div>
+				</div>
+				<div class="content-holder tc">
+					<h1 class="tc">Add Notes</h1>
+					<span class="title">Notes URL:</span> <br /> <input id="notesURL"
+						type="text"> <br /> <span class="title">Notes
+						Description:</span> <br />
+					<textarea id="notesDescription"></textarea>
+					<br /> <br /> <a id="btn_addNotes" class="btn btn-cg white">Add</a>
+					<div id="notesLoading" class="tc loadingDiv" style="display: none;">
+						<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div>
 

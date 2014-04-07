@@ -5,6 +5,16 @@
 
 $(function(){
 	
+	// Choose this subject
+	$('#btn_chooseSubject').click(function(){
+		window.location.href='/addcontent?sid=' + $('#subjectSelector').val();
+	});
+	
+	// Choose this subtopic
+	$('#btn_chooseSubtopic').click(function(){
+		window.location.href='/addcontent?sid=' + $(this).attr('sid') + '&stid=' + $('#subtopicSelector').val();
+	});
+	
 	// Add another answer to the list
 	$('#btn_addAnswer').click(function(){
 		// Only allow a maximum of 6 answers

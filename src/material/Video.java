@@ -25,7 +25,7 @@ public class Video extends Material implements Serializable{
 	//private Entity entity;
 	// Entity keys
 	private static final String ENT_VIDEO_URL= "videoURL";
-	private static final String ENT_VIDEO_TITLE = "vidoeTitle";
+	private static final String ENT_VIDEO_TITLE = "videoTitle";
 	private static final String ENT_VIDEO_DESCRIPTION ="videoDescription";
 	private static final String ENT_VIDEO ="video";
 	private static final String ENT_VIDEO_SUBTOPIC = "subtopic";
@@ -86,7 +86,7 @@ public class Video extends Material implements Serializable{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_FLAGGED_COUNT, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Video> listOfFlagged = new ArrayList();
+		ArrayList<Video> listOfFlagged = new ArrayList<Video>();
 		for (Entity result : pq.asIterable()) {
 			listOfFlagged.add(new Video(result));
 		}
@@ -96,7 +96,7 @@ public class Video extends Material implements Serializable{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_RATING, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Video> topRatedVideos = new ArrayList();
+		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
 		for (Entity result : pq.asIterable()) {
 			topRatedVideos.add(new Video(result));
 		}
@@ -106,7 +106,7 @@ public class Video extends Material implements Serializable{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_DATE, SortDirection.DESCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Video> topRatedVideos = new ArrayList();
+		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
 		for (Entity result : pq.asIterable()) {
 			topRatedVideos.add(new Video(result));
 		}

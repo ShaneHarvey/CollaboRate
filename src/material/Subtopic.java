@@ -1,5 +1,6 @@
 package material;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.crypto.KeyGenerator;
@@ -17,7 +18,7 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-public class Subtopic {
+public class Subtopic implements Serializable {
 	private Entity subtopicEntity;
 	private Subject sub;
 	private static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
