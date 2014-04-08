@@ -46,7 +46,7 @@
 			<c:if test="${subject != null && subtopic != null}">
 				<div class="bread-crumbs">
 					<a href="/home">Home</a> / <a href="/addcontent">Add Content</a> /
-					<a href="${subject.keyString}">${subject.title}</a> /
+					<a href="/addcontent?sid=${subject.keyString}">${subject.title}</a> /
 					${subtopic.title}
 				</div>
 				<br />

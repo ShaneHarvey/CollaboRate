@@ -26,7 +26,7 @@ public class AddContentServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		Subtopic subtopic = (Subtopic) request.getSession().getAttribute(
+		Subtopic subtopic = (Subtopic) request.getAttribute(
 				Keys.SUBTOPIC);
 		if (acc == null)
 			response.sendRedirect("/home");
@@ -34,6 +34,8 @@ public class AddContentServlet extends HttpServlet {
 			String action = request.getParameter("action");
 
 			if (action == null) {
+				// Bug fix for front end related to how page is being rendered
+				request.getSession().removeAttribute(Keys.SUBTOPIC);
 				String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
 				if (subjectKey == null) {
 					request.setAttribute(Keys.SUBJECT_LIST,
