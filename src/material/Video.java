@@ -10,6 +10,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -66,11 +69,13 @@ public class Video extends Material implements Serializable {
 		return listOfFlagged;
 	}
 
-	public static ArrayList<Video> getTopRatedVideos(int limit) {
+	public static ArrayList<Video> getTopRatedVideos(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_RATING,
-				SortDirection.DESCENDING);
+				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
 		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
@@ -80,12 +85,15 @@ public class Video extends Material implements Serializable {
 		return topRatedVideos;
 	}
 
-	public static ArrayList<Video> getMostRecentVideos() {
+	public static ArrayList<Video> getMostRecentVideos(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_DATE,
-				SortDirection.DESCENDING);
+				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
+		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
 		for (Entity result : pq.asIterable()) {
 			topRatedVideos.add(new Video(result));

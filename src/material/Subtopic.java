@@ -118,14 +118,13 @@ public class Subtopic implements Serializable {
 	}
 
 	public ArrayList<Question> getTopQuestions() {
-		return Question.getTopRatedQuestions(5);
+		return Question.getTopRatedQuestions(5, subtopicEntity.getKey());
 	}
 
 	public ArrayList<Video> getTopVideos() {
-		return Video.getTopRatedVideos(5);
+		return Video.getTopRatedVideos(5,subtopicEntity.getKey());
 	}
-
 	public ArrayList<Notes> getTopNotes() {
-		return Notes.getTopRatedNotes(5);
+		return Notes.getTopRatedNotes(5, subtopicEntity.getKey());
 	}
 }

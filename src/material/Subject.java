@@ -112,4 +112,11 @@ public class Subject implements Serializable{
 			subtopicsList = Subtopic.getSubtopics(subjectEntity.getKey());
 		return subtopicsList;
 	}
+	public static void insertDemoSubjects(String sTitle, String sDescription){
+		Entity subjectE = new Entity(ENT_SUBJECT);
+		Subject s = new Subject(subjectE);
+		s.setTitle(sTitle);
+		s.setDescription(sDescription);
+		s.saveSubject();
+	}
 }

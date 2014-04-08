@@ -12,6 +12,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.*;
 
@@ -121,11 +124,13 @@ public class Question extends Material implements Serializable {
 		return listOfFlagged;
 	}
 
-	public static ArrayList<Question> getTopRatedQuestions(int limit) {
+	public static ArrayList<Question> getTopRatedQuestions(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_RATING,
-				SortDirection.DESCENDING);
+				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
 		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
@@ -135,12 +140,15 @@ public class Question extends Material implements Serializable {
 		return topRatedQuestions;
 	}
 
-	public static ArrayList<Question> getMostRecentQuestions(int limit) {
+	public static ArrayList<Question> getMostRecentQuestions(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE,
-				SortDirection.DESCENDING);
+				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
+		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
 		for (Entity result : pq.asIterable()) {
 			topRatedQuestions.add(new Question(result));
