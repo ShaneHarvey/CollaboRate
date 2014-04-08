@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +12,18 @@
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Question #37638 </div>
-			<h1 class="tc">The electrons in a nonpolar covalent bond are:</h1>
+			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="/subject?sid=${subject.keyString}">${subject.title}</a> / <a href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a> / Question </div>
+			<h1 class="tc">${question.title}</h1>
 
 			<div class="question-answers">
 				<ol>
-					<li>Gained</li>
+				    <c:forEach items="${question.answerChoices}" var="a">
+				        <li>${a}</li>
+				    </c:forEach>
+					<!--<li>Gained</li>
 					<li>Lost</li>
 					<li><span class="selected-answer">Shared Equally</span></li>
-					<li>Shared Unequally</li>
+					<li>Shared Unequally</li>-->
 				</ol>
 			</div>
 			<div class="tc">

@@ -48,28 +48,52 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AccountServlet</servlet-name>
 		<url-pattern>/account</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>AddContentServlet</servlet-name>
+		<servlet-class>servlets.AddContentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddContentServlet</servlet-name>
+		<url-pattern>/addcontent</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AdminServlet</servlet-name>
+		<servlet-class>servlets.AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminServlet</servlet-name>
+		<url-pattern>/admin</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SubjectServlet</servlet-name>
+		<servlet-class>servlets.SubjectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubjectServlet</servlet-name>
+		<url-pattern>/subject</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SubtopicServlet</servlet-name>
+		<servlet-class>servlets.SubtopicServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubtopicServlet</servlet-name>
+		<url-pattern>/subtopic</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>VideoServlet</servlet-name>
+		<servlet-class>servlets.VideoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoServlet</servlet-name>
+		<url-pattern>/video</url-pattern>
+	</servlet-mapping>
 	   <servlet>
-        <servlet-name>AddContentServlet</servlet-name>
-        <servlet-class>servlets.AddContentServlet</servlet-class>
+        <servlet-name>QuestionServlet</servlet-name>
+        <servlet-class>servlets.QuestionServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AddContentServlet</servlet-name>
-        <url-pattern>/addcontent</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AdminServlet</servlet-name>
-        <servlet-class>servlets.AdminServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminServlet</servlet-name>
-        <url-pattern>/admin</url-pattern>
-    </servlet-mapping>
-        <servlet>
-        <servlet-name>SubjectServlet</servlet-name>
-        <servlet-class>servlets.SubjectServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SubjectServlet</servlet-name>
-        <url-pattern>/subject</url-pattern>
+        <servlet-name>QuestionServlet</servlet-name>
+        <url-pattern>/question</url-pattern>
     </servlet-mapping>
 </web-app>

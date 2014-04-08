@@ -69,7 +69,7 @@ public class AddContentServlet extends HttpServlet {
 							.getParameter("answerIndex"));
 
 					Question.createQuestion(questionDescription, answersList,
-							answerIndex, subtopic.getKey());
+							answerIndex, subtopic.getKey(), acc.getKey());
 
 					response.getWriter().print("success");
 				} else if ("addvideo".equals(action)) {

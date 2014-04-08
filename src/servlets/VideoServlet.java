@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,28 +9,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import material.Subject;
 import material.Subtopic;
+import material.Video;
 import constants.Keys;
 
-public class SubtopicServlet extends HttpServlet {
+public class VideoServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1593485103847102005L;
 
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		String stID = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
-		if(stID == null) {
+		String vID = request.getParameter(Keys.VIDEO_KEY);
+		if (vID == null) {
 			// If no subjectId, redirect to home
 			response.sendRedirect("/home");
-		}
-		else {
+		} else {
 			// Get subtopic and place is request
-			Subtopic st = Subtopic.getFromKeyString(stID);
+			Video vid = Video.getFromKeyString(vID);
+			request.setAttribute(Keys.VIDEO, vid);
+			Subtopic st = vid.getSubtopic();
 			request.setAttribute(Keys.SUBTOPIC, st);
 			Subject sub = st.getSubject();
 			request.setAttribute(Keys.SUBJECT, sub);
-			
-			getServletContext().getRequestDispatcher("/subtopic.jsp").forward(request, response);
+
+			getServletContext().getRequestDispatcher("/video.jsp").forward(
+					request, response);
 		}
 	}
 

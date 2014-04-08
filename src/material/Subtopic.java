@@ -22,26 +22,30 @@ public class Subtopic implements Serializable {
 	private Entity subtopicEntity;
 	private Subject sub;
 	private static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
-	private static final String ENT_SUBTOPIC_DESCRIPTION ="subtopicDescription";
-	private static final String ENT_SUBTOPIC ="subtopic";
+	private static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
+	private static final String ENT_SUBTOPIC = "subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
-	
-	private Subtopic(Entity sEntity){
+
+	private Subtopic(Entity sEntity) {
 		subtopicEntity = sEntity;
 	}
-	public static Subtopic getSubtopic(Key key){
+
+	public static Subtopic getSubtopic(Key key) {
 		try {
-			Entity subtopicE = DatastoreServiceFactory.getDatastoreService().get(key);
+			Entity subtopicE = DatastoreServiceFactory.getDatastoreService()
+					.get(key);
 			return new Subtopic(subtopicE);
 		} catch (EntityNotFoundException e) {
 			return null;
 		}
 	}
+
 	public static Subtopic getFromKeyString(String key) {
 		return getSubtopic(KeyFactory.stringToKey(key));
 	}
-	
-	public static Subtopic createSubtopic(String sTitle, Key subjectKey ,String sDescription){
+
+	public static Subtopic createSubtopic(String sTitle, Key subjectKey,
+			String sDescription) {
 		Entity subtopicE = new Entity(ENT_SUBTOPIC);
 		Subtopic s = new Subtopic(subtopicE);
 		s.setTitle(sTitle);
@@ -50,39 +54,53 @@ public class Subtopic implements Serializable {
 		s.saveSubtopic();
 		return s;
 	}
-	private void setTitle(String subjectTitle){
+
+	private void setTitle(String subjectTitle) {
 		subtopicEntity.setProperty(ENT_SUBTOPIC_TITLE, subjectTitle);
 	}
-	private void setDescription(String subjectDescription){
-		subtopicEntity.setProperty(ENT_SUBTOPIC_DESCRIPTION, subjectDescription);
+
+	private void setDescription(String subjectDescription) {
+		subtopicEntity
+				.setProperty(ENT_SUBTOPIC_DESCRIPTION, subjectDescription);
 	}
-	private void setSubjectKey(Key k){
+
+	private void setSubjectKey(Key k) {
 		subtopicEntity.setProperty(ENT_SUBTOPIC_SUBJECT, k);
 	}
-	public String getTitle(){
-		return (String)subtopicEntity.getProperty(ENT_SUBTOPIC_TITLE);
+
+	public String getTitle() {
+		return (String) subtopicEntity.getProperty(ENT_SUBTOPIC_TITLE);
 	}
-	public String getDescription(){
-		return (String)subtopicEntity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
+
+	public String getDescription() {
+		return (String) subtopicEntity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
 	}
-	public Key getKey(){
+
+	public Key getKey() {
 		return subtopicEntity.getKey();
 	}
+
 	public String getKeyAsString() {
 		return KeyFactory.keyToString(getKey());
 	}
-	public void saveSubtopic(){
+
+	public void saveSubtopic() {
 		DatastoreServiceFactory.getDatastoreService().put(subtopicEntity);
 	}
-	public void deleteSubtopic(){
-		DatastoreServiceFactory.getDatastoreService().delete(subtopicEntity.getKey());
+
+	public void deleteSubtopic() {
+		DatastoreServiceFactory.getDatastoreService().delete(
+				subtopicEntity.getKey());
 	}
-	public static ArrayList<Subtopic> getSubtopics(Key sKey){
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+	public static ArrayList<Subtopic> getSubtopics(Key sKey) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
 		Filter subjectFilter = new FilterPredicate(ENT_SUBTOPIC_SUBJECT,
-				   FilterOperator.EQUAL,
-				   sKey);
-		Query subtopicQuery = new Query(ENT_SUBTOPIC).addSort(ENT_SUBTOPIC_TITLE, SortDirection.ASCENDING).setFilter(subjectFilter); 
+				FilterOperator.EQUAL, sKey);
+		Query subtopicQuery = new Query(ENT_SUBTOPIC).addSort(
+				ENT_SUBTOPIC_TITLE, SortDirection.ASCENDING).setFilter(
+				subjectFilter);
 		PreparedQuery pq = datastore.prepare(subtopicQuery);
 		ArrayList<Subtopic> subtopics = new ArrayList<Subtopic>();
 		for (Entity result : pq.asIterable()) {
@@ -91,9 +109,23 @@ public class Subtopic implements Serializable {
 		}
 		return subtopics;
 	}
-	public Subject getSubject(){
-		if(sub == null)
-			sub = Subject.getSubject((Key)subtopicEntity.getProperty(ENT_SUBTOPIC_SUBJECT));
+
+	public Subject getSubject() {
+		if (sub == null)
+			sub = Subject.getSubject((Key) subtopicEntity
+					.getProperty(ENT_SUBTOPIC_SUBJECT));
 		return sub;
+	}
+
+	public ArrayList<Question> getTopQuestions() {
+		return Question.getTopRatedQuestions(5);
+	}
+
+	public ArrayList<Video> getTopVideos() {
+		return Video.getTopRatedVideos(5);
+	}
+
+	public ArrayList<Notes> getTopNotes() {
+		return Notes.getTopRatedNotes(5);
 	}
 }

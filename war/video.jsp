@@ -11,10 +11,10 @@
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Video #984649 </div>
-			<h1 class="tc">Chemical Bonds: Covalent vs. Ionic</h1>
+			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="/subject?sid=${subject.keyString}">${subject.title}</a> / <a href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a> / Video </div>
+			<h1 class="tc">${video.title}</h1>
 			<div class="video-embed">
-				<iframe width="640" height="480" src="https://www.youtube-nocookie.com/embed/7DjsD7Hcd9U?wmode=transparent" frameborder="0" allowfullscreen></iframe>
+				<iframe width="640" height="480" src="${video.URL}" frameborder="0" allowfullscreen></iframe>
 				<div class="feedback">
 				    <div>
 				        <span>Rate this video: <span class="glyphicon glyphicon-star yellow"></span> <span class="glyphicon glyphicon-star yellow"></span> <span class="glyphicon glyphicon-star yellow"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> </span>
