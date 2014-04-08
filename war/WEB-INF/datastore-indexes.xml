@@ -7,4 +7,16 @@
 		<property name="subject" direction="asc" />
 		<property name="subtopicTitle" direction="asc" />
 	</datastore-index>
+	<datastore-index kind="question" ancestor="false" source="manual">
+        <property name="subtopic" direction="asc"/>
+        <property name="Rating" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="video" ancestor="false" source="manual">
+        <property name="subtopic" direction="asc"/>
+        <property name="Rating" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="notes" ancestor="false" source="manual">
+        <property name="subtopic" direction="asc"/>
+        <property name="Rating" direction="desc"/>
+    </datastore-index>
 </datastore-indexes>
