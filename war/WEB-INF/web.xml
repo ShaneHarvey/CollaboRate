@@ -96,4 +96,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>QuestionServlet</servlet-name>
         <url-pattern>/question</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DemoDataServlet</servlet-name>
+        <servlet-class>servlets.DemoDataServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DemoDataServlet</servlet-name>
+        <url-pattern>/DemoDataServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
