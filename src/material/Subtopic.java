@@ -22,8 +22,8 @@ public class Subtopic implements Serializable {
 	private Entity subtopicEntity;
 	private Subject sub;
 	private static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
-	private static final String ENT_SUBTOPIC_DESCRIPTION ="subtopicDescription";
-	private static final String ENT_SUBTOPIC ="subtopic";
+	private static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
+	private static final String ENT_SUBTOPIC = "subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
 	
 	private Subtopic(Entity sEntity){
