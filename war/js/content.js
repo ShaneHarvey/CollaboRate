@@ -101,8 +101,8 @@ $(function(){
 			return;
 		}
 		//Replace watch?v= with embed/ so that the video can be embed-ed
-		videoUrl = $('#videoDescription').val()
-		videoUrl.replace('watch?v=', 'embed/');
+		var videoUrl = $('#videoURL').val()
+		videoUrl = videoUrl.replace('watch?v=', 'embed/');
 		// Show spinner
 		$('#videoLoading').show();
 		// Try to change account info
