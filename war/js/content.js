@@ -108,7 +108,7 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'description=' + encodeURIComponent($('#videoDescription').val()) + '&url=' + encodeURIComponent($('#videoURL').val()) + '&action=addvideo',
+            data: 'description=' + encodeURIComponent($('#videoDescription').val()) + '&url=' + encodeURIComponent(videoUrl) + '&action=addvideo',
             url: '/addcontent',
             success: function(data) {
             	$('#videoLoading').hide();
