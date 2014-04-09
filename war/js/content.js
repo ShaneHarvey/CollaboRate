@@ -100,7 +100,9 @@ $(function(){
 			$('#videoDescription').effect('shake');
 			return;
 		}
-		
+		//Replace watch?v= with embed/ so that the video can be embed-ed
+		videoUrl = $('#videoDescription').val()
+		videoUrl.replace('watch?v=', 'embed/');
 		// Show spinner
 		$('#videoLoading').show();
 		// Try to change account info
