@@ -60,9 +60,9 @@ public class AddContentServlet extends HttpServlet {
 				if ("createquestion".equals(action)) {
 					// Create a question
 					String questionDescription = URLDecoder.decode(
-							request.getParameter("description"), "UTC-8");
+							request.getParameter("description"), "UTF-8");
 					String answersString = URLDecoder.decode(
-							request.getParameter("answersList"), "UTC-8");
+							request.getParameter("answersList"), "UTF-8");
 					String[] answersList = new Gson().fromJson(answersString,
 							String[].class);
 					// we are going to store the answers as json
@@ -77,9 +77,9 @@ public class AddContentServlet extends HttpServlet {
 				} else if ("addvideo".equals(action)) {
 					// Add a video
 					String videoDescription = URLDecoder.decode(
-							request.getParameter("description"), "UTC-8");
+							request.getParameter("description"), "UTF-8");
 					String videoURL = URLDecoder.decode(
-							request.getParameter("url"), "UTC-8");
+							request.getParameter("url"), "UTF-8");
 
 					Video.createVideo(videoDescription, videoDescription,
 							videoURL, subtopic.getKey(), acc.getKey());
@@ -88,9 +88,9 @@ public class AddContentServlet extends HttpServlet {
 				} else if ("addnotes".equals(action)) {
 					// Add notes
 					String notesDescription = URLDecoder.decode(
-							request.getParameter("description"), "UTC-8");
+							request.getParameter("description"), "UTF-8");
 					String notesURL = URLDecoder.decode(
-							request.getParameter("url"), "UTC-8");
+							request.getParameter("url"), "UTF-8");
 
 					Notes.createNotes(notesDescription, notesDescription,
 							notesURL, subtopic.getKey(), acc.getKey());
