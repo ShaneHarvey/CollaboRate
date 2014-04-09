@@ -26,7 +26,7 @@ public class AddContentServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		Subtopic subtopic = (Subtopic) request.getAttribute(
+		Subtopic subtopic = (Subtopic) request.getSession().getAttribute(
 				Keys.SUBTOPIC);
 		if (acc == null)
 			response.sendRedirect("/home");
