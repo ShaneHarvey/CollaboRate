@@ -1,9 +1,17 @@
 package material;
 
+import account.Account;
+
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 import database.DBObject;
 
@@ -118,6 +126,51 @@ public abstract class Material extends DBObject {
 
 	public Key getSubtopicKey() {
 		return (Key) entity.getProperty(MATERIAL_SUBTOPIC);
+	}
+
+	public double getRating(){
+		return MaterialMetadata.getRating(entity.getKey());
+	}
+		
+	public int getUserRating(Key uID){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userIDFilter =
+				new FilterPredicate(UserMaterialMetadata.USERID,
+				   FilterOperator.EQUAL,
+				   uID);
+		Query q = new Query(UserMaterialMetadata.USER_METADATA).setFilter(userIDFilter);
+		try{
+			PreparedQuery pq = datastore.prepare(q);
+			Entity ent= pq.asSingleEntity();
+			if(ent != null){
+				return (int)ent.getProperty(UserMaterialMetadata.MATERIAL_RATING);
+			}else {
+				return -1;
+			}
+		} catch(PreparedQuery.TooManyResultsException e){
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	public boolean getUserFlagged(Key uID){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userIDFilter =
+				new FilterPredicate(UserMaterialMetadata.USERID,
+				   FilterOperator.EQUAL,
+				   uID);
+		Query q = new Query(UserMaterialMetadata.USER_METADATA).setFilter(userIDFilter);
+		try{
+			PreparedQuery pq = datastore.prepare(q);
+			Entity ent= pq.asSingleEntity();
+			if(ent != null){
+				return (boolean)ent.getProperty(UserMaterialMetadata.MATERIAL_FLAGGED);
+			}else {
+				return false;
+			}
+		} catch(PreparedQuery.TooManyResultsException e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public Subtopic getSubtopic() {

@@ -1,21 +1,19 @@
 package servlets;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import material.Notes;
 import material.Question;
 import material.Subject;
 import material.Subtopic;
 import material.Video;
-
-import com.google.gson.*;
-
 import constants.Keys;
 import account.Account;
 
@@ -55,12 +53,10 @@ public class AddContentServlet extends HttpServlet {
 			} else if(stid != null && (subtopic = Subtopic.getFromKeyString(stid)) != null) {
 				if ("createquestion".equals(action)) {
 					// Create a question
-					String questionDescription = URLDecoder.decode(
-							request.getParameter("description"), "UTF-8");
-					String answersString = URLDecoder.decode(
-							request.getParameter("answersList"), "UTF-8");
-					String[] answersList = new Gson().fromJson(answersString,
-							String[].class);
+					String questionDescription = request.getParameter("description");
+
+					String answersString = request.getParameter("answersList");
+					String[] answersList = new Gson().fromJson(answersString,String[].class);
 					// we are going to store the answers as json
 					// we need to discuss
 					int answerIndex = Integer.parseInt(request
@@ -72,10 +68,8 @@ public class AddContentServlet extends HttpServlet {
 					response.getWriter().print("success");
 				} else if ("addvideo".equals(action)) {
 					// Add a video
-					String videoDescription = URLDecoder.decode(
-							request.getParameter("description"), "UTF-8");
-					String videoURL = URLDecoder.decode(
-							request.getParameter("url"), "UTF-8");
+					String videoDescription = request.getParameter("description");
+					String videoURL = request.getParameter("url");
 
 					Video.createVideo(videoDescription, videoDescription,
 							videoURL, subtopic.getKey(), acc.getKey());
@@ -83,10 +77,8 @@ public class AddContentServlet extends HttpServlet {
 					response.getWriter().print("success");
 				} else if ("addnotes".equals(action)) {
 					// Add notes
-					String notesDescription = URLDecoder.decode(
-							request.getParameter("description"), "UTF-8");
-					String notesURL = URLDecoder.decode(
-							request.getParameter("url"), "UTF-8");
+					String notesDescription = request.getParameter("description");
+					String notesURL = request.getParameter("url");
 
 					Notes.createNotes(notesDescription, notesDescription,
 							notesURL, subtopic.getKey(), acc.getKey());
