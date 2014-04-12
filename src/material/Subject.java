@@ -13,11 +13,13 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import database.DBObject;
 
-public class Subject implements Serializable{
+
+public class Subject extends DBObject implements Serializable{
 
 	private static final long serialVersionUID = 5487744678389202343L;
-	private Entity subjectEntity;
+	//private Entity subjectEntity;
 	private static final String ENT_SUBJECT_TITLE = "subjectTitle";
 	private static final String ENT_SUBJECT_DESCRIPTION ="subjectDescription";
 	private static final String ENT_SUBJECT ="subject";
@@ -26,8 +28,8 @@ public class Subject implements Serializable{
 	 * Constructor for the Subject class. Sets the subjectEntity to the passed entity
 	 * @param sEntity
 	 */
-	private Subject(Entity sEntity){
-		subjectEntity = sEntity;
+	private Subject(Entity ent){
+		super(ent);
 	}
 	/**
 	 * Gets a subtopic from a given key
@@ -62,35 +64,23 @@ public class Subject implements Serializable{
 		Subject s = new Subject(subjectE);
 		s.setTitle(sTitle);
 		s.setDescription(sDescription);
-		s.saveSubject();
+		s.save();
 		for(String st: subtopics) {
 			Subtopic.createSubtopic(st, s.getKey(), st);
 		}
 		return s;
 	}
 	private void setTitle(String subjectTitle){
-		subjectEntity.setProperty(ENT_SUBJECT_TITLE, subjectTitle);
+		entity.setProperty(ENT_SUBJECT_TITLE, subjectTitle);
 	}
 	private void setDescription(String subjectDescription){
-		subjectEntity.setProperty(ENT_SUBJECT_DESCRIPTION, subjectDescription);
+		entity.setProperty(ENT_SUBJECT_DESCRIPTION, subjectDescription);
 	}
 	public String getTitle(){
-		return (String)subjectEntity.getProperty(ENT_SUBJECT_TITLE);
+		return (String)entity.getProperty(ENT_SUBJECT_TITLE);
 	}
 	public String getDescription(){
-		return (String)subjectEntity.getProperty(ENT_SUBJECT_DESCRIPTION);
-	}
-	public Key getKey(){
-		return subjectEntity.getKey();
-	}
-	public String getKeyString(){
-		return KeyFactory.keyToString(getKey());
-	}
-	public void saveSubject(){
-		DatastoreServiceFactory.getDatastoreService().put(subjectEntity);
-	}
-	public void deleteSubject(){
-		DatastoreServiceFactory.getDatastoreService().delete(subjectEntity.getKey());
+		return (String)entity.getProperty(ENT_SUBJECT_DESCRIPTION);
 	}
 	public static ArrayList<Subject> getSubjects(){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -109,7 +99,7 @@ public class Subject implements Serializable{
 	 */
 	public ArrayList<Subtopic> getSubtopics(){
 		if(subtopicsList == null)
-			subtopicsList = Subtopic.getSubtopics(subjectEntity.getKey());
+			subtopicsList = Subtopic.getSubtopics(entity.getKey());
 		return subtopicsList;
 	}
 	public static void insertDemoSubjects(String sTitle, String sDescription){
@@ -117,6 +107,6 @@ public class Subject implements Serializable{
 		Subject s = new Subject(subjectE);
 		s.setTitle(sTitle);
 		s.setDescription(sDescription);
-		s.saveSubject();
+		s.save();
 	}
 }

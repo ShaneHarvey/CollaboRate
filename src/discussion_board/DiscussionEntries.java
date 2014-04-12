@@ -6,13 +6,14 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
-public abstract class DiscussionEntries {
-	protected Entity entity;
+import database.DBObject;
+
+public abstract class DiscussionEntries extends DBObject {
 	public static final String ENTRY_DATE = "Date Created";
 	public static final String ENTRY_AUTHOR = "Author";
 	public static final String ENTRY_BODY = "Body";
-	public DiscussionEntries(Entity e){
-		this.entity=e;
+	public DiscussionEntries(Entity ent){
+		super(ent);
 	}
 	protected void setAuthor(Key authorID){
 		entity.setProperty(ENTRY_AUTHOR, authorID);
@@ -35,13 +36,6 @@ public abstract class DiscussionEntries {
 	}
 	public String getEntryBody(){
 		return (String)entity.getProperty(ENTRY_BODY);
-	}
-	public void save() {
-		DatastoreServiceFactory.getDatastoreService().put(entity);
-	}
-
-	public void delete() {
-		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
 	}
 
 }

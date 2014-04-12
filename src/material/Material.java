@@ -5,14 +5,15 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
+import database.DBObject;
+
 /**
  * Super class of Question, Video, and Lecture
  * 
  * @author Phil
  * 
  */
-public abstract class Material {
-	protected Entity entity;
+public abstract class Material extends DBObject {
 	private Subtopic subtopic;
 	public static final String MATERIAL_RATING = "Rating";
 	public static final String MATERIAL_RATING_COUNT = "Rating_Count";
@@ -25,7 +26,7 @@ public abstract class Material {
 	public static final String MATERIAL_DESCRIPTION = "description";
 
 	protected Material(Entity e) {
-		this.entity = e;
+		super(e);
 		entity.setProperty(MATERIAL_RATING, 0);
 		/*
 		 * entity.setProperty(MATERIAL_RATING_COUNT, 0);
@@ -115,21 +116,8 @@ public abstract class Material {
 		return title.length() > 20 ? title.substring(0, 20) : title;
 	}
 
-	public String getKeyAsString() {
-		return KeyFactory.keyToString(entity.getKey());
-	}
-
 	public Key getSubtopicKey() {
 		return (Key) entity.getProperty(MATERIAL_SUBTOPIC);
-	}
-
-
-	public void save() {
-		DatastoreServiceFactory.getDatastoreService().put(entity);
-	}
-
-	public void delete() {
-		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
 	}
 
 	public Subtopic getSubtopic() {
@@ -137,31 +125,5 @@ public abstract class Material {
 			subtopic = Subtopic.getSubtopic((Key) entity.getProperty(MATERIAL_SUBTOPIC));
 		return subtopic;
 	}
-
-	/*
-	 * /** I dont think this query will work Get a list of the given material in
-	 * DESCENDING order, on the given propert
-	 * 
-	 * @param tableName String - the name of the table that stores the material
-	 * in the datastore
-	 * 
-	 * @param property String - the name of the property to sort on
-	 * 
-	 * @return ArrayList<String> - a list of JSON Strings that have the key and
-	 * title of the entity.
-	 */
-	/*
-	 * public static ArrayList<String> getSortedMaterial(String tableName,
-	 * String property){ DatastoreService datastore =
-	 * DatastoreServiceFactory.getDatastoreService(); Query photoQuery = new
-	 * Query(tableName).addSort(property, SortDirection.DESCENDING);
-	 * PreparedQuery pq = datastore.prepare(photoQuery); ArrayList<String> list
-	 * = new ArrayList(); for (Entity result : pq.asIterable()) { String key =
-	 * KeyFactory.keyToString(result.getKey()); String title =
-	 * (String)result.getProperty(MATERIAL_TITLE); String jsonString =
-	 * "{\"key\":\""+key +"\", \"title\":\""+title+"\"}"; list.add(jsonString);
-	 * }
-	 * 
-	 * return list; }
-	 */
+	
 }

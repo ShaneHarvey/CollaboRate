@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <title>Educator</title>
 <jsp:include page="/includes/css.jsp"></jsp:include>
-<link rel="stylesheet" href="/css/custom-jquery-ui.css">
 </head>
 <body>
 
@@ -89,6 +88,5 @@
 
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
-<script src="/js/jquery-ui-1.10.4.min.js"></script>
 <script src="/js/admin.js"></script>
 </html>

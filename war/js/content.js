@@ -60,7 +60,7 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'description=' + encodeURIComponent($('#questionDescription').val()) + '&answersList=' + encodeURIComponent(answersString) + '&answerIndex=' + answerIndex + '&action=createquestion',
+            data: 'description=' + encodeURIComponent($('#questionDescription').val()) + '&answersList=' + encodeURIComponent(answersString) + '&answerIndex=' + answerIndex + '&stid=' + $(this).attr('stid') + '&action=createquestion',
             url: '/addcontent',
             success: function(data) {
             	$('#questionLoading').hide();
@@ -108,7 +108,7 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'description=' + encodeURIComponent($('#videoDescription').val()) + '&url=' + encodeURIComponent(videoUrl) + '&action=addvideo',
+            data: 'description=' + encodeURIComponent($('#videoDescription').val()) + '&url=' + encodeURIComponent(videoUrl) + '&stid=' + $(this).attr('stid') + '&action=addvideo',
             url: '/addcontent',
             success: function(data) {
             	$('#videoLoading').hide();
@@ -150,7 +150,7 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'description=' + encodeURIComponent($('#notesDescription').val()) + '&url=' + encodeURIComponent($('#notesURL').val()) + '&action=addnotes',
+            data: 'description=' + encodeURIComponent($('#notesDescription').val()) + '&url=' + encodeURIComponent($('#notesURL').val()) + '&stid=' + $(this).attr('stid') + '&action=addnotes',
             url: '/addcontent',
             success: function(data) {
             	$('#notesLoading').hide();

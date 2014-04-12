@@ -21,20 +21,37 @@ public class QuestionServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException, ServletException {
 
 		String qID = request.getParameter(Keys.QUESTION_KEY);
-		if (qID == null) {
-			// If no subjectId, redirect to home
-			response.sendRedirect("/home");
-		} else {
-			// Get subtopic and place is request
-			Question ques = Question.getFromKeyString(qID);
-			request.setAttribute(Keys.QUESTION, ques);
-			Subtopic st = ques.getSubtopic();
-			request.setAttribute(Keys.SUBTOPIC, st);
-			Subject sub = st.getSubject();
-			request.setAttribute(Keys.SUBJECT, sub);
+		String action = request.getParameter("action");
+		if (action == null) {
+			if (qID == null) {
+				// If no subjectId, redirect to home
+				response.sendRedirect("/home");
+			} else {
+				// Get subtopic and place is request
+				Question ques = Question.getFromKeyString(qID);
+				request.setAttribute(Keys.QUESTION, ques);
+				Subtopic st = ques.getSubtopic();
+				request.setAttribute(Keys.SUBTOPIC, st);
+				Subject sub = st.getSubject();
+				request.setAttribute(Keys.SUBJECT, sub);
 
-			getServletContext().getRequestDispatcher("/question.jsp").forward(
-					request, response);
+				getServletContext().getRequestDispatcher("/question.jsp")
+						.forward(request, response);
+			}
+		} else {
+			if ("answerquestion".equals(action)) {
+				// Two cases, can answer the question and save response
+				// or just give the person feedback (not logged in)
+				int answer = Integer.parseInt(request.getParameter("answer"));
+				response.getWriter().print("success");
+			} else if ("ratequestion".equals(action)) {
+				// Rate question
+				int rating = Integer.parseInt(request.getParameter("rating"));
+				response.getWriter().print("success");
+			} else if ("flagquestion".equals(action)) {
+				// Flag question
+				response.getWriter().print("success");
+			}
 		}
 	}
 

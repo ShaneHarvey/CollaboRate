@@ -3,8 +3,6 @@ package material;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.crypto.KeyGenerator;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -18,16 +16,18 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-public class Subtopic implements Serializable {
-	private Entity subtopicEntity;
+import database.DBObject;
+
+public class Subtopic extends DBObject implements Serializable {
+	private static final long serialVersionUID = -8250505173208208901L;
 	private Subject sub;
 	private static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
 	private static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
 	private static final String ENT_SUBTOPIC = "subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
 
-	private Subtopic(Entity sEntity) {
-		subtopicEntity = sEntity;
+	private Subtopic(Entity ent) {
+		super(ent);
 	}
 
 	public static Subtopic getSubtopic(Key key) {
@@ -51,46 +51,28 @@ public class Subtopic implements Serializable {
 		s.setTitle(sTitle);
 		s.setSubjectKey(subjectKey);
 		s.setDescription(sDescription);
-		s.saveSubtopic();
+		s.save();
 		return s;
 	}
 
 	private void setTitle(String subjectTitle) {
-		subtopicEntity.setProperty(ENT_SUBTOPIC_TITLE, subjectTitle);
+		entity.setProperty(ENT_SUBTOPIC_TITLE, subjectTitle);
 	}
 
 	private void setDescription(String subjectDescription) {
-		subtopicEntity
-				.setProperty(ENT_SUBTOPIC_DESCRIPTION, subjectDescription);
+		entity.setProperty(ENT_SUBTOPIC_DESCRIPTION, subjectDescription);
 	}
 
 	private void setSubjectKey(Key k) {
-		subtopicEntity.setProperty(ENT_SUBTOPIC_SUBJECT, k);
+		entity.setProperty(ENT_SUBTOPIC_SUBJECT, k);
 	}
 
 	public String getTitle() {
-		return (String) subtopicEntity.getProperty(ENT_SUBTOPIC_TITLE);
+		return (String) entity.getProperty(ENT_SUBTOPIC_TITLE);
 	}
 
 	public String getDescription() {
-		return (String) subtopicEntity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
-	}
-
-	public Key getKey() {
-		return subtopicEntity.getKey();
-	}
-
-	public String getKeyAsString() {
-		return KeyFactory.keyToString(getKey());
-	}
-
-	public void saveSubtopic() {
-		DatastoreServiceFactory.getDatastoreService().put(subtopicEntity);
-	}
-
-	public void deleteSubtopic() {
-		DatastoreServiceFactory.getDatastoreService().delete(
-				subtopicEntity.getKey());
+		return (String) entity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
 	}
 
 	public static ArrayList<Subtopic> getSubtopics(Key sKey) {
@@ -112,19 +94,20 @@ public class Subtopic implements Serializable {
 
 	public Subject getSubject() {
 		if (sub == null)
-			sub = Subject.getSubject((Key) subtopicEntity
+			sub = Subject.getSubject((Key) entity
 					.getProperty(ENT_SUBTOPIC_SUBJECT));
 		return sub;
 	}
 
 	public ArrayList<Question> getTopQuestions() {
-		return Question.getTopRatedQuestions(5, subtopicEntity.getKey());
+		return Question.getTopRatedQuestions(5, entity.getKey());
 	}
 
 	public ArrayList<Video> getTopVideos() {
-		return Video.getTopRatedVideos(5,subtopicEntity.getKey());
+		return Video.getTopRatedVideos(5, entity.getKey());
 	}
+
 	public ArrayList<Notes> getTopNotes() {
-		return Notes.getTopRatedNotes(5, subtopicEntity.getKey());
+		return Notes.getTopRatedNotes(5, entity.getKey());
 	}
 }

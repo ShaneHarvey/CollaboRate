@@ -12,7 +12,7 @@
 
 	<div class="body">
 		<div class="body-center-div">
-			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="/subject?sid=${subject.keyString}">${subject.title}</a> / ${subtopic.title}</div>
+			<div class="bread-crumbs"><a href="/home">Home</a> / <a href="/subject?sid=${subject.keyAsString}">${subject.title}</a> / ${subtopic.title}</div>
 			<h1 class="tc">Chemical Bonding</h1>
 			<div class="row">
 				<div class="col-lg-6 content-holder shift-left-5">

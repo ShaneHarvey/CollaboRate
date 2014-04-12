@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import database.DBObject;
 import material.Material;
 
 public class Notes extends Material implements Serializable {
