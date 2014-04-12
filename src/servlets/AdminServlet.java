@@ -31,11 +31,9 @@ public class AdminServlet extends HttpServlet {
 			response.getWriter().print("");
 		else {
 			if ("createsubject".equals(action)) {
-				String subject = URLDecoder.decode(
-						request.getParameter("subjectName"), "UTF-8");
+				String subject = request.getParameter("subjectName");
 				// This is a json array of strings
-				String subTopicList = URLDecoder.decode(
-						request.getParameter("subTopicList"), "UTF-8");
+				String subTopicList = request.getParameter("subTopicList");
 				String[] subtopics = new Gson().fromJson(subTopicList,
 						String[].class);
 

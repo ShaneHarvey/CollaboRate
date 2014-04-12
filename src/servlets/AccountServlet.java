@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,7 @@ public class AccountServlet extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
-		String action = (String)request.getParameter("action");
+		String action = request.getParameter("action");
 		
 		if(action == null){
 			// If user isn't logged in, redirect to home
@@ -30,9 +28,9 @@ public class AccountServlet extends HttpServlet {
 		}
 		else if(action.equals("updateaccount")){
 			// Update user's account
-			String displayName = URLDecoder.decode((String)request.getParameter("displayName"), "UTF-8");
-			String currentPassword = URLDecoder.decode((String)request.getParameter("currentPassword"), "UTF-8");
-			String newPassword = URLDecoder.decode((String)request.getParameter("newPassword"), "UTF-8");
+			String displayName = request.getParameter("displayName");
+			String currentPassword = request.getParameter("currentPassword");
+			String newPassword = request.getParameter("newPassword");
 			// Attempt to retrieve account from session
 			Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
 			// Make sure user entered correct password
