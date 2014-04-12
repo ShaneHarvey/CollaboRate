@@ -17,6 +17,7 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 import database.DBObject;
+import discussion_board.Post;
 
 public class Subtopic extends DBObject implements Serializable {
 	private static final long serialVersionUID = -8250505173208208901L;
@@ -25,6 +26,7 @@ public class Subtopic extends DBObject implements Serializable {
 	private static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
 	private static final String ENT_SUBTOPIC = "subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
+	private ArrayList<Post> posts;
 
 	private Subtopic(Entity ent) {
 		super(ent);
@@ -109,5 +111,11 @@ public class Subtopic extends DBObject implements Serializable {
 
 	public ArrayList<Notes> getTopNotes() {
 		return Notes.getTopRatedNotes(5, entity.getKey());
+	}
+	
+	public ArrayList<Post> getPosts(){
+		if(posts == null)
+			posts = Post.getPostsForSubtopic(getKey());
+		return posts;
 	}
 }

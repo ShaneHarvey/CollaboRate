@@ -20,7 +20,7 @@
 					<c:if test="${account != null}">
 						<li><a href="/addcontent">Contribute</a></li>
 					</c:if>
-					<li><a href="/discussion-board.jsp">Discuss</a></li>
+					<li><a href="/discuss">Discuss</a></li>
 				</ul>
 				<!-- Right side of nav bar -->
 				<ul class="nav navbar-nav navbar-right">

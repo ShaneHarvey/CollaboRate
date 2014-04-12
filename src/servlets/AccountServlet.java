@@ -42,10 +42,11 @@ public class AccountServlet extends HttpServlet {
 				acc.setDisplayName(displayName);
 			if(newPassword != null && !"".equals(newPassword))
 				acc.changePassword(currentPassword, newPassword);
-			if(acc.updateDB())
+			acc.save();
+			/*if(acc.updateDB())
 				response.getWriter().print("success");
 			else
-				response.getWriter().print("");
+				response.getWriter().print("");*/
 		}
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException

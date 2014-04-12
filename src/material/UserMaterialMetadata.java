@@ -15,10 +15,10 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
+import database.DBObject;
 import discussion_board.Comment;
 
-public class UserMaterialMetadata {
-	private Entity entity;
+public class UserMaterialMetadata extends DBObject {
 	public static final String USERID ="userID";
 	public static final String MATERIALID = "materialID";
 	public static final String MATERIAL_RATING = "materialRating";
@@ -26,7 +26,7 @@ public class UserMaterialMetadata {
 	public static final String MATERIAL_VIEWED = "materialViewed";
 	public static final String USER_METADATA = "user_material_metadata";//table name
 	public UserMaterialMetadata(Entity e){
-		this.entity = e;
+		super(e);
 	}
 	private void setUserID(Key uID){
 		entity.setProperty(USERID, uID);
@@ -51,12 +51,6 @@ public class UserMaterialMetadata {
 	}
 	public int getRating(){
 		return (int)entity.getProperty(MATERIAL_RATING);
-	}
-	public void save() {
-		DatastoreServiceFactory.getDatastoreService().put(entity);
-	}
-	public void delete() {
-		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
 	}
 	public UserMaterialMetadata createUserMaterialMetadata(Key uID, Key mID){
 		this.setMaterialID(mID);

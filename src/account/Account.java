@@ -11,15 +11,18 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
 
+import database.DBObject;
+
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import material.Subject;
 import hashing.PasswordHash;
 
-public class Account implements Serializable {
+public class Account extends DBObject implements Serializable {
 	private static final long serialVersionUID = 6746812229424845845L;
 	private static final String passwordRegEx = "^(.{0,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|"
@@ -52,77 +55,73 @@ public class Account implements Serializable {
 	private static final String ENT_ACTOR_TYPE = "actorType";
 	private static final String ENT_ACCOUNT = "account";
 	
-	// Instance variables
-	private Entity account;
-	
 	/**
 	 * Constructor for the Account object which constructs an account object that is stored in the session
 	 * @param account is the DataStore entity which has all the account properties
 	 */
 	private Account(Entity account){
-		this.account = account;
+		super(account);
 	}
 	
 	/**
 	 * @return email of this account
 	 */
 	public String getEmail(){
-		return (String)account.getProperty(ENT_ACCOUNT_EMAIL);
+		return (String)entity.getProperty(ENT_ACCOUNT_EMAIL);
 	}
 	
 	/**
 	 * @return hashed password of this account
 	 */
 	private String getHash(){
-		return (String)account.getProperty(ENT_HASH);
+		return (String)entity.getProperty(ENT_HASH);
 	}
 	
 	/**
 	 * @return display name of this account (can be null)
 	 */
 	public String getDisplayName(){
-		return (String)account.getProperty(ENT_DISPLAY_NAME);
+		return (String)entity.getProperty(ENT_DISPLAY_NAME);
+	}
+	
+	public String getDisplayNameOrEmail() {
+		String display = getDisplayName();
+		return display == null ? display : getEmail();
 	}
 	
 	/**
 	 * @return actorType of this account
 	 */
 	public ActorType getType(){
-		return ActorType.fromValue((long)account.getProperty(ENT_ACTOR_TYPE));
+		return ActorType.fromValue((long)entity.getProperty(ENT_ACTOR_TYPE));
 	}
 	
-	/**
-	 * @return key for this account
-	 */
-	public Key getKey(){
-		return account.getKey();
-	}
 	/**
 	 * @param newEmail must be a valid email address that is not in use already.
 	 */
 	private void setEmail(String newEmail){
-		account.setProperty(ENT_DISPLAY_NAME, newEmail);
+		entity.setProperty(ENT_DISPLAY_NAME, newEmail);
 	}
 	
 	/**
 	 * @param newHash must be a valid hash, i.e. the return of PasswordHash.createHash()
 	 */
 	private void setHash(String newHash){
-		account.setProperty(ENT_HASH, newHash);
+		entity.setProperty(ENT_HASH, newHash);
 	}
 	
 	/**
 	 * @param name The new display name of this Account
 	 */
 	public void setDisplayName(String name) {
-		account.setProperty(ENT_DISPLAY_NAME, name);
+		entity.setProperty(ENT_DISPLAY_NAME, name);
 	}
 	
 	/**
 	 * @param actorType must be a valid ActorType
 	 */
 	public void setType(ActorType actorType){
-		account.setProperty(ENT_ACTOR_TYPE,actorType);
+		entity.setProperty(ENT_ACTOR_TYPE,actorType);
 	}
 	
 	/**
@@ -156,20 +155,6 @@ public class Account implements Serializable {
 			}
 			return false;
 		} catch(Exception e){
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-	/**
-	 * Update this Account
-	 */
-	public boolean updateDB(){
-		try{
-			DatastoreServiceFactory.getDatastoreService().put(account);
-			return true;
-		}
-		catch (Exception e){
 			e.printStackTrace();
 			return false;
 		}
@@ -291,6 +276,15 @@ public class Account implements Serializable {
 			}
 		} catch(PreparedQuery.TooManyResultsException e){
 			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static Account getAccount(Key key){
+		try {
+			Entity ent = DatastoreServiceFactory.getDatastoreService().get(key);
+			return new Account(ent);
+		} catch (EntityNotFoundException e) {
 			return null;
 		}
 	}

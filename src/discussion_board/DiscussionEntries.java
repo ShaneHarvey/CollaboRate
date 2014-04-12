@@ -2,6 +2,8 @@ package discussion_board;
 
 import java.util.Date;
 
+import account.Account;
+
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -12,6 +14,7 @@ public abstract class DiscussionEntries extends DBObject {
 	public static final String ENTRY_DATE = "Date Created";
 	public static final String ENTRY_AUTHOR = "Author";
 	public static final String ENTRY_BODY = "Body";
+	private Account author;
 	public DiscussionEntries(Entity ent){
 		super(ent);
 	}
@@ -28,8 +31,10 @@ public abstract class DiscussionEntries extends DBObject {
 		Date currentDate = new Date();
 		entity.setProperty(ENTRY_DATE, currentDate);
 	}
-	public Key getAuthor(){
-		return (Key)entity.getProperty(ENTRY_AUTHOR);
+	public Account getAuthor(){
+		if(author == null)
+			author = Account.getAccount((Key)entity.getProperty(ENTRY_AUTHOR));
+		return author;
 	}
 	public Date getDate(){
 		return (Date)entity.getProperty(ENTRY_DATE);
