@@ -24,16 +24,14 @@ public class AddContentServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		Subtopic subtopic = (Subtopic) request.getSession().getAttribute(
-				Keys.SUBTOPIC);
+		String stid =  request.getParameter(Keys.SUBJECT_TOPIC_KEY);
+		Subtopic subtopic;
 		if (acc == null)
 			response.sendRedirect("/home");
 		else {
 			String action = request.getParameter("action");
 
 			if (action == null) {
-				// Bug fix for front end related to how page is being rendered
-				request.getSession().removeAttribute(Keys.SUBTOPIC);
 				String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
 				if (subjectKey == null) {
 					request.setAttribute(Keys.SUBJECT_LIST,
@@ -48,13 +46,11 @@ public class AddContentServlet extends HttpServlet {
 						// Place the subtopic in the session
 						Subtopic st = Subtopic.getFromKeyString(subtopicKey);
 						request.setAttribute(Keys.SUBTOPIC, st);
-						// Save the subtopic in the session
-						request.getSession().setAttribute(Keys.SUBTOPIC, st);
 					}
 				}
 				getServletContext().getRequestDispatcher("/add-content.jsp")
 						.forward(request, response);
-			} else if(subtopic != null) {
+			} else if(stid != null && (subtopic = Subtopic.getFromKeyString(stid)) != null) {
 				if ("createquestion".equals(action)) {
 					// Create a question
 					String questionDescription = request.getParameter("description");
