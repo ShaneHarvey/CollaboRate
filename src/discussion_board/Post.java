@@ -53,7 +53,6 @@ public class Post extends DiscussionEntries{
 		p.save();
 		return p;
 	}
-
 	public ArrayList<Comment> getComments(){
 		postComments=Comment.getCommentsForPost(entity.getKey());
 		return postComments;
@@ -67,7 +66,6 @@ public class Post extends DiscussionEntries{
 		Query photoQuery = new Query(ENT_POST).addSort(DiscussionEntries.ENTRY_DATE,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		//ArrayList<Comment> topRatedQuestions = new ArrayList<Comment>();
 		for (Entity result : pq.asIterable()) {
 			posts.add(new Post(result));
 		}
