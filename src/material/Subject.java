@@ -65,8 +65,10 @@ public class Subject extends DBObject implements Serializable{
 		s.setTitle(sTitle);
 		s.setDescription(sDescription);
 		s.save();
+		long order = 0;
 		for(String st: subtopics) {
-			Subtopic.createSubtopic(st, s.getKey(), st);
+			Subtopic.createSubtopic(st, s.getKey(), st, order);
+			order += 100;
 		}
 		return s;
 	}

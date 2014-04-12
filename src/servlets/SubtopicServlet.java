@@ -26,12 +26,16 @@ public class SubtopicServlet extends HttpServlet {
 		}
 		else {
 			// Get subtopic and place is request
-			Subtopic st = Subtopic.getFromKeyString(stID);
-			request.setAttribute(Keys.SUBTOPIC, st);
-			Subject sub = st.getSubject();
-			request.setAttribute(Keys.SUBJECT, sub);
-			
-			getServletContext().getRequestDispatcher("/subtopic.jsp").forward(request, response);
+			try {
+				Subtopic st = Subtopic.getFromKeyString(stID);
+				request.setAttribute(Keys.SUBTOPIC, st);
+				Subject sub = st.getSubject();
+				request.setAttribute(Keys.SUBJECT, sub);
+				
+				getServletContext().getRequestDispatcher("/subtopic.jsp").forward(request, response);
+			} catch(IllegalArgumentException e){
+				response.sendRedirect("/home");
+			}
 		}
 	}
 

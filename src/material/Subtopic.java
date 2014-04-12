@@ -27,6 +27,7 @@ public class Subtopic extends DBObject implements Serializable {
 	private static final String ENT_SUBTOPIC = "subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
 	private ArrayList<Post> posts;
+	private static final String ENT_SUBTOPIC_ORDER = "order";
 
 	private Subtopic(Entity ent) {
 		super(ent);
@@ -47,12 +48,13 @@ public class Subtopic extends DBObject implements Serializable {
 	}
 
 	public static Subtopic createSubtopic(String sTitle, Key subjectKey,
-			String sDescription) {
+			String sDescription, long order) {
 		Entity subtopicE = new Entity(ENT_SUBTOPIC);
 		Subtopic s = new Subtopic(subtopicE);
 		s.setTitle(sTitle);
 		s.setSubjectKey(subjectKey);
 		s.setDescription(sDescription);
+		s.setOrder(order);	
 		s.save();
 		return s;
 	}
@@ -68,13 +70,21 @@ public class Subtopic extends DBObject implements Serializable {
 	private void setSubjectKey(Key k) {
 		entity.setProperty(ENT_SUBTOPIC_SUBJECT, k);
 	}
-
+	
+	public void setOrder(long order) {
+		entity.setProperty(ENT_SUBTOPIC_ORDER, order);
+	}
+	
 	public String getTitle() {
 		return (String) entity.getProperty(ENT_SUBTOPIC_TITLE);
 	}
 
 	public String getDescription() {
 		return (String) entity.getProperty(ENT_SUBTOPIC_DESCRIPTION);
+	}
+	
+	public long getOrder() {
+		return (long)entity.getProperty(ENT_SUBTOPIC_ORDER);
 	}
 
 	public static ArrayList<Subtopic> getSubtopics(Key sKey) {
@@ -83,7 +93,7 @@ public class Subtopic extends DBObject implements Serializable {
 		Filter subjectFilter = new FilterPredicate(ENT_SUBTOPIC_SUBJECT,
 				FilterOperator.EQUAL, sKey);
 		Query subtopicQuery = new Query(ENT_SUBTOPIC).addSort(
-				ENT_SUBTOPIC_TITLE, SortDirection.ASCENDING).setFilter(
+				ENT_SUBTOPIC_ORDER, SortDirection.ASCENDING).setFilter(
 				subjectFilter);
 		PreparedQuery pq = datastore.prepare(subtopicQuery);
 		ArrayList<Subtopic> subtopics = new ArrayList<Subtopic>();
