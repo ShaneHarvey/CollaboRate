@@ -34,7 +34,7 @@
             <br>
             Account Key:<input type="text" name="accountKey">
             <hr>
-            <p>In this text area provide the attributes for the entity selected seperated by a semicolon. ";"</p>
+            <p>In this text area provide the attributes for the entity selected separated by a semicolon. ";"</p>
             <textarea style="width:1000px;height:500px" name="text"></textarea>
    			<br>	
             <input type="submit" value="Upload Data">
