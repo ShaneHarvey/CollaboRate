@@ -58,15 +58,17 @@ public class UserMaterialMetadata {
 	public void delete() {
 		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
 	}
-	public UserMaterialMetadata createUserMaterialMetadata(Key uID, Key mID){
-		this.setMaterialID(mID);
-		this.setUserID(uID);
-		this.setFlagged(false);
-		this.setMaterialRating(-1);
-		this.save();
-		return new UserMaterialMetadata(this.entity);
+	public static UserMaterialMetadata createUserMaterialMetadata(Key uID, Key mID){
+		Entity e = new Entity(USER_METADATA);
+		UserMaterialMetadata temp = new UserMaterialMetadata(e);
+		temp.setMaterialID(mID);
+		temp.setUserID(uID);
+		temp.setFlagged(false);
+		temp.setMaterialRating(-1);
+		temp.save();
+		return temp;
 	}
-	public UserMaterialMetadata getUserMaterialMetadata(Key uID, Key mID){
+	public static UserMaterialMetadata getUserMaterialMetadata(Key uID, Key mID){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userIdFilter =
 				new FilterPredicate(USERID,
