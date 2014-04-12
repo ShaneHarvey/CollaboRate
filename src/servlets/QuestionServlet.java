@@ -25,16 +25,20 @@ public class QuestionServlet extends HttpServlet {
 			// If no subjectId, redirect to home
 			response.sendRedirect("/home");
 		} else {
-			// Get subtopic and place is request
-			Question ques = Question.getFromKeyString(qID);
-			request.setAttribute(Keys.QUESTION, ques);
-			Subtopic st = ques.getSubtopic();
-			request.setAttribute(Keys.SUBTOPIC, st);
-			Subject sub = st.getSubject();
-			request.setAttribute(Keys.SUBJECT, sub);
-
-			getServletContext().getRequestDispatcher("/question.jsp").forward(
-					request, response);
+			try {
+				// Get subtopic and place is request
+				Question ques = Question.getFromKeyString(qID);
+				request.setAttribute(Keys.QUESTION, ques);
+				Subtopic st = ques.getSubtopic();
+				request.setAttribute(Keys.SUBTOPIC, st);
+				Subject sub = st.getSubject();
+				request.setAttribute(Keys.SUBJECT, sub);
+	
+				getServletContext().getRequestDispatcher("/question.jsp").forward(
+						request, response);
+			} catch(IllegalArgumentException e){
+				response.sendRedirect("/home");
+			}
 		}
 	}
 

@@ -25,6 +25,8 @@ public class Subtopic implements Serializable {
 	private static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
 	private static final String ENT_SUBTOPIC = "subtopic";
 	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
+	private static final String ENT_SUBTOPIC_ORDER = "order";
+	public static final long SUBTOPIC_DEFAULT_ORDER = -1;
 
 	private Subtopic(Entity sEntity) {
 		subtopicEntity = sEntity;
@@ -45,13 +47,14 @@ public class Subtopic implements Serializable {
 	}
 
 	public static Subtopic createSubtopic(String sTitle, Key subjectKey,
-			String sDescription) {
+			String sDescription, long order) {
 		Entity subtopicE = new Entity(ENT_SUBTOPIC);
 		Subtopic s = new Subtopic(subtopicE);
 		s.setTitle(sTitle);
 		s.setSubjectKey(subjectKey);
 		s.setDescription(sDescription);
-		s.saveSubtopic();
+		s.setOrder(order);	
+		s.saveSubtopic();	
 		return s;
 	}
 
@@ -67,7 +70,11 @@ public class Subtopic implements Serializable {
 	private void setSubjectKey(Key k) {
 		subtopicEntity.setProperty(ENT_SUBTOPIC_SUBJECT, k);
 	}
-
+	
+	public void setOrder(long order) {
+		subtopicEntity.setProperty(ENT_SUBTOPIC_ORDER, order);
+	}
+	
 	public String getTitle() {
 		return (String) subtopicEntity.getProperty(ENT_SUBTOPIC_TITLE);
 	}
@@ -82,6 +89,10 @@ public class Subtopic implements Serializable {
 
 	public String getKeyAsString() {
 		return KeyFactory.keyToString(getKey());
+	}
+	
+	public long getOrder() {
+		return (long)subtopicEntity.getProperty(ENT_SUBTOPIC_ORDER);
 	}
 
 	public void saveSubtopic() {
@@ -99,7 +110,7 @@ public class Subtopic implements Serializable {
 		Filter subjectFilter = new FilterPredicate(ENT_SUBTOPIC_SUBJECT,
 				FilterOperator.EQUAL, sKey);
 		Query subtopicQuery = new Query(ENT_SUBTOPIC).addSort(
-				ENT_SUBTOPIC_TITLE, SortDirection.ASCENDING).setFilter(
+				ENT_SUBTOPIC_ORDER, SortDirection.ASCENDING).setFilter(
 				subjectFilter);
 		PreparedQuery pq = datastore.prepare(subtopicQuery);
 		ArrayList<Subtopic> subtopics = new ArrayList<Subtopic>();

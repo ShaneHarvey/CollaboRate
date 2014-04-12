@@ -62,7 +62,7 @@ public class DemoDataServlet extends HttpServlet{
             	for(int j = 0; j<attributes.length;j++){
             		attributes[j] = attributes[j].replaceAll(";", "");
             	}
-            	Subtopic.createSubtopic(attributes[0], subKey, attributes[1]);
+            	Subtopic.createSubtopic(attributes[0], subKey, attributes[1],i);
             	i++;
             }
         }

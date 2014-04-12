@@ -42,6 +42,7 @@ public class AdminServlet extends HttpServlet {
 					Subject.createSubject(subject, subject, subtopics);
 					response.getWriter().print("success");
 				} catch (Exception e) {
+					e.printStackTrace();
 					response.getWriter().print("");
 				}
 			}
