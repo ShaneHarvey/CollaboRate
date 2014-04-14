@@ -28,10 +28,10 @@ public class UserMaterialMetadata extends DBObject {
 	public UserMaterialMetadata(Entity e){
 		super(e);
 	}
-	private void setUserID(Key uID){
+	protected void setUserID(Key uID){
 		entity.setProperty(USERID, uID);
 	}
-	private void setMaterialID(Key mID){
+	protected void setMaterialID(Key mID){
 		entity.setProperty(MATERIALID, mID);
 	}
 	public void setFlagged(boolean b){
@@ -43,14 +43,17 @@ public class UserMaterialMetadata extends DBObject {
 	public void setMaterialRating(int rating){
 		entity.setProperty(MATERIAL_RATING, rating);
 	}
-	public Key getFlagged(){
-		return (Key)entity.getProperty(MATERIAL_FLAGGED);
+	public boolean getFlagged(){
+		Boolean flagged  = (Boolean)entity.getProperty(MATERIAL_FLAGGED);
+		return flagged == null ? false : flagged;
 	}
 	public boolean getViewed(){
-		return (boolean)entity.getProperty(MATERIAL_VIEWED);
+		Boolean viewed  = (Boolean)entity.getProperty(MATERIAL_VIEWED);
+		return viewed == null ? false : viewed;
 	}
 	public int getRating(){
-		return (int)entity.getProperty(MATERIAL_RATING);
+		Long rating = (Long)entity.getProperty(MATERIAL_RATING);
+		return rating == null ? -1 : rating.intValue();
 	}
 
 	public static UserMaterialMetadata createUserMaterialMetadata(Key uID, Key mID){
@@ -83,7 +86,7 @@ public class UserMaterialMetadata extends DBObject {
 			if(metadata != null){
 				return new UserMaterialMetadata(metadata);
 			}else {
-				return createUserMaterialMetadata(uID, mID);
+				return null;
 			}
 		} catch(PreparedQuery.TooManyResultsException e){
 			e.printStackTrace();
