@@ -5,13 +5,13 @@
  * Woff file downloaded from http://themes.googleusercontent.com/static/fonts/germaniaone/v2/3_6AyUql_-FbDi1e68jHdHhCUOGz7vYGh680lGh-uXM.woff
  */
 @font-face {
-    font-family: "Germania One";
-    src: url("/fonts/germania-one.woff") format('woff');
+	font-family: "Germania One";
+	src: url("/fonts/germania-one.woff") format('woff');
 }
 
 /* Default color is cyber grape */
-html, body {
-	color:#58427C;
+html,body {
+	color: #58427C;
 }
 
 /* Center text */
@@ -21,21 +21,23 @@ html, body {
 
 /* Center an object */
 .ce {
- 	display: block;
-    margin-left: auto;
-    margin-right: auto 
+	display: block;
+	margin-left: auto;
+	margin-right: auto
 }
 
 /* Footer div*/
 .footer {
-	padding-top:30px;
-	min-height: 175px;
+	/*padding-top:30px;*/
+	/*min-height: 100px;*/
+	padding-bottom: 15px;
+	padding-top: 15px;
 }
 
 /* Body div */
 .body {
-	min-height:400px;
-	margin-top:53px;
+	min-height: 400px;
+	margin-top: 53px;
 	padding-top: 75px;
 	padding-bottom: 75px;
 }
@@ -53,9 +55,10 @@ hr {
 	color: #FFF !important;
 	background-color: #58427C !important;
 }
+
 .btn-cg:hover {
 	color: #FFF !important;
-	text-shadow:0 0 1px #FFF !important;
+	text-shadow: 0 0 1px #FFF !important;
 }
 
 /* Big button */
@@ -72,7 +75,7 @@ hr {
 
 /* Header of a section on a page */
 .section-header {
-	font-size:28px;
+	font-size: 28px;
 	font-style: italic;
 	font-weight: bold;
 }
@@ -84,40 +87,40 @@ hr {
 
 /* Adding 150px padding to left side */
 .left-padding-150 {
-	padding-left:150px;
+	padding-left: 150px;
 }
 
 /* Body of pages*/
 .body {
-	margin-top:53px; 
-	width:100%;
+	margin-top: 53px;
+	width: 100%;
 	background-color: #DDD;
-	padding-top:75px;
-	padding-bottom:75px;
+	padding-top: 75px;
+	padding-bottom: 75px;
 	min-height: 500px;
 }
 
 /* Center div of login / signup pages */
-.login-center-div{
-    text-align: left;
-    background: #FFF;
-    border: 1px solid #BBB;
-    padding: 40px;
-    margin: 0 auto;
-    width: 35%;
-    color: #58427C;
+.login-center-div {
+	text-align: left;
+	background: #FFF;
+	border: 1px solid #BBB;
+	padding: 40px;
+	margin: 0 auto;
+	width: 35%;
+	color: #58427C;
 }
 
 /* Center div of home page */
 .body-center-div {
-    background: #FFF;
-    border: 1px solid #BBB;
-    padding: 40px;
-    margin: 0 auto;
-    width: 70%;
-    margin-top: -25px;
-    margin-bottom: -25px;
-    text-align: left;
+	background: #FFF;
+	border: 1px solid #BBB;
+	padding: 40px;
+	margin: 0 auto;
+	width: 70%;
+	margin-top: -25px;
+	margin-bottom: -25px;
+	text-align: left;
 }
 
 /* Input box on login / signup page */
@@ -129,7 +132,8 @@ hr {
 	width: 95%;
 	min-height: 55px;
 }
-.login-input:focus, .discussion-question:focus {
+
+.login-input:focus,.discussion-question:focus {
 	border: 2px solid #58427C;
 	outline: none;
 }
@@ -142,7 +146,7 @@ hr {
 /* Cut vertical padding on signup page in half */
 .cut-vertical-padding {
 	padding-top: 20px;
-    padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 
 /* Move checkbox label over and make font smaller */
@@ -162,11 +166,13 @@ hr {
 }
 
 /* Special settings to style links in content table */
-.content-table a, .content-holder a {
-	color:#58427C;
+.content-table a,.content-holder a {
+	color: #58427C;
 }
-.content-table a:hover, .content-holder a:hover, .question-answers li:hover {
-	text-shadow:0 0 1px #58427C;
+
+.content-table a:hover,.content-holder a:hover,.question-answers li:hover
+	{
+	text-shadow: 0 0 1px #58427C;
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -174,30 +180,38 @@ hr {
 /* Surround with a rounded border */
 .content-holder {
 	border: 1px solid #DDD;
-	border-radius:25px;
-	padding-bottom:10px;
-	margin-bottom:10px;
+	border-radius: 25px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 /* Change color */
 .green {
-	color:green !important;
+	color: green !important;
 }
+
 .yellow {
-	color:yellow !important;
+	color: yellow !important;
 }
+
 .dark-red {
-	color:#C00 !important;
+	color: #C00 !important;
 }
+
 .white {
-	color:#FFF !important;
+	color: #FFF !important;
+}
+
+.red {
+	color: #E00 !important;
 }
 
 /* Shift over 5 pixels */
 .shift-right-5 {
 	margin-left: 5px;
-	margin-right:-5px;
+	margin-right: -5px;
 }
+
 .shift-left-5 {
 	margin-left: -5px;
 	margin-right: 5px;
@@ -205,15 +219,14 @@ hr {
 
 /* Add 10px margins to each side */
 .side-margins-10 {
-	margin-left:10px;
-	margin-right:10px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
-
 
 /* Detail */
 .detail {
 	font-weight: bold;
-	padding-left:5px;
+	padding-left: 5px;
 }
 
 /* Style bread crumbs displayed on pages */
@@ -226,7 +239,7 @@ hr {
 .feedback {
 	text-align: right;
 	font-size: 18px;
-	margin-top:10px;
+	margin-top: 10px;
 }
 
 /* Style embedded video */
@@ -251,36 +264,55 @@ hr {
 
 /* Surround with a rounded border */
 .selected-answer {
-	border-radius:10px;
+	border-radius: 10px;
+	background-color: blue;
+	color: #FFF;
+	padding: 5px;
+}
+
+.incorrect-answer {
+	border-radius: 10px;
+	background-color: red;
+	color: #FFF;
+	padding: 5px;
+}
+
+.correct-answer {
+	border-radius: 10px;
 	background-color: green;
 	color: #FFF;
+	padding: 5px;
+}
+
+.question-answers > ol > li {
 	padding:5px;
 }
 
 /* Topic not available */
 .not-available {
-   color: #AAA; 
+	color: #AAA;
 }
 
 /* Style disabled input box */
 input[disabled] {
-    border: none;
-    background: #FFF;
+	border: none;
+	background: #FFF;
 }
 
 /* Style div containing a table */
 .table-wrapper {
-	font-size:18px;
-	margin-left:25%;
-	margin-right:25%;
+	font-size: 18px;
+	margin-left: 25%;
+	margin-right: 25%;
 }
-.table-wrapper > table > tbody > tr > td {
+
+.table-wrapper>table>tbody>tr>td {
 	padding-bottom: 1px;
 }
 
 /* Span containing account info title */
 .title {
-	margin-bottom:10px;
+	margin-bottom: 10px;
 	margin-right: 10px;
 	font-weight: bold;
 }
@@ -295,16 +327,20 @@ input[disabled] {
 .discussion-board-question {
 	padding: 15px;
 }
+
 .discussion-board-question>a {
 	font-size: 16px;
 	text-decoration: underline;
 }
+
 .discussion-board-question>a:hover {
-	text-decoration:underline;
+	text-decoration: underline;
 }
+
 .discussion-board-question>.timestamp {
-	text-align:right;
+	text-align: right;
 }
+
 .discussion-board-question>.author {
 	margin-left: 10px;
 }
@@ -313,8 +349,9 @@ input[disabled] {
 .discussion-question {
 	font-size: 16px;
 }
+
 .discussion-question {
-	width:100%;
+	width: 100%;
 }
 
 /* Span containing X glyphicon for removing posts / comments from discussion board */
@@ -323,40 +360,45 @@ input[disabled] {
 	font-size: 24px;
 	margin-left: 50px;
 }
+
 .remove-button:hover {
 	text-shadow: 0 0 1px #C00;
 }
+
 .del-button-holder {
-	text-align:right;
+	text-align: right;
 	margin-top: -20px;
 	margin-right: 20px;
 	margin-bottom: -10px;
 }
+
 .del-button-holder-ques {
-    text-align:right;
-    margin-top: -30px;
-    margin-right: 30px;
-    margin-bottom: -10px;
+	text-align: right;
+	margin-top: -30px;
+	margin-right: 30px;
+	margin-bottom: -10px;
 }
 
 /* Display cursor when hovering over */
 .hoverHand {
-	cursor:pointer;
+	cursor: pointer;
 }
 
 /* Wrapper for subTopicTable */
 .subTopicTableWrapper {
 	padding-top: 10px;
 }
-.subTopicTableWrapper > table > tbody > tr > td {
-    padding-bottom: 1px;
+
+.subTopicTableWrapper>table>tbody>tr>td {
+	padding-bottom: 1px;
 }
 
 /* div containing added questions */
 .question-table-wrapper {
-    margin-left: 38%;
+	margin-left: 38%;
 }
-.question-table-wrapper > table > tbody > tr > td {
+
+.question-table-wrapper>table>tbody>tr>td {
 	padding-left: 5px;
 	padding-bottom: 1px;
 }

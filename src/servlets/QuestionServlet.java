@@ -6,13 +6,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import account.Account;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+
 import material.Question;
+import material.QuestionMetadata;
 import material.Subject;
 import material.Subtopic;
-import material.UserMaterialMetadata;
 import constants.Keys;
 
 public class QuestionServlet extends HttpServlet {
@@ -22,11 +25,12 @@ public class QuestionServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		String qID = request.getParameter(Keys.QUESTION_KEY);
 		String action = request.getParameter("action");
-		Account user = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		Key questionKey = KeyFactory.stringToKey(qID);
+		Account user = (Account) request.getSession()
+				.getAttribute(Keys.ACCOUNT);
 		if (action == null) {
+			String qID = request.getParameter(Keys.QUESTION_KEY);
+			Key questionKey = KeyFactory.stringToKey(qID);
 			if (qID == null) {
 				// If no subjectId, redirect to home
 				response.sendRedirect("/home");
@@ -39,66 +43,73 @@ public class QuestionServlet extends HttpServlet {
 					request.setAttribute(Keys.SUBTOPIC, st);
 					Subject sub = st.getSubject();
 					request.setAttribute(Keys.SUBJECT, sub);
-		
-					getServletContext().getRequestDispatcher("/question.jsp").forward(
-							request, response);
-				} catch(IllegalArgumentException e){
+					if (user != null) {
+						QuestionMetadata data = QuestionMetadata
+								.getQuestionMetadata(user.getKey(), questionKey);
+						request.setAttribute(Keys.META_DATA, data);
+					}
+					getServletContext().getRequestDispatcher("/question.jsp")
+							.forward(request, response);
+				} catch (IllegalArgumentException e) {
 					response.sendRedirect("/home");
 				}
 			}
 		} else {
 			if ("answerquestion".equals(action)) {
-				// Two cases, can answer the question and save response
-				// or just give the person feedback (not logged in)
+				String qID = request.getParameter(Keys.QUESTION_KEY);
+				Key questionKey = KeyFactory.stringToKey(qID);
+				// Get the correct answer
 				int answer = Integer.parseInt(request.getParameter("answer"));
-				if(Question.getQuestion(questionKey).getCorrectIndex() == answer){
-					UserMaterialMetadata a = UserMaterialMetadata.getUserMaterialMetadata(user.getKey(), questionKey);
-					if(a!= null){
-						a.setViewed();
-						a.save();
-					}
-					else{
-						UserMaterialMetadata newRow = UserMaterialMetadata.createUserMaterialMetadata(user.getKey(), questionKey);
-						newRow.setViewed();
-						newRow.save();
-					}
+				// Get correct answer
+				int correctAnswer = Question.getQuestion(questionKey)
+						.getCorrectIndex();
+				// If user exists, update their question meta data
+				if (user != null) {
+					// Get the question metadata
+					QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
+							user.getKey(), questionKey);
+					if (a == null)
+						a = QuestionMetadata.createQuestionMetadata(
+								user.getKey(), questionKey);
+					a.setAnswer(answer == correctAnswer);
+					a.setViewed();
+					a.save();
 				}
-				else{
-					//TODO Fill in wrong answer portion  
-				}
-				
-				response.getWriter().print("success");
-			} else if ("ratequestion".equals(action)) {
-				// Rate question
+				response.getWriter().print(
+						"{ \"answer\" : " + correctAnswer + "}");
+			} else if ("ratecontent".equals(action)) {
+				// If not logged in can't rate
+				if (user == null)
+					return;
+				String qID = request.getParameter(Keys.CONTENT_KEY);
+				Key questionKey = KeyFactory.stringToKey(qID);
 				int rating = Integer.parseInt(request.getParameter("rating"));
-				UserMaterialMetadata a = UserMaterialMetadata.getUserMaterialMetadata(user.getKey(), questionKey);
-				if(a!= null){
-					a.setMaterialRating(rating);
-					a.save();
-				}
-				else{
-					UserMaterialMetadata newRow = UserMaterialMetadata.createUserMaterialMetadata(user.getKey(), questionKey);
-					newRow.setMaterialRating(rating);
-					newRow.save();
-				}
-				response.getWriter().print("success");
-			} else if ("flagquestion".equals(action)) {
-				// Flag question
-				UserMaterialMetadata a = UserMaterialMetadata.getUserMaterialMetadata(user.getKey(), questionKey);
-				if(a != null){
-					a.setFlagged(true);
-					a.save();
-				}
-				else{
-					UserMaterialMetadata newRow = UserMaterialMetadata.createUserMaterialMetadata(user.getKey(), questionKey);
-					newRow.setFlagged(true);
-					newRow.save();
-				}
-				response.getWriter().print("success");
+				QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
+						user.getKey(), questionKey);
+				if (a == null)
+					a = QuestionMetadata.createQuestionMetadata(user.getKey(),
+							questionKey);
+				a.setMaterialRating(rating);
+				a.save();
+			} else if ("flagcontent".equals(action)) {
+				// If not logged in can't flag
+				if (user == null)
+					return;
+				String qID = request.getParameter(Keys.CONTENT_KEY);
+				Key questionKey = KeyFactory.stringToKey(qID);
+				QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
+						user.getKey(), questionKey);
+
+				boolean flag = "true".equals(request.getParameter("flag"));
+				if (a == null)
+					a = QuestionMetadata.createQuestionMetadata(user.getKey(),
+							questionKey);
+				a.setFlagged(flag);
+				a.save();
 			}
 		}
 	}
-	
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		processRequest(request, response);

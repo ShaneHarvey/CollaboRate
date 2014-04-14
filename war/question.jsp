@@ -32,26 +32,21 @@
 				</ol>
 			</div>
 			<div class="tc">
-				<a id="btn_submitAnswer" class="btn btn-cg" qid="${question.keyAsString}">Submit</a>
-			</div>
-			<div class="feedback">
-				<div>
-					<span class="hoverHand">Rate this question: <span
-						class="rating glyphicon glyphicon-star yellow" rating="1" qid="${question.keyAsString}"></span> <span
-						class="rating glyphicon glyphicon-star yellow" rating="2" qid="${question.keyAsString}"></span> <span
-						class="rating glyphicon glyphicon-star yellow" rating="3" qid="${question.keyAsString}"></span> <span
-						class="rating glyphicon glyphicon-star" rating="4" qid="${question.keyAsString}"></span> <span
-						class="rating glyphicon glyphicon-star" rating="5" qid="${question.keyAsString}"></span>
-					</span>
+				<a id="btn_submitAnswer" class="btn btn-cg"
+					qid="${question.keyAsString}">Submit</a>
+				<div id="answerLoading" class="tc loadingDiv"
+					style="display: none;">
+					<img src="/images/ajax-loader.gif" alt="loading">
 				</div>
-				<c:if test="${account != null}">
-					<div>
-						<span class="dark-red hoverHand" id="btn_flagQuestion" qid="${question.keyAsString}"><span
-							class="glyphicon glyphicon-exclamation-sign"></span>Flag this
-							question</span>
-					</div>
-				</c:if>
+				<h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
+				<h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
 			</div>
+			<div id="feedback" class="feedback"
+				loggedin="${account == null ? false : true}" url="question"
+				cid="${question.keyAsString}"
+				ur="${metadata == null ? -1 : metadata.rating}"
+				uf="${metadata == null ? false : metadata.flagged}"
+				gr="${question.globalRating}"></div>
 		</div>
 	</div>
 
@@ -59,5 +54,6 @@
 
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
+<script src="/js/plugins/FeedbackDisplay.js"></script>
 <script src="/js/question.js"></script>
 </html>

@@ -179,4 +179,11 @@ public abstract class Material extends DBObject {
 		return subtopic;
 	}
 	
+	/*
+	 * TODO: Return the average global rating of this material
+	 */
+	public int getGlobalRating(){
+		return 3;
+	}
+	
 }
