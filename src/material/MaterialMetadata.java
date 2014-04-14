@@ -1,6 +1,7 @@
 package material;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -11,6 +12,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+
 import java.util.Collections;
 public class MaterialMetadata {
 	public static double getRating(Key materialID){
@@ -71,7 +73,7 @@ public class MaterialMetadata {
 					currentNumFlagged = 0;
 				}
 			}
-			else{//increment ccount if the flagged property is true
+			else{//increment count if the flagged property is true
 				if(resultFlagged){
 					currentNumFlagged++;	
 				}	
@@ -80,5 +82,24 @@ public class MaterialMetadata {
 		flaggedList.remove(0);//remove the 0th index because it is a garbage key
 		Collections.sort(flaggedList);//call the collections sort which will sort the array list
 		return flaggedList;//return the flagged list 
+	}
+	public static class FlaggedMaterial implements Comparable  {
+		private Key materialID;
+		private int numFlagged =0;
+		public FlaggedMaterial(Key mID, int nFlagged){
+			this.materialID=mID;
+			this.numFlagged=nFlagged;
+		}
+		@Override
+		public int compareTo(Object o) {
+			// TODO Auto-generated method stub
+			if(o instanceof FlaggedMaterial){
+				FlaggedMaterial temp =(FlaggedMaterial)o;
+				return this.numFlagged - temp.numFlagged;
+			}
+			else {
+				return -1;
+			}	
+		}
 	}
 }
