@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/function.tld" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,20 +26,24 @@
 					<h1 class="tc">Discussion Board</h1>
 					<div class="content-holder discussion-board-question">
 						<p class="discussion-question">${post.body}</p>
-						<div class="del-button-holder-ques">
-							<a href="#"><span
-								class="glyphicon glyphicon-remove remove-button"></span></a>
-						</div>
+						<c:if test="${fn:canDelete(post, account)}">
+							<div class="del-button-holder-ques">
+								<a href="#"><span
+									class="glyphicon glyphicon-remove remove-button"></span></a>
+							</div>
+						</c:if>
 						<div class="author">By: ${post.author.displayNameOrEmail}</div>
 						<div class="timestamp">${post.date}</div>
 						<br />
 						<c:forEach items="${post.comments}" var="c">
 							<div class="content-holder discussion-board-question">
 								<p>${c.body}</p>
-								<div class="del-button-holder-ques">
-									<a href="#"><span
-										class="glyphicon glyphicon-remove remove-button"></span></a>
-								</div>
+								<c:if test="${fn:canDelete(c, account)}">
+									<div class="del-button-holder-ques">
+										<a href="#"><span
+											class="glyphicon glyphicon-remove remove-button"></span></a>
+									</div>
+								</c:if>
 								<div class="author">By: ${c.author.displayNameOrEmail}</div>
 								<div class="timestamp">${c.date}</div>
 							</div>
@@ -68,11 +73,12 @@
 						<div class="content-holder discussion-board-question">
 							<a
 								href="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}&pid=${p.keyAsString}">${p.body}</a>
-							<!-- Delete post  -->
-							<div class="del-button-holder">
-								<a href="#"><span
-									class="glyphicon glyphicon-remove remove-button"></span></a>
-							</div>
+							<c:if test="${fn:canDelete(p, account)}">
+								<div class="del-button-holder">
+									<a href="#"><span
+										class="glyphicon glyphicon-remove remove-button"></span></a>
+								</div>
+							</c:if>
 							<div class="author">By: ${p.author.displayNameOrEmail}</div>
 							<div class="timestamp">Posted at ${p.date}</div>
 						</div>

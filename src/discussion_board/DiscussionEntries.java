@@ -44,9 +44,9 @@ public abstract class DiscussionEntries extends DBObject {
 	}
 	
 	/**
-	 * Can the given account delete this discussion entry?
+	 * Can the given account delete the given discussion entry?
 	 */
-	public boolean canDelete(Account acc) {
-		return (acc != null) && (acc.getType() == Account.ActorType.ADMIN || acc.getKey().equals(getAuthor().getKey()));
+	public static boolean canDelete(DiscussionEntries ent, Account acc) {
+		return (acc != null && ent != null) && (acc.getType() == Account.ActorType.ADMIN || acc.getKey().equals(ent.getAuthor().getKey()));
 	}
 }

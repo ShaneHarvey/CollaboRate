@@ -84,7 +84,7 @@ public class Subject extends DBObject implements Serializable{
 	public String getDescription(){
 		return (String)entity.getProperty(ENT_SUBJECT_DESCRIPTION);
 	}
-	public static ArrayList<Subject> getSubjects(){
+	public static ArrayList<Subject> getAllSubjects(){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query photoQuery = new Query(ENT_SUBJECT).addSort(ENT_SUBJECT_TITLE, SortDirection.ASCENDING);  
 		PreparedQuery pq = datastore.prepare(photoQuery);

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/function.tld" prefix="fn"%>
 <!-- Navbar -->
 <div class="navbar navbar-fixed-top" role="navigation">
 	<div class="navbar inner">
@@ -10,7 +11,7 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Learn<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<c:forEach items="${allsubjectslist}" var="sub">
+							<c:forEach items="${fn:getAllSubjects()}" var="sub">
 								<li><a href="/subject?sid=${sub.keyAsString}">${sub.title}</a></li>
 							</c:forEach>
 							<li class="divider"></li>

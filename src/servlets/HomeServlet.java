@@ -22,13 +22,6 @@ public class HomeServlet extends HttpServlet {
 		// Attempt to retrieve account from session
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
 		
-		/* 
-		 * This is hacky and I hate it but I have yet to come up with a better solution....
-		 * You cannot call static class methods through el, so this must always be in the header. 
-		 */
-		if(request.getSession().getAttribute(Keys.ALL_SUBJECTS_LIST) == null)
-			request.getSession().setAttribute(Keys.ALL_SUBJECTS_LIST, Subject.getSubjects());
-		
 		// If user is logged out, redirect
 		if (acc == null)
 			getServletContext().getRequestDispatcher("/index.jsp").forward(

@@ -35,7 +35,7 @@ public class AddContentServlet extends HttpServlet {
 				String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
 				if (subjectKey == null) {
 					request.setAttribute(Keys.SUBJECT_LIST,
-							Subject.getSubjects());
+							Subject.getAllSubjects());
 				} else {
 					// Place the subject in the session;
 					Subject sub = Subject.getFromKeyString(subjectKey);
