@@ -55,6 +55,10 @@ public class MaterialMetadata {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		//Sort based on MaterialID
 		Query q = new Query(UserMaterialMetadata.USER_METADATA).addSort(UserMaterialMetadata.MATERIALID);
+		Filter isFlagged = new FilterPredicate(UserMaterialMetadata.MATERIAL_FLAGGED,
+				FilterOperator.EQUAL,
+				true);
+		q.setFilter(isFlagged);
 		PreparedQuery pq = datastore.prepare(q);
 		
 		Key currentMaterialID = null;//The result set will be in chunks based on the Material ID so we count we keep track of which one we are tracking
@@ -62,21 +66,13 @@ public class MaterialMetadata {
 		ArrayList<FlaggedMaterial> flaggedList = new ArrayList();//The object to hold all the material and flagged pairs
 		for (Entity result : pq.asIterable()) {//iterate through the whole table
 			Key resultKey = (Key)result.getProperty(UserMaterialMetadata.MATERIALID);//get the material key
-			boolean resultFlagged = (boolean)result.getProperty(UserMaterialMetadata.MATERIAL_FLAGGED);//get the flagged property
-			if(!resultKey.equals(currentMaterialID)){//if the currentMaterialID does not equal the result key we need to dump the two values into the array list
+			if(resultKey.equals(currentMaterialID)){//if the currentMaterialID does not equal the result key we need to dump the two values into the array list
+				currentNumFlagged++;
+			}
+			else{//increment count
 				flaggedList.add(new FlaggedMaterial(currentMaterialID, currentNumFlagged));//dump the values into the array list by making a new instance of the object
 				currentMaterialID = resultKey;//advance the currentMaterial Key to the next Key
-				if(resultFlagged){//reset the currentNumFlagged
-					currentNumFlagged = 1;	
-				}			
-				else{
-					currentNumFlagged = 0;
-				}
-			}
-			else{//increment count if the flagged property is true
-				if(resultFlagged){
-					currentNumFlagged++;	
-				}	
+				currentNumFlagged = 0;
 			}
 		}
 		flaggedList.remove(0);//remove the 0th index because it is a garbage key

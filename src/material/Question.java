@@ -2,6 +2,7 @@ package material;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -154,6 +155,28 @@ public class Question extends Material implements Serializable {
 			topRatedQuestions.add(new Question(result));
 		}
 		return topRatedQuestions;
+	}
+
+	public static ArrayList<Question> getRandomQuestions(int limit, Key sKey){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
+		Query randQuery = new Query(QUESTION).setFilter(subtopicFilter);
+		// Only get the keys of the entites
+		randQuery.setKeysOnly(); 
+		PreparedQuery pq = datastore.prepare(randQuery);
+		
+		ArrayList<Entity> randomKeys = new ArrayList<Entity>();
+		for (Entity result : pq.asIterable()) {
+			randomKeys.add(result);
+		}
+		Collections.shuffle(randomKeys);
+		ArrayList<Question> randomQuestions = new ArrayList<Question>();
+		for( Entity result : randomKeys.subList(0, limit)){
+			randomQuestions.add(getQuestion(result.getKey()));
+		}
+		return randomQuestions;
 	}
 	
 }
