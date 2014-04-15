@@ -3,6 +3,7 @@ package discussion_board;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import material.Subtopic;
 import material.Video;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -54,7 +55,8 @@ public class Post extends DiscussionEntries{
 		return p;
 	}
 	public ArrayList<Comment> getComments(){
-		postComments=Comment.getCommentsForPost(entity.getKey());
+		if(postComments == null)
+			postComments=Comment.getCommentsForPost(entity.getKey());
 		return postComments;
 	}
 	public static ArrayList<Post> getPostsForSubtopic(Key subtopicKey){
@@ -70,5 +72,15 @@ public class Post extends DiscussionEntries{
 			posts.add(new Post(result));
 		}
 		return posts;
+	}
+	
+	@Override
+	public void delete(){
+		// Remove all comments under this post
+		for(Comment c : getComments()){
+			c.delete();
+		}
+		// Remove this post
+		super.delete();
 	}
 }

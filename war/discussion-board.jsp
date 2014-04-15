@@ -28,7 +28,7 @@
 						<p class="discussion-question">${post.body}</p>
 						<c:if test="${fn:canDelete(post, account)}">
 							<div class="del-button-holder-ques">
-								<a href="#"><span
+								<a id="btn_deletePost" pid="${post.keyAsString}" url="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}"><span
 									class="glyphicon glyphicon-remove remove-button"></span></a>
 							</div>
 						</c:if>
@@ -40,7 +40,8 @@
 								<p>${c.body}</p>
 								<c:if test="${fn:canDelete(c, account)}">
 									<div class="del-button-holder-ques">
-										<a href="#"><span
+										<a id="btn_deleteComment" cid="${c.keyAsString}"
+											url="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}&pid=${post.keyAsString}"><span
 											class="glyphicon glyphicon-remove remove-button"></span></a>
 									</div>
 								</c:if>
@@ -75,7 +76,7 @@
 								href="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}&pid=${p.keyAsString}">${p.body}</a>
 							<c:if test="${fn:canDelete(p, account)}">
 								<div class="del-button-holder">
-									<a href="#"><span
+									<a id="btn_deletePost" pid="${p.keyAsString}" url="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}"><span
 										class="glyphicon glyphicon-remove remove-button"></span></a>
 								</div>
 							</c:if>
@@ -113,7 +114,7 @@
 					</div>
 					<h1 class="tc">Discussion Board</h1>
 
-					<c:forEach items="${allsubjectslist}" var="sub">
+					<c:forEach items="${fn:getAllSubjects()}" var="sub">
 						<div class="content-holder discussion-board-question">
 							<a href="/discuss?sid=${sub.keyAsString}">${sub.title}</a>
 						</div>

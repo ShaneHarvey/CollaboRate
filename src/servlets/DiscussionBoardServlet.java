@@ -12,6 +12,7 @@ import material.Subject;
 import material.Subtopic;
 import constants.Keys;
 import discussion_board.Comment;
+import discussion_board.DiscussionEntries;
 import discussion_board.Post;
 
 public class DiscussionBoardServlet extends HttpServlet {
@@ -70,6 +71,22 @@ public class DiscussionBoardServlet extends HttpServlet {
 				}
 				else
 					response.getWriter().print("");
+			}
+			else if("deletepost".equals(action)){
+				String postID = request.getParameter("post");
+				Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
+				Post post = Post.getFromKeyString(postID);
+				if(post != null && acc != null && DiscussionEntries.canDelete(post, acc)) {
+					post.delete();
+				}
+			}
+			else if("deletecomment".equals(action)){
+				String commentID = request.getParameter("comment");
+				Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
+				Comment comment = Comment.getFromKeyString(commentID);
+				if(comment != null && acc != null && DiscussionEntries.canDelete(comment, acc)) {
+					comment.delete();
+				}
 			}
 		}
 	}

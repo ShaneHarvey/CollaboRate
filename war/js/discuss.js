@@ -79,4 +79,35 @@ $(function() {
 					}
 				});
 			});
+
+	$('#btn_deletePost').click(function() {
+
+		// Get url to redirect to after deleted
+		var redirect = $(this).attr('url');
+
+		// Try to delete this post
+		$.ajax({
+			type : 'POST',
+			data : 'post=' + $(this).attr('pid') + '&action=deletepost',
+			url : 'discuss'
+		}).done(function() {
+			window.location.href = redirect;
+		});
+	});
+
+	$('#btn_deleteComment').click(function() {
+		
+		// Get url to redirect to after deleted
+		var redirect = $(this).attr('url');
+		
+		// Try to delete this comment
+		$.ajax({
+			type : 'POST',
+			data : 'comment=' + $(this).attr('cid') + '&action=deletecomment',
+			url : 'discuss'
+		}).done(function() {
+			window.location.href = redirect;
+		});
+	});
+
 });
