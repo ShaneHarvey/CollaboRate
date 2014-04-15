@@ -86,7 +86,7 @@ public class Account extends DBObject implements Serializable {
 	
 	public String getDisplayNameOrEmail() {
 		String display = getDisplayName();
-		return display == null ? display : getEmail();
+		return (display != null && display.length() > 0) ? display : getEmail();
 	}
 	
 	/**

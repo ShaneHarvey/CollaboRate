@@ -42,13 +42,13 @@ public class Comment extends DiscussionEntries{
 	public Key getPostID(){
 		return (Key)this.entity.getProperty(ENT_COMMENT_POST);
 	}
-	public static Comment createPost(Key authorKey, String commentBody, Key postKey){
+	public static Comment createComment(Key authorKey, String commentBody, Key postKey){
 		Entity commentE = new Entity(ENT_COMMENT);
 		Comment c = new Comment(commentE);
 		c.setPostID(postKey);
 		c.setAuthor(authorKey);
 		c.setDate();
-		c.setEntryBody(commentBody);
+		c.setBody(commentBody);
 		c.save();
 		return c;
 	}

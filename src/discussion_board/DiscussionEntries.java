@@ -21,7 +21,7 @@ public abstract class DiscussionEntries extends DBObject {
 	protected void setAuthor(Key authorID){
 		entity.setProperty(ENTRY_AUTHOR, authorID);
 	}
-	protected void setEntryBody(String msgBody){
+	protected void setBody(String msgBody){
 		entity.setProperty(ENTRY_BODY, msgBody);
 	}
 	/**
@@ -39,8 +39,14 @@ public abstract class DiscussionEntries extends DBObject {
 	public Date getDate(){
 		return (Date)entity.getProperty(ENTRY_DATE);
 	}
-	public String getEntryBody(){
+	public String getBody(){
 		return (String)entity.getProperty(ENTRY_BODY);
 	}
-
+	
+	/**
+	 * Can the given account delete this discussion entry?
+	 */
+	public boolean canDelete(Account acc) {
+		return (acc != null) && (acc.getType() == Account.ActorType.ADMIN || acc.getKey().equals(getAuthor().getKey()));
+	}
 }

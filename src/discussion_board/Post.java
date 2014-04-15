@@ -49,7 +49,7 @@ public class Post extends DiscussionEntries{
 		p.setSubtopic(subtopicKey);
 		p.setAuthor(authorKey);
 		p.setDate();
-		p.setEntryBody(postBody);
+		p.setBody(postBody);
 		p.save();
 		return p;
 	}

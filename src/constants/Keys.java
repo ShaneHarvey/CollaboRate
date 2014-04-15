@@ -24,7 +24,7 @@ public class Keys {
 	public static final String VIDEO = "video"; // Used for holding onto video
 	public static final String QUESTION = "question"; // Used for holding onto question
 	public static final String ALL_SUBJECTS_LIST = "allsubjectslist"; // Used for holding onto subjects
-	public static final String POST_KEY = "postkey"; // Used for holding post key
+	public static final String POST_KEY = "pid"; // Used for holding post key
 	public static final String POST = "post"; // Used for holding onto post
 	public static final String META_DATA = "metadata"; // Used for holding meta data
 	public static final String CONTENT_KEY = "cid";
