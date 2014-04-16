@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+
 import account.Account;
 import material.Subject;
 import material.Subtopic;
@@ -22,33 +24,76 @@ public class VideoServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		String vID = request.getParameter(Keys.VIDEO_KEY);
-		Account user = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		if (vID == null) {
-			// If no subjectId, redirect to home
-			response.sendRedirect("/home");
+		String action = request.getParameter("action");
+		Account user = (Account) request.getSession()
+				.getAttribute(Keys.ACCOUNT);
+		if (action == null) {
+			String vID = request.getParameter(Keys.VIDEO_KEY);
+			if (vID == null) {
+				// If no subjectId, redirect to home
+				response.sendRedirect("/home");
+			} else {
+				// Get subtopic and place is request
+				Video vid = Video.getFromKeyString(vID);
+				request.setAttribute(Keys.VIDEO, vid);
+				Subtopic st = vid.getSubtopic();
+				request.setAttribute(Keys.SUBTOPIC, st);
+				Subject sub = st.getSubject();
+				request.setAttribute(Keys.SUBJECT, sub);
+				// If user is logged in, put meta data for video in session
+				if (user != null) {
+					UserMaterialMetadata data = UserMaterialMetadata
+							.getUserMaterialMetadata(user.getKey(),
+									KeyFactory.stringToKey(vID));
+					request.setAttribute(Keys.META_DATA, data);
+				}
+				// Set the viewed or make a new viewed attribute in the Metadata
+				// table
+				/*
+				 * UserMaterialMetadata a =
+				 * UserMaterialMetadata.getUserMaterialMetadata(user.getKey(),
+				 * KeyFactory.stringToKey(vID)); if(a!= null){ a.setViewed();
+				 * a.save(); } else{ UserMaterialMetadata newRow =
+				 * UserMaterialMetadata
+				 * .createUserMaterialMetadata(user.getKey(),
+				 * KeyFactory.stringToKey(vID)); newRow.setViewed();
+				 * newRow.save(); }
+				 */
+
+				getServletContext().getRequestDispatcher("/video.jsp").forward(
+						request, response);
+			}
 		} else {
-			// Get subtopic and place is request
-			Video vid = Video.getFromKeyString(vID);
-			request.setAttribute(Keys.VIDEO, vid);
-			Subtopic st = vid.getSubtopic();
-			request.setAttribute(Keys.SUBTOPIC, st);
-			Subject sub = st.getSubject();
-			request.setAttribute(Keys.SUBJECT, sub);
-			//Set the viewed or make a new viewed attribute in the Metadata table
-			UserMaterialMetadata a = UserMaterialMetadata.getUserMaterialMetadata(user.getKey(), KeyFactory.stringToKey(vID));
-			if(a!= null){
-				a.setViewed();
+			if ("ratecontent".equals(action)) {
+				// If not logged in can't rate
+				if (user == null)
+					return;
+				String vID = request.getParameter(Keys.CONTENT_KEY);
+				Key videoKey = KeyFactory.stringToKey(vID);
+				int rating = Integer.parseInt(request.getParameter("rating"));
+				UserMaterialMetadata a = UserMaterialMetadata
+						.getUserMaterialMetadata(user.getKey(), videoKey);
+				if (a == null)
+					a = UserMaterialMetadata.createUserMaterialMetadata(
+							user.getKey(), videoKey);
+				a.setMaterialRating(rating);
+				a.save();
+			} else if ("flagcontent".equals(action)) {
+				// If not logged in can't flag
+				if (user == null)
+					return;
+				String vID = request.getParameter(Keys.CONTENT_KEY);
+				Key videoKey = KeyFactory.stringToKey(vID);
+				UserMaterialMetadata a = UserMaterialMetadata
+						.getUserMaterialMetadata(user.getKey(), videoKey);
+
+				boolean flag = "true".equals(request.getParameter("flag"));
+				if (a == null)
+					a = UserMaterialMetadata.createUserMaterialMetadata(
+							user.getKey(), videoKey);
+				a.setFlagged(flag);
 				a.save();
 			}
-			else{
-				UserMaterialMetadata newRow = UserMaterialMetadata.createUserMaterialMetadata(user.getKey(), KeyFactory.stringToKey(vID));
-				newRow.setViewed();
-				newRow.save();
-			}
-
-			getServletContext().getRequestDispatcher("/video.jsp").forward(
-					request, response);
 		}
 	}
 

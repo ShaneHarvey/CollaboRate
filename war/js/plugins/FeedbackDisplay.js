@@ -5,6 +5,9 @@
 if (!jQuery)
 	throw "You need jQuery to use feedbackDisplay";
 
+// global id display counter
+var fb_id = 0;
+
 (function($) {
 
 	$.fn.FeedbackDisplay = function() {
@@ -24,18 +27,21 @@ if (!jQuery)
 				+ (user === 'true' ? 'Rate this content:' : 'Content Rating:')
 				+ '</span>');
 		ratingDiv.append(ratingSpan);
-
+		
+		// id of this feedback display
+		var id = fb_id++;
+		
 		// Fill in rating spans
 		if (user === 'true') {
 			// Person is logged in, let them rate and flag content
 			for (var x = 1; x <= 5; x++) {
 				var span = $('<span class="rating glyphicon glyphicon-star" rating="'
-						+ x + '" cid="' + contentID + '"></span>');
+						+ x + '" cid="' + contentID + '" fbid="' + id + '"></span>');
 				span.click(function() {
 					// Get rating
 					var rating = $(this).attr('rating');
 
-					fillRatings(rating, 'yellow');
+					fillRatings(rating, 'yellow', id);
 
 					// Place rating in database
 					$.ajax({
@@ -48,9 +54,9 @@ if (!jQuery)
 				ratingSpan.append(span);
 			}
 			if (userRating === -1)
-				fillRatings(globalRating, 'red');
+				fillRatings(globalRating, 'red', id);
 			else
-				fillRatings(userRating, 'yellow');
+				fillRatings(userRating, 'yellow', id);
 
 			// Create a div to contain user flagging
 			var flagDiv = $('<div></div>');
@@ -84,17 +90,17 @@ if (!jQuery)
 		} else {
 			for (var x = 1; x <= 5; x++) {
 				var span = $('<span class="rating glyphicon glyphicon-star"  rating="'
-						+ x + '"></span>');
+						+ x + '" fbid="' + id + '"></span>');
 				ratingSpan.append(span);
 			}
-			fillRatings(globalRating, 'red');
+			fillRatings(globalRating, 'red', id);
 		}
 	};
 })(jQuery);
 
-function fillRatings(rating, color) {
+function fillRatings(rating, color, id) {
 	// Highlight stars up to clicked star
-	$('.rating').each(function() {
+	$('.rating[fbid=' + id + ']').each(function() {
 		$(this).removeClass('red');
 		$(this).removeClass('yellow');
 		if (parseInt($(this).attr('rating')) <= parseInt(rating))

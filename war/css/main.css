@@ -402,3 +402,20 @@ input[disabled] {
 	padding-left: 5px;
 	padding-bottom: 1px;
 }
+
+.feedback-tooltip {
+	position:absolute; 
+	display:none;
+	background-image:url('/images/tooltip-bg.png');
+	background-repeat: no-repeat;
+	background-size: 300px 175px;
+	height: 175px;
+    width: 300px;
+    padding: 50px 35px 35px 35px;
+    text-align: left !important;
+}
+
+.hover {
+	text-shadow: 0 0 1px #58427C;
+    text-decoration: none;
+}

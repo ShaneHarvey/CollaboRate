@@ -51,7 +51,7 @@
 							type="text" /> <br /> <span class="title">Video
 							Description:</span> <br />
 						<textarea id="videoDescription"></textarea>
-						<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white stid="${subtopic.keyAsString}"">Add</a>
+						<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white" stid="${subtopic.keyAsString}">Add</a>
 						<div id="videoLoading" class="tc loadingDiv"
 							style="display: none;">
 							<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />

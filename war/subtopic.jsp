@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/function.tld" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,13 +57,16 @@
 					<h4 class="tc">Highest Rated Notes</h4>
 					<ol>
 						<c:forEach items="${subtopic.topNotes}" var="n">
-							<li><a href="${n.URL}">${n.shortTitle}</a></li>
+							<c:set var="metadata"
+								value="${fn:getUserMaterialMetadata((account == null ? null : account.key), n.key)}" />
+							<li><a href="${n.URL}" class="fbHover">${n.shortTitle}</a>
+								<div class="feedback feedback-tooltip"
+									loggedin="${account == null ? false : true}" url="notes"
+									cid="${n.keyAsString}"
+									ur="${metadata == null ? -1 : metadata.rating}"
+									uf="${metadata == null ? false : metadata.flagged}"
+									gr="${n.globalRating}"></div></li>
 						</c:forEach>
-						<!--<li><a href="http://www.sparknotes.com/chemistry/bonding/intro/">Introduction to Chemical Bonding</a></li>
-						<li>Properties of Chemical Bonds</li>
-						<li>Ionic Bonds</li>
-						<li>Covalent Bonds</li>
-						<li>Molecular Orbitals</li>-->
 					</ol>
 					<div class="tc">
 						<a>Load More...</a>
@@ -89,4 +93,6 @@
 
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
+<script src="/js/plugins/FeedbackDisplay.js"></script>
+<script src="/js/subtopic.js"></script>
 </html>

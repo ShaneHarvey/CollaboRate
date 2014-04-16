@@ -21,30 +21,19 @@
 			<div class="video-embed">
 				<iframe width="640" height="480" src="${video.URL}" frameborder="0"
 					allowfullscreen></iframe>
-				<div class="feedback">
-					<div>
-						<span>Rate this video: <span
-							class="glyphicon glyphicon-star yellow"></span> <span
-							class="glyphicon glyphicon-star yellow"></span> <span
-							class="glyphicon glyphicon-star yellow"></span> <span
-							class="glyphicon glyphicon-star"></span> <span
-							class="glyphicon glyphicon-star"></span>
-						</span>
-					</div>
-					<c:if test="${account != null}">
-						<div>
-							<span class="dark-red"><span
-								class="glyphicon glyphicon-exclamation-sign"></span>Flag this
-								video</span>
-						</div>
-					</c:if>
-				</div>
+				<div id="feedback" class="feedback"
+					loggedin="${account == null ? false : true}" url="video"
+					cid="${video.keyAsString}"
+					ur="${metadata == null ? -1 : metadata.rating}"
+					uf="${metadata == null ? false : metadata.flagged}"
+					gr="${video.globalRating}"></div>
 			</div>
 		</div>
 	</div>
 
 	<jsp:include page="/includes/footer.jsp"></jsp:include>
-
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
+<script src="/js/plugins/FeedbackDisplay.js"></script>
+<script src="/js/video.js"></script>
 </html>

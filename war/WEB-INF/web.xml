@@ -112,4 +112,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>DemoDataServlet</servlet-name>
 		<url-pattern>/DemoDataServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+        <servlet-name>NotesServlet</servlet-name>
+        <servlet-class>servlets.NotesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotesServlet</servlet-name>
+        <url-pattern>/notes</url-pattern>
+    </servlet-mapping>
 </web-app>
