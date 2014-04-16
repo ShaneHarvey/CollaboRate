@@ -1,12 +1,9 @@
 package material;
 
-import account.Account;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -22,6 +19,9 @@ import database.DBObject;
  * 
  */
 public abstract class Material extends DBObject {
+
+	private static final long serialVersionUID = -7741052799916096321L;
+
 	private Subtopic subtopic;
 	public static final String MATERIAL_RATING = "Rating";
 	public static final String MATERIAL_RATING_COUNT = "Rating_Count";

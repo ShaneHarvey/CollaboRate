@@ -11,6 +11,8 @@ import account.Account;
 
 public class AccountServlet extends HttpServlet {
 
+	private static final long serialVersionUID = -3858981710259933086L;
+
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
 		String action = request.getParameter("action");

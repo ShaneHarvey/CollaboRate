@@ -1,11 +1,16 @@
 package database;
 
+import java.io.Serializable;
+
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-public abstract class DBObject {
+public abstract class DBObject implements Serializable {
+	
+	private static final long serialVersionUID = -5078184817336657562L;
+	
 	protected Entity entity;
 	
 	protected DBObject(Entity ent) {

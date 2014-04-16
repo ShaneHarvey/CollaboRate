@@ -11,6 +11,8 @@ import account.*;
 
 public class LoginServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 6868478827784475101L;
+
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
 		String action = request.getParameter("action");

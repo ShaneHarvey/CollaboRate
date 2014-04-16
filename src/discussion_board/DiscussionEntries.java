@@ -4,13 +4,15 @@ import java.util.Date;
 
 import account.Account;
 
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
 import database.DBObject;
 
 public abstract class DiscussionEntries extends DBObject {
+
+	private static final long serialVersionUID = 4865163883535185476L;
+	
 	public static final String ENTRY_DATE = "Date Created";
 	public static final String ENTRY_AUTHOR = "Author";
 	public static final String ENTRY_BODY = "Body";

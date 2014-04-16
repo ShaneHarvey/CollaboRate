@@ -1,10 +1,6 @@
 package discussion_board;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-
-import material.Subtopic;
-import material.Video;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -20,6 +16,9 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 public class Post extends DiscussionEntries{
+
+	private static final long serialVersionUID = 2711437581373526937L;
+
 	private static final String ENT_POST = "post";
 	private static final String ENT_SUBTOPIC = "subtopic";
 	private ArrayList<Comment> postComments = null;
@@ -60,7 +59,7 @@ public class Post extends DiscussionEntries{
 		return postComments;
 	}
 	public static ArrayList<Post> getPostsForSubtopic(Key subtopicKey){
-		ArrayList<Post> posts = new ArrayList();
+		ArrayList<Post> posts = new ArrayList<Post>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Filter subtopicFilter = new FilterPredicate(ENT_SUBTOPIC,

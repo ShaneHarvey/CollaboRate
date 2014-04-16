@@ -13,17 +13,15 @@ import com.google.appengine.api.datastore.PreparedQuery;
 
 import database.DBObject;
 
-import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import material.Subject;
 import hashing.PasswordHash;
 
-public class Account extends DBObject implements Serializable {
-	private static final long serialVersionUID = 6746812229424845845L;
+public class Account extends DBObject{
+
+	private static final long serialVersionUID = -1302496554285048582L;
+
 	private static final String passwordRegEx = "^(.{0,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{4,})|(.{1,}(([a-zA-Z][^a-zA-Z])|"
 			+ "([^a-zA-Z][a-zA-Z])).{3,})|(.{2,}(([a-zA-Z][^a-zA-Z])|"

@@ -13,6 +13,8 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 public class QuestionMetadata extends UserMaterialMetadata{
 
+	private static final long serialVersionUID = -7499175721777484363L;
+
 	private static final String QUES_CORRECT_ANSWER = "answerCorrect";
 
 	private QuestionMetadata(Entity e) {

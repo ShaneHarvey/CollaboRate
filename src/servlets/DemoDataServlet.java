@@ -1,8 +1,5 @@
 package servlets;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +16,9 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public class DemoDataServlet extends HttpServlet{
 
-    /**
+	private static final long serialVersionUID = 4232287421153255825L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -31,7 +30,7 @@ public class DemoDataServlet extends HttpServlet{
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        //PrintWriter out = response.getWriter();
         //System.out.println("Reading File from Java code");
         ////Name of the file
         String text=request.getParameter("text");
@@ -97,8 +96,8 @@ public class DemoDataServlet extends HttpServlet{
             }
         }
         else if(uploadDataType.equals("question")){
-        	Key sKey = KeyFactory.stringToKey(subtopicKey);
-            Key aKey = KeyFactory.stringToKey(accountKey);
+        	/*Key sKey = KeyFactory.stringToKey(subtopicKey);
+            Key aKey = KeyFactory.stringToKey(accountKey);*/
         }
         
 	    

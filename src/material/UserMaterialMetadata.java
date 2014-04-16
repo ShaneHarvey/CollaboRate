@@ -1,24 +1,22 @@
 package material;
 
-import account.Account;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 import database.DBObject;
-import discussion_board.Comment;
 
 public class UserMaterialMetadata extends DBObject {
+	
+	private static final long serialVersionUID = 3784610917718375779L;
+	
 	public static final String USERID ="userID";
 	public static final String MATERIALID = "materialID";
 	public static final String MATERIAL_RATING = "materialRating";

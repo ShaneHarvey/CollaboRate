@@ -37,9 +37,9 @@ public class Question extends Material implements Serializable {
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
 
-	private void setAnswerExplainations(String jsonAnswer) {
+	/*private void setAnswerExplainations(String jsonAnswer) {
 		entity.setProperty(ANSWER_EXPLAINATIONS, jsonAnswer);
-	}
+	}*/
 
 	private void setCorrectIndex(int index) {
 		entity.setProperty(CORRECT_INDEX, String.valueOf(index));

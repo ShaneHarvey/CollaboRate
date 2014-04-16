@@ -7,10 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import constants.Keys;
-import account.Account;;
-
 public class LogoutServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 7547612848079853233L;
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {

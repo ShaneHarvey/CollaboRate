@@ -1,7 +1,6 @@
 package material;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -63,7 +62,7 @@ public class MaterialMetadata {
 		
 		Key currentMaterialID = null;//The result set will be in chunks based on the Material ID so we count we keep track of which one we are tracking
 		int currentNumFlagged = 0;//Count the number of flagged in the current Material ID
-		ArrayList<FlaggedMaterial> flaggedList = new ArrayList();//The object to hold all the material and flagged pairs
+		ArrayList<FlaggedMaterial> flaggedList = new ArrayList<FlaggedMaterial>();//The object to hold all the material and flagged pairs
 		for (Entity result : pq.asIterable()) {//iterate through the whole table
 			Key resultKey = (Key)result.getProperty(UserMaterialMetadata.MATERIALID);//get the material key
 			if(resultKey.equals(currentMaterialID)){//if the currentMaterialID does not equal the result key we need to dump the two values into the array list
@@ -79,23 +78,17 @@ public class MaterialMetadata {
 		Collections.sort(flaggedList);//call the collections sort which will sort the array list
 		return flaggedList;//return the flagged list 
 	}
-	public static class FlaggedMaterial implements Comparable  {
-		private Key materialID;
+	public static class FlaggedMaterial implements Comparable<FlaggedMaterial>  {
+		//private Key materialID;
 		private int numFlagged =0;
 		public FlaggedMaterial(Key mID, int nFlagged){
-			this.materialID=mID;
+			//this.materialID= mID;
 			this.numFlagged=nFlagged;
 		}
+		
 		@Override
-		public int compareTo(Object o) {
-			// TODO Auto-generated method stub
-			if(o instanceof FlaggedMaterial){
-				FlaggedMaterial temp =(FlaggedMaterial)o;
-				return this.numFlagged - temp.numFlagged;
-			}
-			else {
-				return -1;
-			}	
+		public int compareTo(FlaggedMaterial o) {
+			return this.numFlagged - o.numFlagged;
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package material;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -16,10 +15,9 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-import database.DBObject;
 import material.Material;
 
-public class Notes extends Material implements Serializable {
+public class Notes extends Material {
 
 	private static final long serialVersionUID = -7018562988368587595L;
 	private static final String ENT_NOTES = "notes";
