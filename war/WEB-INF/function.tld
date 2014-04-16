@@ -7,8 +7,7 @@
 		<name>canDelete</name>
 		<function-class>discussion_board.DiscussionEntries</function-class>
 		<function-signature>
-			Boolean
-			canDelete(discussion_board.DiscussionEntries, account.Account)
+			Boolean canDelete(discussion_board.DiscussionEntries, account.Account)
 		</function-signature>
 	</function>
 	<function>
@@ -22,8 +21,7 @@
 		<name>getUserMaterialMetadata</name>
 		<function-class>material.UserMaterialMetadata</function-class>
 		<function-signature>
-			material.UserMaterialMetadata getUserMaterialMetadata(com.google.appengine.api.datastore.Key,
-			com.google.appengine.api.datastore.Key)
+			material.UserMaterialMetadata getUserMaterialMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
 		</function-signature>
 	</function>
 </taglib>
