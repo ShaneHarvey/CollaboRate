@@ -32,7 +32,8 @@ public class VideoServlet extends HttpServlet {
 			if (vID == null) {
 				// If no subjectId, redirect to home
 				response.sendRedirect("/home");
-			} else {
+			} 
+			else {
 				// Get subtopic and place is request
 				Video vid = Video.getFromKeyString(vID);
 				request.setAttribute(Keys.VIDEO, vid);
@@ -47,23 +48,12 @@ public class VideoServlet extends HttpServlet {
 									KeyFactory.stringToKey(vID));
 					request.setAttribute(Keys.META_DATA, data);
 				}
-				// Set the viewed or make a new viewed attribute in the Metadata
-				// table
-				/*
-				 * UserMaterialMetadata a =
-				 * UserMaterialMetadata.getUserMaterialMetadata(user.getKey(),
-				 * KeyFactory.stringToKey(vID)); if(a!= null){ a.setViewed();
-				 * a.save(); } else{ UserMaterialMetadata newRow =
-				 * UserMaterialMetadata
-				 * .createUserMaterialMetadata(user.getKey(),
-				 * KeyFactory.stringToKey(vID)); newRow.setViewed();
-				 * newRow.save(); }
-				 */
 
 				getServletContext().getRequestDispatcher("/video.jsp").forward(
 						request, response);
 			}
-		} else {
+		} 
+		else {
 			if ("ratecontent".equals(action)) {
 				// If not logged in can't rate
 				if (user == null)

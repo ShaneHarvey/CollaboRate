@@ -19,4 +19,12 @@
         <property name="subtopic" direction="asc"/>
         <property name="Rating" direction="desc"/>
     </datastore-index>
+    <datastore-index kind="post" ancestor="false" source="manual">
+        <property name="subtopic" direction="asc"/>
+        <property name="Date Created" direction="desc"/>
+    </datastore-index>
+        <datastore-index kind="comment" ancestor="false" source="manual">
+        <property name="postID" direction="asc"/>
+        <property name="Date Created" direction="desc"/>
+    </datastore-index>
 </datastore-indexes>

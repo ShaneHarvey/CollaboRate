@@ -43,7 +43,7 @@ public class QuestionServlet extends HttpServlet {
 					request.setAttribute(Keys.SUBTOPIC, st);
 					Subject sub = st.getSubject();
 					request.setAttribute(Keys.SUBJECT, sub);
-					if (user != null) {
+					if (user == null) {
 						QuestionMetadata data = QuestionMetadata
 								.getQuestionMetadata(user.getKey(), questionKey);
 						request.setAttribute(Keys.META_DATA, data);
@@ -72,7 +72,6 @@ public class QuestionServlet extends HttpServlet {
 						a = QuestionMetadata.createQuestionMetadata(
 								user.getKey(), questionKey);
 					a.setAnswer(answer == correctAnswer);
-					a.setViewed();
 					a.save();
 				}
 				response.getWriter().print(

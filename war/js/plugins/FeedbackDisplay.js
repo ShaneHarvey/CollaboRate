@@ -75,7 +75,7 @@ var fb_id = 0;
 					type : 'POST',
 					data : 'cid=' + $(this).attr('cid') + '&flag=' + !flagged
 							+ '&action=flagcontent',
-					url : 'question'
+					url : postURL
 				});
 				$(this).empty();
 				$(this).append(

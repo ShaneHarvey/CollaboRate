@@ -39,7 +39,8 @@ public class NotesServlet extends HttpServlet {
 							user.getKey(), notesKey);
 				a.setMaterialRating(rating);
 				a.save();
-			} else if ("flagcontent".equals(action)) {
+			} 
+			else if ("flagcontent".equals(action)) {
 				// If not logged in can't flag
 				if (user == null)
 					return;
