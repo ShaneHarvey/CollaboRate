@@ -11,10 +11,11 @@ import database.DBObject;
 public class Test extends DBObject implements Serializable {
 
 	private static final long serialVersionUID = -7018562988368587595L;
-	private static final String TEST = "test";
-	private static final String TEST_USER_ID = "userKey";
-	private static final String TEST_SUBTOPIC = "subtopicKey";
-	private static final String TEST_PASSED = "passed";
+	public static final String TEST = "test";
+	public static final String TEST_USER_ID = "userKey";
+	public static final String TEST_SUBTOPIC = "subtopicKey";
+	public static final String TEST_SUBJECT = "subject";
+	public static final String TEST_PASSED = "passed";
 	private int questionCount = 3;
 	private ArrayList<Question> questionList;
 	private Test(Entity test){

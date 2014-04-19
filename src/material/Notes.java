@@ -37,7 +37,7 @@ public class Notes extends Material {
 	}
 
 	public static Notes createNotes(String lTitle, String lDescription,
-			String lURL, Key lKey, Key authorKey) {
+			String lURL, Key lKey, Key authorKey, Key subjectKey) {
 		Entity ent = new Entity(ENT_NOTES);
 		Notes l = new Notes(ent);
 		l.setTitle(lTitle);
@@ -46,6 +46,7 @@ public class Notes extends Material {
 		l.setURL(lURL);
 		l.setSubtopicKey(lKey);
 		l.setAutor(authorKey);
+		l.setSubject(subjectKey);
 		l.save();
 		return l;
 	}

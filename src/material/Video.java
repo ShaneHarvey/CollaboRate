@@ -43,7 +43,7 @@ public class Video extends Material implements Serializable {
 	}
 
 	public static Video createVideo(String vTitle, String vDescription,
-			String vURL, Key sKey, Key authorKey) {
+			String vURL, Key sKey, Key authorKey, Key subjectKey) {
 		Entity videoE = new Entity(ENT_VIDEO);
 		Video v = new Video(videoE);
 		v.setTitle(vTitle);
@@ -52,6 +52,7 @@ public class Video extends Material implements Serializable {
 		v.setURL(vURL);
 		v.setSubtopicKey(sKey);
 		v.setAutor(authorKey);
+		v.setSubject(subjectKey);
 		v.save();
 		return v;
 	}

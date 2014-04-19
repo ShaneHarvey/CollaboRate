@@ -30,6 +30,7 @@ public abstract class Material extends DBObject {
 	public static final String MATERIAL_AUTHOR = "Author";
 	public static final String MATERIAL_TITLE = "title";
 	public static final String MATERIAL_SUBTOPIC = "subtopic";
+	public static final String MATERIAL_SUBJECT = "subject";
 	public static final String MATERIAL_URL = "url";
 	public static final String MATERIAL_DESCRIPTION = "description";
 
@@ -102,7 +103,12 @@ public abstract class Material extends DBObject {
 	protected void setDescription(String description) {
 		entity.setProperty(MATERIAL_DESCRIPTION, description);
 	}
-
+	protected void setSubject(Key subjectKey){
+		entity.setProperty(MATERIAL_SUBJECT, subjectKey);
+	}
+	public Key getSubject(){
+		return (Key)entity.getProperty(MATERIAL_SUBJECT);
+	}
 	public Key getAuthor() {
 		return (Key) entity.getProperty(MATERIAL_AUTHOR);
 	}
