@@ -28,7 +28,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 	/*
 	 * Return false if never answered this question or answered it incorrectly
 	 */
-	public boolean correctAnswer() {
+	public boolean getAnswerCorrect() {
 		Boolean correct = (Boolean) entity.getProperty(QUES_CORRECT_ANSWER);
 		return correct == null ? false : correct;
 	}

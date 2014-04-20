@@ -24,4 +24,11 @@
 			material.UserMaterialMetadata getUserMaterialMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
 		</function-signature>
 	</function>
+	<function>
+	   <name>getQuestionMetadata</name>
+	   <function-class>material.QuestionMetadata</function-class>
+	   <function-signature>
+	       material.QuestionMetadata getQuestionMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
+	   </function-signature>
+	</function>
 </taglib>

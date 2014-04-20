@@ -24,14 +24,14 @@
 					<h4 class="tc">Highest Rated Questions</h4>
 					<ol>
 						<c:forEach items="${subtopic.topQuestions}" var="q">
-							<li><a href="/question?qid=${q.keyAsString}">${q.shortTitle}</a></li>
+							<c:set var="metadata"
+								value="${account == null ? null : fn:getQuestionMetadata(account.key, q.key)}" />
+							<c:set var="correct"
+								value="${(metadata == null || !metadata.answerCorrect) ? false : true}" />
+							<li><span><a class="${correct ? " glyphicon
+									glyphicon-ok
+									green" : ""}" href="/question?qid=${q.keyAsString}">${q.shortTitle}</a></span></li>
 						</c:forEach>
-						<!--<li><a href="question.jsp">The electrons in a nonpolar...</a></li>
-						<li>What is the charge on the i...</li>
-						<li><span class="glyphicon glyphicon-ok green"></span>What is the most correct na...</li>
-						<li>What type of bonds are form...</li>
-						<li><span class="glyphicon glyphicon-ok green"></span>The bond between sulfur and...</li>
-					     -->
 					</ol>
 					<div class="tc">
 						<a>Load More...</a>
@@ -43,11 +43,6 @@
 						<c:forEach items="${subtopic.topVideos}" var="v">
 							<li><a href="/video?vid=${v.keyAsString}">${v.shortTitle}</a></li>
 						</c:forEach>
-						<!--<li><a href="video.jsp">Chemical Bonds: Covalent vs...</a></li>
-						<li>Atomic Hook-Ups - Types of ...</li>
-						<li>Bonding Models and Lewis St...</li>
-						<li>Chemistry 4.1 Chemical Bonding</li>
-						<li>Chemical Bonding - Bonding</li>-->
 					</ol>
 					<div class="tc">
 						<a>Load More...</a>
@@ -72,19 +67,22 @@
 						<a>Load More...</a>
 					</div>
 				</div>
-				<c:if test="${account != null}">
-					<div class="col-lg-6 shift-right-5">
-						<div class="tc">
-							<br /> <br /> <a class="mega-btn btn btn-cg"
-								href="take-test.jsp">Take Test</a> <br /> <br /> <a
-								class="mega-btn btn btn-cg"
+				<div class="col-lg-6 shift-right-5">
+					<div class="tc">
+						<c:if test="${account != null}">
+							<a class="mega-btn btn btn-cg"
+								href="/test?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Take
+								Test</a>
+							<br />
+							<br />
+							<a class="mega-btn btn btn-cg"
 								href="
 								/addcontent?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Contribute</a>
-							<br /> <br /> <a class="mega-btn btn btn-cg"
-								href="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Discuss</a>
-						</div>
+						</c:if>
+						<br /> <br /> <a class="mega-btn btn btn-cg"
+							href="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Discuss</a>
 					</div>
-				</c:if>
+				</div>
 			</div>
 		</div>
 	</div>

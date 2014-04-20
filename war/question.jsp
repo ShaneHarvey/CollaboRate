@@ -25,10 +25,6 @@
 					<c:forEach items="${question.answerChoices}" var="choice">
 						<li><span>${choice}</span></li>
 					</c:forEach>
-					<!--<li>Gained</li>
-					<li>Lost</li>
-					<li><span class="selected-answer">Shared Equally</span></li>
-					<li>Shared Unequally</li>-->
 				</ol>
 			</div>
 			<div class="tc">

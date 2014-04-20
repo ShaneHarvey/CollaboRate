@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,32 +9,41 @@
 <body>
 
     <jsp:include page="/includes/header.jsp"></jsp:include>
-    
+
     <div class="body">
         <div class="body-center-div">
-            <div class="bread-crumbs"><a href="/home">Home</a> / <a href="subject.jsp">Chemistry</a> / <a href="topic.jsp"> Chemical Bonding </a> / Question #37638 </div>
+            <div class="bread-crumbs">
+                <a href="/home">Home</a> / <a
+                    href="/subject?sid=${subject.keyAsString}">${subject.title}</a> / <a
+                    href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
+                / Question
+            </div>
             <div class="questions-remaining">Answer <b>3</b> more questions in this topic <br /> to prove you have learned this top.</div>
-            <h1 class="tc">The electrons in a nonpolar covalent bond are:</h1>
+            <h1 class="tc">${question.title}</h1>
 
             <div class="question-answers">
-                <ol>
-                    <li>Gained</li>
-                    <li>Lost</li>
-                    <li><span class="selected-answer">Shared Equally</span></li>
-                    <li>Shared Unequally</li>
+                <ol id="question-list">
+                    <c:forEach items="${question.answerChoices}" var="choice">
+                        <li><span>${choice}</span></li>
+                    </c:forEach>
                 </ol>
             </div>
             <div class="tc">
-               <a class="btn btn-cg">Submit</a>
-            </div>
-            <div class="feedback">
-                <div>
-                    <span>Rate this question: <span class="glyphicon glyphicon-star yellow"></span> <span class="glyphicon glyphicon-star yellow"></span> <span class="glyphicon glyphicon-star yellow"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> </span>
+                <a id="btn_testSubmitAnswer" class="btn btn-cg"
+                    qid="${question.keyAsString}">Submit</a>
+                <div id="answerLoading" class="tc loadingDiv"
+                    style="display: none;">
+                    <img src="/images/ajax-loader.gif" alt="loading">
                 </div>
-                <div>
-                    <span class="dark-red"><span class="glyphicon glyphicon-exclamation-sign"></span>Flag this question</span>
-                </div>
+                <h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
+                <h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
             </div>
+            <div id="feedback" class="feedback"
+                loggedin="${account == null ? false : true}" url="question"
+                cid="${question.keyAsString}"
+                ur="${metadata == null ? -1 : metadata.rating}"
+                uf="${metadata == null ? false : metadata.flagged}"
+                gr="${question.globalRating}"></div>
         </div>
     </div>
 
@@ -41,4 +51,6 @@
 
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
+<script src="/js/plugins/FeedbackDisplay.js"></script>
+<script src="/js/question.js"></script>
 </html>
