@@ -68,6 +68,7 @@ public class DemoDataServlet extends HttpServlet{
         else if(uploadDataType.equals("video")){
         	Key sKey = KeyFactory.stringToKey(subtopicKey);
             Key aKey = KeyFactory.stringToKey(accountKey);
+            Key subKey = KeyFactory.stringToKey(subjectKey);
             String [] line =text.split("\n");
     	    String [] attributes;
             int i = 0;
@@ -76,13 +77,14 @@ public class DemoDataServlet extends HttpServlet{
             	for(int j = 0; j<attributes.length;j++){
             		attributes[j] = attributes[j].replaceAll(";", "");
             	}
-            	Video.createVideo(attributes[0], attributes[1], attributes[2], sKey, aKey);
+            	Video.createVideo(attributes[0], attributes[1], attributes[2], sKey, aKey, subKey);
             	i++;
             }
         }
         else if(uploadDataType.equals("notes")){
         	Key sKey = KeyFactory.stringToKey(subtopicKey);
             Key aKey = KeyFactory.stringToKey(accountKey);
+            Key subKey = KeyFactory.stringToKey(subjectKey);
             String [] line =text.split("\n");
     	    String [] attributes;
             int i = 0;
@@ -91,7 +93,7 @@ public class DemoDataServlet extends HttpServlet{
             	for(int j = 0; j<attributes.length;j++){
             		attributes[j] = attributes[j].replaceAll(";", "");
             	}
-            	Notes.createNotes(attributes[0], attributes[1], attributes[2], sKey, aKey);
+            	Notes.createNotes(attributes[0], attributes[1], attributes[2], sKey, aKey, subKey);
             	i++;
             }
         }

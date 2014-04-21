@@ -11,12 +11,12 @@ import database.DBObject;
 public class Test extends DBObject implements Serializable {
 
 	private static final long serialVersionUID = -7018562988368587595L;
-	private static final String TEST = "test";
-	private static final String TEST_USER_ID = "userKey";
-	private static final String TEST_SUBJECT = "subjectKey";
-	private static final String TEST_SUBTOPIC = "subtopicKey";
-	private static final String TEST_PASSED = "passed";
-	private static final int QUESTION_COUNT = 10;
+	public static final String TEST = "test";
+	public static final String TEST_USER_ID = "userKey";
+	public static final String TEST_SUBJECT = "subjectKey";
+	public static final String TEST_SUBTOPIC = "subtopicKey";
+	public static final String TEST_PASSED = "passed";
+	private static final int MAX_QUESTION_COUNT = 10;
 	private static final double MINIMUM_GRADE = .6;
 	private ArrayList<Question> questionList;
 	private int currentQuestion = 0;
@@ -73,7 +73,7 @@ public class Test extends DBObject implements Serializable {
 		t.setSubjectKey(subjectID);
 		t.setSubtopicKey(subtopicID);
 		t.setUserKey(uID);
-		t.setQuestionList(Question.getRandomQuestions(QUESTION_COUNT,
+		t.setQuestionList(Question.getRandomQuestions(MAX_QUESTION_COUNT,
 				subtopicID));
 		return t;
 	}

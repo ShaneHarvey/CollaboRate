@@ -22,14 +22,14 @@ import discussion_board.Post;
 public class Subtopic extends DBObject implements Serializable {
 	private static final long serialVersionUID = -8250505173208208901L;
 	private Subject sub;
-	private static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
-	private static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
-	private static final String ENT_SUBTOPIC = "subtopic";
-	private static final String ENT_SUBTOPIC_SUBJECT = "subject";
+	public static final String ENT_SUBTOPIC_TITLE = "subtopicTitle";
+	public static final String ENT_SUBTOPIC_DESCRIPTION = "subtopicDescription";
+	public static final String ENT_SUBTOPIC = "subtopic";
+	public static final String ENT_SUBTOPIC_SUBJECT = "subject";
 	private ArrayList<Post> posts;
-	private static final String ENT_SUBTOPIC_ORDER = "order";
+	public static final String ENT_SUBTOPIC_ORDER = "order";
 
-	private Subtopic(Entity ent) {
+	protected Subtopic(Entity ent) {
 		super(ent);
 	}
 
@@ -49,6 +49,7 @@ public class Subtopic extends DBObject implements Serializable {
 
 	public static Subtopic createSubtopic(String sTitle, Key subjectKey,
 			String sDescription, long order) {
+		//TODO Make sure that sTitle does not match any of the subtopics present in the data store//Dont want dupilicat
 		Entity subtopicE = new Entity(ENT_SUBTOPIC);
 		Subtopic s = new Subtopic(subtopicE);
 		s.setTitle(sTitle);
@@ -59,15 +60,15 @@ public class Subtopic extends DBObject implements Serializable {
 		return s;
 	}
 
-	private void setTitle(String subjectTitle) {
+	protected void setTitle(String subjectTitle) {
 		entity.setProperty(ENT_SUBTOPIC_TITLE, subjectTitle);
 	}
 
-	private void setDescription(String subjectDescription) {
+	protected void setDescription(String subjectDescription) {
 		entity.setProperty(ENT_SUBTOPIC_DESCRIPTION, subjectDescription);
 	}
 
-	private void setSubjectKey(Key k) {
+	protected void setSubjectKey(Key k) {
 		entity.setProperty(ENT_SUBTOPIC_SUBJECT, k);
 	}
 	

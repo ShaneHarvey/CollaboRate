@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 
 import material.Notes;
@@ -25,6 +27,7 @@ public class AddContentServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException, ServletException {
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
 		String stid =  request.getParameter(Keys.SUBJECT_TOPIC_KEY);
+		String subjectKeyStr = request.getParameter(Keys.SUBJECT_KEY);
 		Subtopic subtopic;
 		if (acc == null)
 			response.sendRedirect("/home");
@@ -51,6 +54,7 @@ public class AddContentServlet extends HttpServlet {
 				getServletContext().getRequestDispatcher("/add-content.jsp")
 						.forward(request, response);
 			} else if(stid != null && (subtopic = Subtopic.getFromKeyString(stid)) != null) {
+				Key subjectKey2 = KeyFactory.stringToKey(subjectKeyStr);;
 				if ("createquestion".equals(action)) {
 					// Create a question
 					String questionDescription = request.getParameter("description");
@@ -63,7 +67,7 @@ public class AddContentServlet extends HttpServlet {
 							.getParameter("answerIndex"));
 
 					Question.createQuestion(questionDescription, answersList,
-							answerIndex, subtopic.getKey(), acc.getKey());
+							answerIndex, subtopic.getKey(), acc.getKey(), subjectKey2);
 
 					response.getWriter().print("success");
 				} else if ("addvideo".equals(action)) {
@@ -72,16 +76,16 @@ public class AddContentServlet extends HttpServlet {
 					String videoURL = request.getParameter("url");
 
 					Video.createVideo(videoDescription, videoDescription,
-							videoURL, subtopic.getKey(), acc.getKey());
+							videoURL, subtopic.getKey(), acc.getKey(), subjectKey2);
 
 					response.getWriter().print("success");
 				} else if ("addnotes".equals(action)) {
 					// Add notes
 					String notesDescription = request.getParameter("description");
 					String notesURL = request.getParameter("url");
-
+					
 					Notes.createNotes(notesDescription, notesDescription,
-							notesURL, subtopic.getKey(), acc.getKey());
+							notesURL, subtopic.getKey(), acc.getKey(),subjectKey2);
 
 					response.getWriter().print("success");
 				}

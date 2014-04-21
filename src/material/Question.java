@@ -23,7 +23,7 @@ public class Question extends Material implements Serializable {
 
 	private static final long serialVersionUID = -3534572743954510719L;
 
-	private final static String QUESTION = "question";
+	public final static String QUESTION = "question";
 	private final static String ANSWER_CHOICES = "answer_choices";
 	private final static String ANSWER_EXPLAINATIONS = "answer_explainations";
 	private final static String CORRECT_INDEX = "correct_index";
@@ -104,7 +104,7 @@ public class Question extends Material implements Serializable {
 	 * @return
 	 */
 	public static Question createQuestion(String title, String[] choicesJSON,
-			int correctIndex, Key subtopicKey, Key authorKey) {
+			int correctIndex, Key subtopicKey, Key authorKey, Key subjectKey) {
 		// Took String explanationsJSON out this week, will add back next week
 
 		Entity ent = new Entity(QUESTION);
@@ -115,6 +115,7 @@ public class Question extends Material implements Serializable {
 		newQuestion.setCorrectIndex(correctIndex);
 		newQuestion.setAutor(authorKey);
 		newQuestion.setSubtopicKey(subtopicKey);
+		newQuestion.setSubject(subjectKey);
 		newQuestion.save();
 
 		return newQuestion;
