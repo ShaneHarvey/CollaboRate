@@ -31,6 +31,7 @@ public class SubjectServlet extends HttpServlet {
 				ArrayList<Subtopic> subtopics = sub.getSubtopics();
 				request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
 				request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
+				request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
 				getServletContext().getRequestDispatcher("/subject.jsp").forward(request, response);
 			} catch(IllegalArgumentException e){
 				response.sendRedirect("/home");

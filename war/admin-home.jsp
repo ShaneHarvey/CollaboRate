@@ -19,6 +19,7 @@
 					<li><a href="#tabs1-pane3" data-toggle="tab">Flagged Videos</a></li>
 					<li><a href="#tabs1-pane4" data-toggle="tab">Flagged Lectures</a></li>
 				</ul>
+				<br />
 				<div class="tab-content">
 					<div class="tab-pane active" id="tabs1-pane1">
 						<div class="content-holder tc">

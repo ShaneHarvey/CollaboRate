@@ -110,34 +110,9 @@ $(function() {
 					success : function(data) {
 						$('#answerLoading').hide();
 						var response = JSON.parse(data);
-						/*
-						 * Are we going to show each answer to the user?
-						 * 
-						var answer = response.answer;
-						if (answer === index) {
-							//#TODO Decrement / increment answer counter and ask for next question
-							$('#correctAnswer').show();
-							$('#question-list span').each(function() {
-								if ($(this).hasClass('selected-answer')) {
-									$(this).removeClass('selected-answer');
-									$(this).addClass('correct-answer');
-								}
-							});
-						} else {
-							$('#incorrectAnswer').show();
-							var counter = 0;
-							$('#question-list span').each(function() {
-								if ($(this).hasClass('selected-answer')) {
-									$(this).removeClass('selected-answer');
-									$(this).addClass('incorrect-answer');
-								}
-								if (counter == answer)
-									$(this).addClass('correct-answer');
-								counter++;
-							});
-						}
-						*/
 						if(typeof response.testResult === 'undefined'){
+							$('#progress-bar').attr('style', 'width: ' + response.pct + '%');
+							$('#progress-bar').text(response.pct + '%');
 							// Load the next question
 							$('#question-title').text(response.nextQuestion.title);
 							$('#question-list').empty();
@@ -155,9 +130,17 @@ $(function() {
 							$('#btn_testSubmitAnswer').attr('qid', response.nextQuestion.qid);
 							$('#correctAnswer').hide();
 							$('#incorrectAnswer').hide();
+							// Update feedback display for new question
+							$('#feedback').attr('cid', response.nextQuestion.qid); // Content id
+							$('#feedback').attr('ur', response.userRating); // User rating
+							$('#feedback').attr('uf', response.flagged); // User flagged?
+							$('#feedback').attr('gr', response.nextQuestion.globalRating); // Global Rating
+							$('#feedback').FeedbackDisplay();
 						} else if(response.testResult ){
 							// Test passed
 							$('#testPassed').show();
+							$('#progress-bar').attr('style', 'width: 100%');
+							$('#progress-bar').text('100%');
 						} else {
 							// Test failed
 							$('#testFailed').show();

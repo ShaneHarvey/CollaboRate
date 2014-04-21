@@ -26,6 +26,7 @@
 					<li><a href="#tabs1-pane2" data-toggle="tab">Add Video</a></li>
 					<li><a href="#tabs1-pane3" data-toggle="tab">Add Notes</a></li>
 				</ul>
+				<br />
 				<div class="tab-content">
 					<div class="tab-pane active" id="tabs1-pane1">
 						<div class="content-holder tc">
