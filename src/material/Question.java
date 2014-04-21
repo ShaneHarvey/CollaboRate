@@ -57,6 +57,10 @@ public class Question extends Material implements Serializable {
 	public int getCorrectIndex() {
 		return Integer.parseInt((String) entity.getProperty(CORRECT_INDEX));
 	}
+	
+	public boolean checkAnswer(int userChoice){
+		return (getCorrectIndex() == userChoice);
+	}
 
 	/**
 	 * Get a question object that has the given key in the data store
@@ -133,9 +137,8 @@ public class Question extends Material implements Serializable {
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_RATING,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
-		for (Entity result : pq.asIterable()) {
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
 			topRatedQuestions.add(new Question(result));
 		}
 		return topRatedQuestions;
@@ -149,9 +152,8 @@ public class Question extends Material implements Serializable {
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
-		for (Entity result : pq.asIterable()) {
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
 			topRatedQuestions.add(new Question(result));
 		}
 		return topRatedQuestions;
@@ -173,6 +175,8 @@ public class Question extends Material implements Serializable {
 		}
 		Collections.shuffle(randomKeys);
 		ArrayList<Question> randomQuestions = new ArrayList<Question>();
+		if (randomKeys.size() < limit)
+			limit = randomKeys.size();
 		for( Entity result : randomKeys.subList(0, limit)){
 			randomQuestions.add(getQuestion(result.getKey()));
 		}
