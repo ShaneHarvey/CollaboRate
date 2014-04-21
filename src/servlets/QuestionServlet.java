@@ -55,6 +55,8 @@ public class QuestionServlet extends HttpServlet {
 				}
 			}
 		} else {
+			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+			Key sKey = KeyFactory.stringToKey(subjectKey);
 			if ("answerquestion".equals(action)) {
 				String qID = request.getParameter(Keys.QUESTION_KEY);
 				Key questionKey = KeyFactory.stringToKey(qID);
@@ -70,7 +72,7 @@ public class QuestionServlet extends HttpServlet {
 							user.getKey(), questionKey);
 					if (a == null)
 						a = QuestionMetadata.createQuestionMetadata(
-								user.getKey(), questionKey);
+								user.getKey(), questionKey, sKey);
 					a.setAnswer(answer == correctAnswer);
 					a.save();
 				}
@@ -87,7 +89,7 @@ public class QuestionServlet extends HttpServlet {
 						user.getKey(), questionKey);
 				if (a == null)
 					a = QuestionMetadata.createQuestionMetadata(user.getKey(),
-							questionKey);
+							questionKey, sKey);
 				a.setMaterialRating(rating);
 				a.save();
 			} else if ("flagcontent".equals(action)) {
@@ -102,7 +104,7 @@ public class QuestionServlet extends HttpServlet {
 				boolean flag = "true".equals(request.getParameter("flag"));
 				if (a == null)
 					a = QuestionMetadata.createQuestionMetadata(user.getKey(),
-							questionKey);
+							questionKey, sKey);
 				a.setFlagged(flag);
 				a.save();
 			}

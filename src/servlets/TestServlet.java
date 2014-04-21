@@ -79,6 +79,8 @@ public class TestServlet extends HttpServlet {
 				}
 				String qID = request.getParameter(Keys.QUESTION_KEY);
 				Key questionKey = KeyFactory.stringToKey(qID);
+				String subjectID =	request.getParameter(Keys.SUBJECT_KEY);
+				Key subjectKey = 	KeyFactory.stringToKey(subjectID);
 				// Get the users answer
 				int userAnswer = Integer.parseInt(request.getParameter("answer"));
 				// Get correct answer
@@ -89,7 +91,7 @@ public class TestServlet extends HttpServlet {
 						user.getKey(), questionKey);
 				if (a == null)
 					a = QuestionMetadata.createQuestionMetadata(
-							user.getKey(), questionKey);
+							user.getKey(), questionKey, subjectKey);
 				a.setAnswer(userAnswer == correctAnswer);
 				a.save();
 				// Log the user's result

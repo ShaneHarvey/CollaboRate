@@ -14,27 +14,27 @@ public class Statistics {
 	private static final int max = Integer.MAX_VALUE;
 	public static int getNumberQuestionsCompleted(Key uKey, Key sKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter userFilter = new FilterPredicate(QuestionStatistics.STATS_USER,
+		Filter userFilter = new FilterPredicate(QuestionMetadata.USERID,
 				FilterOperator.EQUAL, uKey);
-		Filter subjectFilter = new FilterPredicate(QuestionStatistics.STATS_SUBJECT,
+		Filter subjectFilter = new FilterPredicate(QuestionMetadata.STATS_SUBJECT,
 				FilterOperator.EQUAL, sKey);
 		Filter user_Subject_Filter =
 				  CompositeFilterOperator.and(userFilter, subjectFilter);
-		Query photoQuery = new Query(QuestionStatistics.STATS).setFilter(user_Subject_Filter);
+		Query photoQuery = new Query(QuestionMetadata.USER_METADATA).setFilter(user_Subject_Filter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 		//PreparedQuery pq = datastore.prepare(photoQuery);
 	}
 	public static int getNumberQuestionsCorrect(Key uKey, Key sKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter userFilter = new FilterPredicate(QuestionStatistics.STATS_USER,
+		Filter userFilter = new FilterPredicate(QuestionMetadata.USERID,
 				FilterOperator.EQUAL, uKey);
-		Filter subjectFilter = new FilterPredicate(QuestionStatistics.STATS_SUBJECT,
+		Filter subjectFilter = new FilterPredicate(QuestionMetadata.STATS_SUBJECT,
 				FilterOperator.EQUAL, sKey);
-		Filter correctFilter = new FilterPredicate(QuestionStatistics.STATS_CORRECT,
+		Filter correctFilter = new FilterPredicate(QuestionMetadata.STATS_CORRECT,
 				FilterOperator.EQUAL, true);
 		Filter user_Subject_Filter =
 				  CompositeFilterOperator.and(userFilter, subjectFilter, correctFilter);
-		Query photoQuery = new Query(QuestionStatistics.STATS).setFilter(user_Subject_Filter);
+		Query photoQuery = new Query(QuestionMetadata.USER_METADATA).setFilter(user_Subject_Filter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 	}
 	private static double getPercentageCorrect(Key uKey, Key sKey){

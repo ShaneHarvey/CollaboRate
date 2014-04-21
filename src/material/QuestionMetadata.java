@@ -14,15 +14,27 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 public class QuestionMetadata extends UserMaterialMetadata{
 
 	private static final long serialVersionUID = -7499175721777484363L;
-
+	public static final String STATS_SUBJECT = "subject";
 	private static final String QUES_CORRECT_ANSWER = "answerCorrect";
-
+	public static final String STATS_CORRECT = "correct";
 	private QuestionMetadata(Entity e) {
 		super(e);
 	}
 
 	public void setAnswer(boolean correct) {
 		entity.setProperty(QUES_CORRECT_ANSWER, correct);
+	}
+	private void setSubjectKey(Key sKey){
+		entity.setProperty(STATS_SUBJECT, sKey);
+	}
+	private void setCorrect(boolean b){
+		entity.setProperty(STATS_CORRECT, b);
+	}
+	public Key getSubjectKey(){
+		return (Key)entity.getProperty(STATS_SUBJECT);
+	}
+	public boolean getCorrect(){
+		return (boolean)entity.getProperty(STATS_CORRECT);
 	}
 
 	/*
@@ -33,7 +45,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 		return correct == null ? false : correct;
 	}
 	
-	public static QuestionMetadata createQuestionMetadata(Key uID, Key mID){
+	public static QuestionMetadata createQuestionMetadata(Key uID, Key mID, Key sKey){
 		Entity e = new Entity(USER_METADATA);
 		QuestionMetadata temp = new QuestionMetadata(e);
 		temp.setMaterialID(mID);
@@ -41,6 +53,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 		temp.setFlagged(false);
 		temp.setMaterialRating(-1);
 		temp.setAnswer(false);
+		temp.setSubjectKey(sKey);
 		temp.save();
 		return temp;
 	}

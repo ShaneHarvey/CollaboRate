@@ -20,7 +20,7 @@ import database.DBObject;
 
 public class QuestionStatistics extends DBObject implements Serializable{
 	public static final String STATS = "question_stats";
-	public static final String STATS_SUBJECT = "subject";
+	//public static final String STATS_SUBJECT = "subject";
 	public static final String STATS_USER = "user";
 	public static final String STATS_QUESTION = "question";
 	public static final String STATS_CORRECT = "correct";
