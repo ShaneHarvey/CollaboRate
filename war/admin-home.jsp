@@ -99,7 +99,6 @@
 					</div>
 				</div><!-- /.tab-content -->
 			</div><!-- /.tabbable -->
-		</div><!-- .tabs-basic -->
 		</div>
 	</div>
 
