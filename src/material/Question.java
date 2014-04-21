@@ -49,6 +49,10 @@ public class Question extends Material implements Serializable {
 		String jsonChoices = (String) entity.getProperty(ANSWER_CHOICES);
 		return new Gson().fromJson(jsonChoices, String[].class);
 	}
+	
+	public String getAnswerChoicesJson() {
+		return (String) entity.getProperty(ANSWER_CHOICES);
+	}
 
 	public String getAnswerExplainations() {
 		return (String) entity.getProperty(ANSWER_EXPLAINATIONS);
