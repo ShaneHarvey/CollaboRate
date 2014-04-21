@@ -77,9 +77,8 @@ public class Video extends Material implements Serializable {
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_RATING,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
-		for (Entity result : pq.asIterable()) {
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
 			topRatedVideos.add(new Video(result));
 		}
 		return topRatedVideos;
@@ -93,9 +92,8 @@ public class Video extends Material implements Serializable {
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_DATE,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
-		for (Entity result : pq.asIterable()) {
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
 			topRatedVideos.add(new Video(result));
 		}
 		return topRatedVideos;

@@ -76,10 +76,10 @@
 					<div class="col-lg-6 shift-right-5">
 						<div class="tc">
 							<br /> <br /> <a class="mega-btn btn btn-cg"
-								href="take-test.jsp">Take Test</a> <br /> <br /> <a
+								href="test?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Take Test</a>
+							<br /> <br /> <a
 								class="mega-btn btn btn-cg"
-								href="
-								/addcontent?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Contribute</a>
+								href="/addcontent?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Contribute</a>
 							<br /> <br /> <a class="mega-btn btn btn-cg"
 								href="/discuss?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Discuss</a>
 						</div>

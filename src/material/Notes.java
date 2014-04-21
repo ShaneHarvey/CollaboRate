@@ -71,9 +71,8 @@ public class Notes extends Material {
 		Query photoQuery = new Query(ENT_NOTES).addSort(MATERIAL_RATING,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Notes> topRatedLectures = new ArrayList<Notes>();
-		for (Entity result : pq.asIterable()) {
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
 			topRatedLectures.add(new Notes(result));
 		}
 		return topRatedLectures;
@@ -87,9 +86,8 @@ public class Notes extends Material {
 		Query photoQuery = new Query(ENT_NOTES).addSort(MATERIAL_DATE,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		pq.asList(FetchOptions.Builder.withLimit(limit));
 		ArrayList<Notes> topRatedLectures = new ArrayList<Notes>();
-		for (Entity result : pq.asIterable()) {
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
 			topRatedLectures.add(new Notes(result));
 		}
 		return topRatedLectures;

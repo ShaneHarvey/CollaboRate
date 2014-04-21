@@ -28,4 +28,5 @@ public class Keys {
 	public static final String POST = "post"; // Used for holding onto post
 	public static final String META_DATA = "metadata"; // Used for holding meta data
 	public static final String CONTENT_KEY = "cid";
+	public static final String TEST = "test"; // Used for storing a test in the session
 }

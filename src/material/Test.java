@@ -13,53 +13,108 @@ public class Test extends DBObject implements Serializable {
 	private static final long serialVersionUID = -7018562988368587595L;
 	private static final String TEST = "test";
 	private static final String TEST_USER_ID = "userKey";
+	private static final String TEST_SUBJECT = "subjectKey";
 	private static final String TEST_SUBTOPIC = "subtopicKey";
 	private static final String TEST_PASSED = "passed";
-	private int questionCount = 3;
+	private static final int QUESTION_COUNT = 10;
+	private static final double MINIMUM_GRADE = .6;
 	private ArrayList<Question> questionList;
-	private Test(Entity test){
+	private int currentQuestion = 0;
+	private int numCorrectAnswers = 0;
+
+	private Test(Entity test) {
 		super(test);
 		test.setProperty(TEST_PASSED, false);
 	}
-	private void setUserKey(Key uID){
+
+	private void setUserKey(Key uID) {
 		entity.setProperty(TEST_USER_ID, uID);
 	}
-	private void setSuptopicKey(Key sID){
+
+	private void setSubtopicKey(Key sID) {
 		entity.setProperty(TEST_SUBTOPIC, sID);
 	}
-	public void setPassed(){
+
+	private void setSubjectKey(Key sID) {
+		entity.setProperty(TEST_SUBTOPIC, sID);
+	}
+
+	public void setPassed() {
 		entity.setProperty(TEST_PASSED, true);
 	}
-	public boolean getPassed(){
-		return (boolean)entity.getProperty(TEST_PASSED);
+
+	public boolean getPassed() {
+		return (boolean) entity.getProperty(TEST_PASSED);
 	}
-	public Key getUserKey(){
-		return (Key)entity.getProperty(TEST_USER_ID);
+
+	public Key getUserKey() {
+		return (Key) entity.getProperty(TEST_USER_ID);
 	}
-	public Key getSubtopicKey(){
-		return (Key)entity.getProperty(TEST_SUBTOPIC);
+
+	public Key getSubtopicKey() {
+		return (Key) entity.getProperty(TEST_SUBJECT);
 	}
-	public void incrementQuestionCount(){
-		this.questionCount++;
+
+	public Key getSubjectKey() {
+		return (Key) entity.getProperty(TEST_SUBTOPIC);
 	}
-	public void decrementQuestionCount(){
-		this.questionCount--;
-	}
-	public int getQuestionCount(){
-		return this.questionCount;
-	}
-	public void setQuestionList(ArrayList<Question> list){
+
+	public void setQuestionList(ArrayList<Question> list) {
 		this.questionList = list;
 	}
-	public ArrayList<Question> getQuestionList(){
+
+	public ArrayList<Question> getQuestionList() {
 		return this.questionList;
 	}
-	/*public static Test createTest(Key uID, Key sID){
+
+	public static Test createTest(Key uID, Key subjectID, Key subtopicID) {
 		Entity testEntity = new Entity(TEST);
 		Test t = new Test(testEntity);
-		t.setSuptopicKey(sID);
+		t.setSubjectKey(subjectID);
+		t.setSubtopicKey(subtopicID);
 		t.setUserKey(uID);
+		t.setQuestionList(Question.getRandomQuestions(QUESTION_COUNT,
+				subtopicID));
+		return t;
+	}
 
-	}*/
-	
+	public boolean gradeTest() {
+		boolean passed = ((numCorrectAnswers/questionList.size()) >= MINIMUM_GRADE);
+		if(passed)
+			setPassed();
+		this.save();
+		return passed;
+	}
+
+	/**
+	 * Gets the current question.
+	 * 
+	 * @return the current question or null if the test is over
+	 */
+	public Question getCurrentQuestion(){
+		if (currentQuestion < questionList.size())
+			return questionList.get(currentQuestion);
+		else
+			return null;
+	}
+	/**
+	 * Records the result of a question.
+	 * 
+	 * @param isCorrect
+	 *           if user got this answer correct
+	 * @return boolean
+	 * 			  true if the test is over
+	 */
+	public boolean logResult(boolean isCorrect) {
+		if (currentQuestion < questionList.size()) {
+			if (isCorrect)
+				numCorrectAnswers++;
+		}
+		if (currentQuestion == questionList.size() - 1) {
+			return true;
+		}
+		// Increment to next question
+		currentQuestion++;
+		return false;
+	}
 }
