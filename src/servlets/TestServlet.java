@@ -90,7 +90,7 @@ public class TestServlet extends HttpServlet {
 					//Remove test from session
 					request.getSession().removeAttribute(Keys.TEST);
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
-							",\"passed\":" + passed + "}");
+							",\"testResult\":" + passed + "}");
 				} else {
 					// Load the next question
 					Question nextQuestion = test.getCurrentQuestion();
@@ -98,9 +98,9 @@ public class TestServlet extends HttpServlet {
 					request.getSession().setAttribute(Keys.TEST, test);
 					// Send the answer and the next question
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
-							",\"nextQuestion\": {\"title\" : " + nextQuestion.getTitle() +
+							",\"nextQuestion\": {\"title\" : " + "\""+nextQuestion.getTitle()+"\"" +
 							",\"answerChoices\":" + nextQuestion.getAnswerChoicesJson() +
-							",\"qID\" : "+ "\""+nextQuestion.getKeyAsString()+"\"" + "}}");
+							",\"qid\" : "+ "\""+nextQuestion.getKeyAsString()+"\"" + "}}");
 				}	
 			}
 		}

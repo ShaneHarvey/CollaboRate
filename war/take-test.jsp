@@ -19,7 +19,7 @@
                 / Question
             </div>
             <div class="questions-remaining">Answer <b>3</b> more questions in this topic <br /> to prove you have learned this top.</div>
-            <h1 class="tc">${question.title}</h1>
+            <h1 class="tc" id="question-title">${question.title}</h1>
 
             <div class="question-answers">
                 <ol id="question-list">

@@ -109,7 +109,8 @@ $(function() {
 					url : 'test',
 					success : function(data) {
 						$('#answerLoading').hide();
-						var answer = JSON.parse(data).answer;
+						var response = JSON.parse(data);
+						var answer = response.answer;
 						if (answer === index) {
 							//#TODO Decrement / increment answer counter and ask for next question
 							$('#correctAnswer').show();
@@ -131,6 +132,27 @@ $(function() {
 									$(this).addClass('correct-answer');
 								counter++;
 							});
+						}
+						if(typeof response.testResult === 'undefined'){
+							// Load the next question
+							$('#question-title').text(response.nextQuestion.title);
+							$('#question-list').empty();
+							//$('#question-list').remove('li');
+							for(var answerChoice in response.nextQuestion.answerChoices){
+								$('#question-list').append('<li><span>'+answerChoice+'</span></li>');
+							}
+							// Add click lister to questions on view question page
+							$('#question-list li').click(function() {
+								$('#question-list span').each(function() {
+									$(this).removeClass('selected-answer');
+								});
+								$(this).children('span').addClass('selected-answer');
+							});
+							$('#btn_testSubmitAnswer').attr('qid', response.nextQuestion.qid);
+						} else if(response.testResult ){
+							// Test passed
+						} else {
+							// Test failed
 						}
 					},
 					error : function(data) {
