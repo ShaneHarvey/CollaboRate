@@ -11,6 +11,7 @@ var fb_id = 0;
 (function($) {
 
 	$.fn.FeedbackDisplay = function() {
+		$(this).empty();
 		// Get attributes from object
 		var user = $(this).attr('loggedin');
 		var postURL = $(this).attr('url');

@@ -70,11 +70,19 @@
 				<div class="col-lg-6 shift-right-5">
 					<div class="tc">
 						<c:if test="${account != null}">
-							<a class="mega-btn btn btn-cg"
-								href="/test?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Take
-								Test</a>
-							<br />
-							<br />
+							<c:choose>
+								<c:when test="${test}">
+                                    <h3 class="green">You have already completed this subtopic.</h3>
+								</c:when>
+								<c:otherwise>
+									<a class="mega-btn btn btn-cg"
+										href="/test?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Take
+										Test</a>
+										<br />
+										<br />
+								</c:otherwise>
+							</c:choose>
+							
 							<a class="mega-btn btn btn-cg"
 								href="
 								/addcontent?sid=${subject.keyAsString}&stid=${subtopic.keyAsString}">Contribute</a>

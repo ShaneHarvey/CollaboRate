@@ -36,8 +36,6 @@ public class TestServlet extends HttpServlet {
 			return;
 		}
 		if (action == null) {
-			// TODO: Create a test and get a question from it instead of hard coded question.
-			String qID = "ag5jeWJlci1ncmFwZS1iM3IVCxIIcXVlc3Rpb24YgICAgICAwggM";
 			try {
 				// Get subtopic and subject
 				String subjectID =	request.getParameter(Keys.SUBJECT_KEY);
@@ -48,8 +46,14 @@ public class TestServlet extends HttpServlet {
 				Subject sub = 		Subject.getSubject(subjectKey);
 				request.setAttribute(Keys.SUBTOPIC, st);
 				request.setAttribute(Keys.SUBJECT, sub);
+				// See if this user already took test
+				Test test = Test.getTest(user.getKey(), subjectKey, subtopicKey);
+				if(test != null && test.getPassed()) {
+					response.sendRedirect("/home");	
+					return;
+				}
 				// Create test
-				Test test = Test.createTest(user.getKey(), subjectKey, subtopicKey);
+				test = Test.createTest(user.getKey(), subjectKey, subtopicKey);
 				// Store the test in the session
 				Question question = test.getCurrentQuestion();
 				if (question == null){
@@ -65,7 +69,7 @@ public class TestServlet extends HttpServlet {
 				request.setAttribute(Keys.META_DATA, data);
 				getServletContext().getRequestDispatcher("/take-test.jsp")
 						.forward(request, response);
-			} catch (IllegalArgumentException e) {
+			} catch (Exception e) {
 				response.sendRedirect("/home");
 			}
 		} else {
@@ -94,8 +98,9 @@ public class TestServlet extends HttpServlet {
 				a.save();
 				// Log the user's result
 				boolean testOver = test.logResult(userAnswer == correctAnswer);
-				if(testOver){
-					boolean passed = test.gradeTest();
+				// End test early if user has passed
+				boolean passed = test.gradeTest();
+				if(testOver || passed){
 					//Remove test from session
 					request.getSession().removeAttribute(Keys.TEST);
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
@@ -105,11 +110,16 @@ public class TestServlet extends HttpServlet {
 					Question nextQuestion = test.getCurrentQuestion();
 					request.setAttribute(Keys.QUESTION, nextQuestion);
 					request.getSession().setAttribute(Keys.TEST, test);
+					QuestionMetadata data = QuestionMetadata.getQuestionMetadata(user.getKey(), nextQuestion.getKey());
 					// Send the answer and the next question
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
 							",\"nextQuestion\": {\"title\" : " + "\""+nextQuestion.getTitle()+"\"" +
 							",\"answerChoices\":" + nextQuestion.getAnswerChoicesJson() +
-							",\"qid\" : "+ "\""+nextQuestion.getKeyAsString()+"\"" + "}}");
+							",\"qid\" : " + "\"" + nextQuestion.getKeyAsString() + "\"" + 
+							",\"globalRating\":" + nextQuestion.getGlobalRating() + "}" +
+							",\"pct\":" + test.getPercentageCorrect() +
+							(data != null ? ",\"userRating\":" + data.getRating() + 
+							",\"flagged\":" + data.getFlagged() : "") + "}");
 				}	
 			}
 		}

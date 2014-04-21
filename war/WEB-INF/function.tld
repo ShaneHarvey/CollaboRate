@@ -31,4 +31,11 @@
 	       material.QuestionMetadata getQuestionMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
 	   </function-signature>
 	</function>
+	<function>
+	   <name>getTest</name>
+	   <function-class>material.Test</function-class>
+	   <function-signature>
+	       material.Test getTest(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key);
+	   </function-signature>
+	</function>
 </taglib>
