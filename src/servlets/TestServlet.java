@@ -52,6 +52,11 @@ public class TestServlet extends HttpServlet {
 				Test test = Test.createTest(user.getKey(), subjectKey, subtopicKey);
 				// Store the test in the session
 				Question question = test.getCurrentQuestion();
+				if (question == null){
+					// If no questions could be loaded redirect
+					response.sendRedirect("/home");	
+					return;
+				}
 				request.setAttribute(Keys.QUESTION, question);
 				request.getSession().setAttribute(Keys.TEST, test);
 				// Load Metadata for question
@@ -65,7 +70,13 @@ public class TestServlet extends HttpServlet {
 			}
 		} else {
 			if ("answerquestion".equals(action)) {
-				// TODO: Add functionality to update test object
+				// Load the test object
+				Test test = (Test) request.getSession().getAttribute(Keys.TEST);
+				if(test == null){
+					response.sendRedirect("/subtopic?"+Keys.SUBJECT_TOPIC_KEY+
+							"="+request.getParameter(Keys.SUBJECT_TOPIC_KEY));
+					return;
+				}
 				String qID = request.getParameter(Keys.QUESTION_KEY);
 				Key questionKey = KeyFactory.stringToKey(qID);
 				// Get the users answer
@@ -81,8 +92,6 @@ public class TestServlet extends HttpServlet {
 							user.getKey(), questionKey);
 				a.setAnswer(userAnswer == correctAnswer);
 				a.save();
-				// Update the test object
-				Test test = (Test) request.getSession().getAttribute(Keys.TEST);
 				// Log the user's result
 				boolean testOver = test.logResult(userAnswer == correctAnswer);
 				if(testOver){

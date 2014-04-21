@@ -110,6 +110,9 @@ $(function() {
 					success : function(data) {
 						$('#answerLoading').hide();
 						var response = JSON.parse(data);
+						/*
+						 * Are we going to show each answer to the user?
+						 * 
 						var answer = response.answer;
 						if (answer === index) {
 							//#TODO Decrement / increment answer counter and ask for next question
@@ -133,6 +136,7 @@ $(function() {
 								counter++;
 							});
 						}
+						*/
 						if(typeof response.testResult === 'undefined'){
 							// Load the next question
 							$('#question-title').text(response.nextQuestion.title);
@@ -149,10 +153,14 @@ $(function() {
 								$(this).children('span').addClass('selected-answer');
 							});
 							$('#btn_testSubmitAnswer').attr('qid', response.nextQuestion.qid);
+							$('#correctAnswer').hide();
+							$('#incorrectAnswer').hide();
 						} else if(response.testResult ){
 							// Test passed
+							$('#testPassed').show();
 						} else {
 							// Test failed
+							$('#testFailed').show();
 						}
 					},
 					error : function(data) {

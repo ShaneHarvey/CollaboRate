@@ -37,6 +37,8 @@
                 </div>
                 <h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
                 <h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
+                <h2 id="testPassed" class="green" style="display: none;">Test Passed!</h2>
+                <h2 id="testFailed" class="dark-red" style="display: none;">Test Failed</h2>
             </div>
             <div id="feedback" class="feedback"
                 loggedin="${account == null ? false : true}" url="question"
