@@ -11,42 +11,27 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
-public class QuestionMetadata extends UserMaterialMetadata{
+public class NotesMetadata extends UserMaterialMetadata{
 
 	private static final long serialVersionUID = -7499175721777484363L;
 
-	private static final String QUES_CORRECT_ANSWER = "answerCorrect";
-
-	private QuestionMetadata(Entity e) {
+	private NotesMetadata(Entity e) {
 		super(e);
 	}
-
-	public void setAnswer(boolean correct) {
-		entity.setProperty(QUES_CORRECT_ANSWER, correct);
-	}
-
-	/*
-	 * Return false if never answered this question or answered it incorrectly
-	 */
-	public boolean getAnswerCorrect() {
-		Boolean correct = (Boolean) entity.getProperty(QUES_CORRECT_ANSWER);
-		return correct == null ? false : correct;
-	}
 	
-	public static QuestionMetadata createQuestionMetadata(Key uID, Key mID){
+	public static NotesMetadata createNotesMetadata(Key uID, Key mID){
 		Entity e = new Entity(USER_METADATA);
-		e.setProperty(UserMaterialMetadata.MATERIAL_TYPE, UserMaterialMetadata.MaterialType.QUESTION.val);
-		QuestionMetadata temp = new QuestionMetadata(e);
+		e.setProperty(UserMaterialMetadata.MATERIAL_TYPE, UserMaterialMetadata.MaterialType.NOTES.val);
+		NotesMetadata temp = new NotesMetadata(e);
 		temp.setMaterialID(mID);
 		temp.setUserID(uID);
 		temp.setFlagged(false);
 		temp.setMaterialRating(-1);
-		temp.setAnswer(false);
 		temp.save();
 		return temp;
 	}
 	
-	public static QuestionMetadata getQuestionMetadata(Key uID, Key mID){
+	public static NotesMetadata getNotesMetadata(Key uID, Key mID){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userIdFilter =
 				new FilterPredicate(USERID,
@@ -58,7 +43,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 					mID);
 		Filter materialTypeFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
 				FilterOperator.EQUAL,
-				UserMaterialMetadata.MaterialType.QUESTION.val);
+				UserMaterialMetadata.MaterialType.NOTES.val);
 		Filter combinedFilter =
 				CompositeFilterOperator.and(userIdFilter, materialIdFilter, materialTypeFilter);
 		
@@ -67,7 +52,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 			PreparedQuery pq = datastore.prepare(q);
 			Entity metadata = pq.asSingleEntity();
 			if(metadata != null){
-				return new QuestionMetadata(metadata);
+				return new NotesMetadata(metadata);
 			}else {
 				return null;
 			}

@@ -25,10 +25,16 @@ public class AdminServlet extends HttpServlet {
 		// Attempt to retrieve account from session
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
 
-		// Make sure there is an admin account account
-		if (acc == null || acc.getType() != Account.ActorType.ADMIN)
-			response.getWriter().print("");
-		else {
+		if (action == null) {
+			// Make sure there is an admin account account
+			if (acc == null || acc.getType() != Account.ActorType.ADMIN)
+				response.sendRedirect("/logout");
+			else {
+				// Put all flagged questions in request
+				// Put all flagged videos in request
+				// Put all flagged lectures in request
+			}
+		} else {
 			if ("createsubject".equals(action)) {
 				String subject = request.getParameter("subjectName");
 				// This is a json array of strings
@@ -44,6 +50,8 @@ public class AdminServlet extends HttpServlet {
 					e.printStackTrace();
 					response.getWriter().print("");
 				}
+			} else if ("deletecontent".equals(action)) {
+
 			}
 		}
 	}

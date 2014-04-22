@@ -53,7 +53,7 @@
 					<ol>
 						<c:forEach items="${subtopic.topNotes}" var="n">
 							<c:set var="metadata"
-								value="${fn:getUserMaterialMetadata((account == null ? null : account.key), n.key)}" />
+								value="${fn:getNotesMetadata((account == null ? null : account.key), n.key)}" />
 							<li><a href="${n.URL}" class="fbHover">${n.shortTitle}</a>
 								<div class="feedback feedback-tooltip"
 									loggedin="${account == null ? false : true}" url="notes"

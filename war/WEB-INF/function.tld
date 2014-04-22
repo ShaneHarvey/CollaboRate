@@ -18,10 +18,10 @@
 		</function-signature>
 	</function>
 	<function>
-		<name>getUserMaterialMetadata</name>
-		<function-class>material.UserMaterialMetadata</function-class>
+		<name>getNotesMetadata</name>
+		<function-class>material.NotesMetadata</function-class>
 		<function-signature>
-			material.UserMaterialMetadata getUserMaterialMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
+			material.NotesMetadata getNotesMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
 		</function-signature>
 	</function>
 	<function>
