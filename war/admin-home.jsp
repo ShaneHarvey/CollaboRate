@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +15,14 @@
 			<h1 class="tc">Admin Panel</h1>
 			<div class="tabbable">
 				<ul class="nav nav-tabs nav-justified">
-					<li class="active"><a href="#tabs1-pane1" data-toggle="tab">Add Subjects</a></li>
-					<li><a href="#tabs1-pane2" data-toggle="tab">Flagged Questions</a></li>
-					<li><a href="#tabs1-pane3" data-toggle="tab">Flagged Videos</a></li>
-					<li><a href="#tabs1-pane4" data-toggle="tab">Flagged Lectures</a></li>
+					<li class="active"><a href="#tabs1-pane1" data-toggle="tab">Add
+							Subjects</a></li>
+					<li><a href="#tabs1-pane2" data-toggle="tab">Flagged
+							Questions</a></li>
+					<li><a href="#tabs1-pane3" data-toggle="tab">Flagged
+							Videos</a></li>
+					<li><a href="#tabs1-pane4" data-toggle="tab">Flagged
+							Lectures</a></li>
 				</ul>
 				<br />
 				<div class="tab-content">
@@ -45,7 +50,8 @@
 								</table>
 							</div>
 							<a id="btn_addSubject" class="btn btn-cg">Add Subject</a>
-							<div id="subjectLoading" class="tc loadingDiv" style="display: none;">
+							<div id="subjectLoading" class="tc loadingDiv"
+								style="display: none;">
 								<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
 							</div>
 						</div>
@@ -53,53 +59,61 @@
 					<div class="tab-pane" id="tabs1-pane2">
 						<div class="content-holder">
 							<h2 class="tc">Flagged Questions</h2>
-							<div class="content-holder side-margins-10">
-								<h3 class="tc">Curse Words:</h3>
-								<div class="question-answers">
-									<ol>
-										<li>Bad word 1</li>
-										<li>Bad word 2</li>
-										<li>Bad word 3</li>
-										<li>Bad word 4</li>
-									</ol>
+							<c:forEach items="${flaggedQuestions}" var="q">
+								<div class="content-holder side-margins-10">
+									<h3 class="tc">${q.title}</h3>
+									<div class="question-answers">
+										<ol>
+											<c:forEach items="${q.answerChoices}" var="c">
+												<li><span>${c}</span></li>
+											</c:forEach>
+										</ol>
+									</div>
+									<div class="tc">
+										<a class="btn btn-cg" cid="${q.keyAsString}">Remove</a> <a
+											class="btn btn-cg" cid="${q.keyAsString}">Unflag</a>
+									</div>
 								</div>
-								<div class="tc">
-									<a class="btn btn-cg">Remove</a> <a class="btn btn-cg">Unflag</a>
-								</div>
-							</div>
+							</c:forEach>
 						</div>
 					</div>
 					<div class="tab-pane" id="tabs1-pane3">
 						<div class="content-holder">
 							<h2 class="tc">Flagged Videos</h2>
-							<div class="content-holder side-margins-10">
-								<h3 class="tc">Bad Video</h3>
-								<div class="video-embed">
-								<iframe width="640" height="480"
-									src="https://www.youtube-nocookie.com/embed/7DjsD7Hcd9U?wmode=transparent"
-									frameborder="0" allowfullscreen></iframe>
+							<c:forEach items="${flaggedVideos}" var="v">
+								<div class="content-holder side-margins-10">
+									<h3 class="tc">${v.title}</h3>
+									<div class="video-embed">
+										<iframe width="640" height="480" src="${v.URL}"
+											frameborder="0" allowfullscreen></iframe>
+									</div>
+									<div class="tc">
+										<a class="btn btn-cg" cid="${v.keyAsString}">Remove</a> <a
+											class="btn btn-cg" cid="${v.keyAsString}">Unflag</a>
+									</div>
 								</div>
-								<div class="tc">
-									<a class="btn btn-cg">Remove</a> <a class="btn btn-cg">Unflag</a>
-								</div>
-							</div>
+							</c:forEach>
 						</div>
 					</div>
 					<div class="tab-pane" id="tabs1-pane4">
 						<div class="content-holder">
 							<h2 class="tc">Flagged Lectures</h2>
-							<div class="content-holder side-margins-10 tc">
-								<h3 class="tc">Bad Lecture</h3>
-								<a href="https://www.google.com">https://www.google.com</a> <br />
-								<br />
-								<div class="tc">
-									<a class="btn btn-cg">Remove</a> <a class="btn btn-cg">Unflag</a>
+							<c:forEach items="${flaggedLectures}" var="l">
+								<div class="content-holder side-margins-10 tc">
+									<h3 class="tc">${l.title}</h3>
+									<a href="${l.URL}">${l.URL}</a> <br /> <br />
+									<div class="tc">
+										<a class="btn btn-cg" cid="${l.keyAsString}">Remove</a> <a
+											class="btn btn-cg" cid="${l.keyAsString}">Unflag</a>
+									</div>
 								</div>
-							</div>
+							</c:forEach>
 						</div>
 					</div>
-				</div><!-- /.tab-content -->
-			</div><!-- /.tabbable -->
+				</div>
+				<!-- /.tab-content -->
+			</div>
+			<!-- /.tabbable -->
 		</div>
 	</div>
 

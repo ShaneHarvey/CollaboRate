@@ -48,7 +48,7 @@
 							</div>
 							<span id="btn_addAnswer"
 								class="glyphicon glyphicon-plus hoverHand"></span> <br /> <br />
-							<a id="btn_addQuestion" class="btn btn-cg white" stid="${subtopic.keyAsString}">Create</a>
+							<a id="btn_addQuestion" class="btn btn-cg white" stid="${subtopic.keyAsString}" sid="${subject.keyAsString}">Create</a>
 							<div id="questionLoading" class="tc loadingDiv"
 								style="display: none;">
 								<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
@@ -62,7 +62,7 @@
 								type="text" /> <br /> <span class="title">Video
 								Description:</span> <br />
 							<textarea id="videoDescription"></textarea>
-							<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white" stid="${subtopic.keyAsString}">Add</a>
+							<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white" sid="${subject.keyAsString}" stid="${subtopic.keyAsString}">Add</a>
 							<div id="videoLoading" class="tc loadingDiv"
 								style="display: none;">
 								<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
@@ -76,7 +76,7 @@
 								type="text"> <br /> <span class="title">Notes
 								Description:</span> <br />
 							<textarea id="notesDescription"></textarea>
-							<br /> <br /> <a id="btn_addNotes" class="btn btn-cg white" stid="${subtopic.keyAsString}">Add</a>
+							<br /> <br /> <a id="btn_addNotes" class="btn btn-cg white" sid="${subject.keyAsString}" stid="${subtopic.keyAsString}">Add</a>
 							<div id="notesLoading" class="tc loadingDiv"
 								style="display: none;">
 								<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />

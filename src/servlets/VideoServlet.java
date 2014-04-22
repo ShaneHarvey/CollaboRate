@@ -15,6 +15,7 @@ import material.Subject;
 import material.Subtopic;
 import material.UserMaterialMetadata;
 import material.Video;
+import material.VideoMetadata;
 import constants.Keys;
 
 public class VideoServlet extends HttpServlet {
@@ -43,8 +44,8 @@ public class VideoServlet extends HttpServlet {
 				request.setAttribute(Keys.SUBJECT, sub);
 				// If user is logged in, put meta data for video in session
 				if (user != null) {
-					UserMaterialMetadata data = UserMaterialMetadata
-							.getUserMaterialMetadata(user.getKey(),
+					VideoMetadata data = VideoMetadata
+							.getVideoMetadata(user.getKey(),
 									KeyFactory.stringToKey(vID));
 					request.setAttribute(Keys.META_DATA, data);
 				}
@@ -61,10 +62,10 @@ public class VideoServlet extends HttpServlet {
 				String vID = request.getParameter(Keys.CONTENT_KEY);
 				Key videoKey = KeyFactory.stringToKey(vID);
 				int rating = Integer.parseInt(request.getParameter("rating"));
-				UserMaterialMetadata a = UserMaterialMetadata
-						.getUserMaterialMetadata(user.getKey(), videoKey);
+				VideoMetadata a = VideoMetadata
+						.getVideoMetadata(user.getKey(), videoKey);
 				if (a == null)
-					a = UserMaterialMetadata.createUserMaterialMetadata(
+					a = VideoMetadata.createVideoMetadata(
 							user.getKey(), videoKey);
 				a.setMaterialRating(rating);
 				a.save();
@@ -74,12 +75,12 @@ public class VideoServlet extends HttpServlet {
 					return;
 				String vID = request.getParameter(Keys.CONTENT_KEY);
 				Key videoKey = KeyFactory.stringToKey(vID);
-				UserMaterialMetadata a = UserMaterialMetadata
-						.getUserMaterialMetadata(user.getKey(), videoKey);
+				VideoMetadata a = VideoMetadata
+						.getVideoMetadata(user.getKey(), videoKey);
 
 				boolean flag = "true".equals(request.getParameter("flag"));
 				if (a == null)
-					a = UserMaterialMetadata.createUserMaterialMetadata(
+					a = VideoMetadata.createVideoMetadata(
 							user.getKey(), videoKey);
 				a.setFlagged(flag);
 				a.save();
