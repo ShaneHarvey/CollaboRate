@@ -87,7 +87,9 @@ public class Subtopic extends DBObject implements Serializable {
 	public long getOrder() {
 		return (long)entity.getProperty(ENT_SUBTOPIC_ORDER);
 	}
-
+	public Key getSubjectKey(){
+		return (Key)entity.getProperty(ENT_SUBTOPIC_SUBJECT);
+	}
 	public static ArrayList<Subtopic> getSubtopics(Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

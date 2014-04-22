@@ -20,15 +20,15 @@ public class Subject extends DBObject implements Serializable{
 
 	private static final long serialVersionUID = 5487744678389202343L;
 	//private Entity subjectEntity;
-	private static final String ENT_SUBJECT_TITLE = "subjectTitle";
-	private static final String ENT_SUBJECT_DESCRIPTION ="subjectDescription";
-	private static final String ENT_SUBJECT ="subject";
+	public static final String ENT_SUBJECT_TITLE = "subjectTitle";
+	public static final String ENT_SUBJECT_DESCRIPTION ="subjectDescription";
+	public static final String ENT_SUBJECT ="subject";
 	private ArrayList<Subtopic> subtopicsList;
 	/**
 	 * Constructor for the Subject class. Sets the subjectEntity to the passed entity
 	 * @param sEntity
 	 */
-	private Subject(Entity ent){
+	protected Subject(Entity ent){
 		super(ent);
 	}
 	/**
@@ -73,10 +73,24 @@ public class Subject extends DBObject implements Serializable{
 		}
 		return s;
 	}
-	private void setTitle(String subjectTitle){
+	public static Subject createSubject(String sTitle, String sDescription,ArrayList<RequestSubtopic> subtopics){
+		Entity subjectE = new Entity(ENT_SUBJECT);
+		//TODO check to make sure sTitle does not match a Subject title in the datastore
+		Subject s = new Subject(subjectE);
+		s.setTitle(sTitle);
+		s.setDescription(sDescription);
+		s.save();
+		long order = 0;
+		for(RequestSubtopic st: subtopics) {
+			Subtopic.createSubtopic(st.getTitle(), st.getKey(), st.getDescription(), st.getOrder());
+			order += 100;
+		}
+		return s;
+	}
+	protected void setTitle(String subjectTitle){
 		entity.setProperty(ENT_SUBJECT_TITLE, subjectTitle);
 	}
-	private void setDescription(String subjectDescription){
+	protected void setDescription(String subjectDescription){
 		entity.setProperty(ENT_SUBJECT_DESCRIPTION, subjectDescription);
 	}
 	public String getTitle(){

@@ -34,7 +34,7 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 	public static RequestSubtopic getFromKeyString(String key) {
 		return getSubtopicRequest(KeyFactory.stringToKey(key));
 	}
-	public static Subtopic createSubtopicRequest(String sTitle, Key subjectKey,
+	public static RequestSubtopic createSubtopicRequest(String sTitle, Key subjectKey,
 			String sDescription, long order) {
 		//TODO Make sure that sTitle does not match any of the subtopics present in the data store//Dont want dupilicat
 		Entity reqSubtopicE = new Entity(ENT_SUBTOPIC_REQUEST);
@@ -62,5 +62,26 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		}
 		return reqSubtopics;
 	}
-	
+	public static boolean insertSubtopicRequest(Key subReqKey){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter subjectFilter = new FilterPredicate(ENT_SUBTOPIC_SUBJECT,
+				FilterOperator.EQUAL, subReqKey);
+		Query subtopicRequestQuery = new Query(ENT_SUBTOPIC_REQUEST).setFilter(
+				subjectFilter);
+		try{
+			PreparedQuery pq = datastore.prepare(subtopicRequestQuery);
+			Entity request = pq.asSingleEntity();
+			if(request != null){
+				RequestSubtopic s = new RequestSubtopic(request);
+				Subtopic newSubtopic = Subtopic.createSubtopic(s.getTitle(), s.getSubjectKey(), s.getDescription(), s.getOrder());
+				newSubtopic.save();
+				return true;
+			}
+			return false;
+		} catch(PreparedQuery.TooManyResultsException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
