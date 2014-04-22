@@ -70,8 +70,8 @@
 										</ol>
 									</div>
 									<div class="tc">
-										<a class="btn btn-cg" cid="${q.keyAsString}">Remove</a> <a
-											class="btn btn-cg" cid="${q.keyAsString}">Unflag</a>
+										<a class="btn btn-cg remove" cid="${q.keyAsString}" ctype="1">Remove</a> <a
+											class="btn btn-cg unflag" cid="${q.keyAsString}" ctype="1">Unflag</a>
 									</div>
 								</div>
 							</c:forEach>
@@ -88,8 +88,8 @@
 											frameborder="0" allowfullscreen></iframe>
 									</div>
 									<div class="tc">
-										<a class="btn btn-cg" cid="${v.keyAsString}">Remove</a> <a
-											class="btn btn-cg" cid="${v.keyAsString}">Unflag</a>
+										<a class="btn btn-cg remove" cid="${v.keyAsString}" ctype="0">Remove</a> <a
+											class="btn btn-cg unflag" cid="${v.keyAsString}" ctype="0">Unflag</a>
 									</div>
 								</div>
 							</c:forEach>
@@ -97,14 +97,14 @@
 					</div>
 					<div class="tab-pane" id="tabs1-pane4">
 						<div class="content-holder">
-							<h2 class="tc">Flagged Lectures</h2>
-							<c:forEach items="${flaggedLectures}" var="l">
+							<h2 class="tc">Flagged Notes</h2>
+							<c:forEach items="${flaggedNotes}" var="n">
 								<div class="content-holder side-margins-10 tc">
-									<h3 class="tc">${l.title}</h3>
-									<a href="${l.URL}">${l.URL}</a> <br /> <br />
+									<h3 class="tc">${n.title}</h3>
+									<a href="${n.URL}" target="_blank">${n.URL}</a> <br /> <br />
 									<div class="tc">
-										<a class="btn btn-cg" cid="${l.keyAsString}">Remove</a> <a
-											class="btn btn-cg" cid="${l.keyAsString}">Unflag</a>
+										<a class="btn btn-cg remove" cid="${n.keyAsString}" ctype="2">Remove</a> <a
+											class="btn btn-cg unflag" cid="${n.keyAsString}" ctype="2">Unflag</a>
 									</div>
 								</div>
 							</c:forEach>

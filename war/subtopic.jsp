@@ -23,9 +23,9 @@
 				<div class="col-lg-6 content-holder shift-left-5">
 					<h4 class="tc">Highest Rated Questions</h4>
 					<ol>
-						<c:forEach items="${subtopic.topQuestions}" var="q">
+						<c:forEach items="${topQuestions}" var="q">
 							<c:set var="metadata"
-								value="${account == null ? null : fn:getQuestionMetadata(account.key, q.key)}" />
+								value="${account == null ? null : fn:getQuestionMetadata(account.key, q)}" />
 							<c:set var="correct"
 								value="${(metadata == null || !metadata.answerCorrect) ? false : true}" />
 							<li><span><a class="${correct ? " glyphicon
@@ -40,7 +40,7 @@
 				<div class="col-lg-6 content-holder shift-right-5">
 					<h4 class="tc">Highest Rated Videos</h4>
 					<ol>
-						<c:forEach items="${subtopic.topVideos}" var="v">
+						<c:forEach items="${topVideos}" var="v">
 							<li><a href="/video?vid=${v.keyAsString}">${v.shortTitle}</a></li>
 						</c:forEach>
 					</ol>
@@ -51,10 +51,10 @@
 				<div class="col-lg-6 content-holder shift-left-5">
 					<h4 class="tc">Highest Rated Notes</h4>
 					<ol>
-						<c:forEach items="${subtopic.topNotes}" var="n">
+						<c:forEach items="${topNotes}" var="n">
 							<c:set var="metadata"
-								value="${fn:getNotesMetadata((account == null ? null : account.key), n.key)}" />
-							<li><a href="${n.URL}" class="fbHover">${n.shortTitle}</a>
+								value="${account == null ? null : fn:getNotesMetadata(account.key, n)}" />
+							<li><a href="${n.URL}" class="fbHover" target="_blank">${n.shortTitle}</a>
 								<div class="feedback feedback-tooltip"
 									loggedin="${account == null ? false : true}" url="notes"
 									cid="${n.keyAsString}"

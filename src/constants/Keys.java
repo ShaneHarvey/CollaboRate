@@ -29,4 +29,11 @@ public class Keys {
 	public static final String META_DATA = "metadata"; // Used for holding meta data
 	public static final String CONTENT_KEY = "cid";
 	public static final String TEST = "test"; // Used for storing a test in the session
+	public static final String FLAGGED_QUESTIONS = "flaggedQuestions"; // Used for holding flagged
+	public static final String FLAGGED_VIDEOS = "flaggedVideos";
+	public static final String FLAGGED_NOTES = "flaggedNotes";
+	public static final String CONTENT_TYPE = "ctype"; // Used for holding content type
+	public static final String TOP_QUESTIONS = "topQuestions";
+	public static final String TOP_VIDEOS = "topVideos";
+	public static final String TOP_NOTES = "topNotes";
 }

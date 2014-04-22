@@ -113,18 +113,6 @@ public class Subtopic extends DBObject implements Serializable {
 					.getProperty(ENT_SUBTOPIC_SUBJECT));
 		return sub;
 	}
-
-	public ArrayList<Question> getTopQuestions() {
-		return Question.getTopRatedQuestions(5, entity.getKey());
-	}
-
-	public ArrayList<Video> getTopVideos() {
-		return Video.getTopRatedVideos(5, entity.getKey());
-	}
-
-	public ArrayList<Notes> getTopNotes() {
-		return Notes.getTopRatedNotes(5, entity.getKey());
-	}
 	
 	public ArrayList<Post> getPosts(){
 		if(posts == null)

@@ -17,8 +17,8 @@ public class QuestionMetadata extends UserMaterialMetadata{
 	public static final String STATS_SUBJECT = "subject";
 	private static final String QUES_CORRECT_ANSWER = "answerCorrect";
 	public static final String STATS_CORRECT = "correct";
-	private QuestionMetadata(Entity e) {
-		super(e);
+	private QuestionMetadata(Entity e, Key stID) {
+		super(e, stID);
 	}
 
 	public void setAnswer(boolean correct) {
@@ -45,21 +45,21 @@ public class QuestionMetadata extends UserMaterialMetadata{
 		return correct == null ? false : correct;
 	}
 	
-	public static QuestionMetadata createQuestionMetadata(Key uID, Key mID, Key sKey){
+	public static QuestionMetadata createQuestionMetadata(Key uID, Question ques){
 		Entity e = new Entity(USER_METADATA);
 		e.setProperty(UserMaterialMetadata.MATERIAL_TYPE, UserMaterialMetadata.MaterialType.QUESTION.val);
-		QuestionMetadata temp = new QuestionMetadata(e);
-		temp.setMaterialID(mID);
+		QuestionMetadata temp = new QuestionMetadata(e, ques.getSubtopicKey());
+		temp.setMaterialID(ques.getKey());
 		temp.setUserID(uID);
 		temp.setFlagged(false);
 		temp.setMaterialRating(-1);
 		temp.setAnswer(false);
-		temp.setSubjectKey(sKey);
+		temp.setSubjectKey(ques.getSubject());
 		temp.save();
 		return temp;
 	}
 	
-	public static QuestionMetadata getQuestionMetadata(Key uID, Key mID){
+	public static QuestionMetadata getQuestionMetadata(Key uID, Question ques){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userIdFilter =
 				new FilterPredicate(USERID,
@@ -68,7 +68,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 		Filter materialIdFilter = 
 				new FilterPredicate(MATERIALID,
 					FilterOperator.EQUAL,
-					mID);
+					ques.getKey());
 		Filter materialTypeFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
 				FilterOperator.EQUAL,
 				UserMaterialMetadata.MaterialType.QUESTION.val);
@@ -80,7 +80,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 			PreparedQuery pq = datastore.prepare(q);
 			Entity metadata = pq.asSingleEntity();
 			if(metadata != null){
-				return new QuestionMetadata(metadata);
+				return new QuestionMetadata(metadata, ques.getSubtopicKey());
 			}else {
 				return null;
 			}

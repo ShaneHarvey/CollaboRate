@@ -121,7 +121,7 @@ public class Question extends Material implements Serializable {
 		return newQuestion;
 	}
 
-	public static ArrayList<Question> getFlaggedQuestions() {
+	/*public static ArrayList<Question> getFlaggedQuestions() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_FLAGGED_COUNT,
@@ -132,14 +132,14 @@ public class Question extends Material implements Serializable {
 			listOfFlagged.add(new Question(result));
 		}
 		return listOfFlagged;
-	}
+	}*/
 
-	public static ArrayList<Question> getTopRatedQuestions(int limit, Key sKey) {
+	/*public static ArrayList<Question> getTopRatedQuestions(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
 				FilterOperator.EQUAL, sKey);
-		Query photoQuery = new Query(QUESTION).addSort(MATERIAL_RATING,
+		Query photoQuery = new Query(QUESTION).setFilter(subtopicFilter);/*.addSort(MATERIAL_RATING,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
 		ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
@@ -147,7 +147,7 @@ public class Question extends Material implements Serializable {
 			topRatedQuestions.add(new Question(result));
 		}
 		return topRatedQuestions;
-	}
+	}*/
 
 	public static ArrayList<Question> getMostRecentQuestions(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -162,6 +162,25 @@ public class Question extends Material implements Serializable {
 			topRatedQuestions.add(new Question(result));
 		}
 		return topRatedQuestions;
+	}
+	
+	public static ArrayList<Question> getXQuestions(int limit, Key sKey) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
+		Query randQuery = new Query(QUESTION).setFilter(subtopicFilter);
+		PreparedQuery pq = datastore.prepare(randQuery);
+		
+		// Add first x questions
+		ArrayList<Question> questions = new ArrayList<Question>();
+		for (Entity result : pq.asIterable()) {
+			if(questions.size() < limit)
+				questions.add(new Question(result));
+			else
+				break;
+		}
+		return questions;
 	}
 
 	public static ArrayList<Question> getRandomQuestions(int limit, Key sKey){

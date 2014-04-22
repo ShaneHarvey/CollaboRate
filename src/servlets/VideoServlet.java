@@ -46,7 +46,7 @@ public class VideoServlet extends HttpServlet {
 				if (user != null) {
 					VideoMetadata data = VideoMetadata
 							.getVideoMetadata(user.getKey(),
-									KeyFactory.stringToKey(vID));
+									vid);
 					request.setAttribute(Keys.META_DATA, data);
 				}
 
@@ -60,13 +60,13 @@ public class VideoServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String vID = request.getParameter(Keys.CONTENT_KEY);
-				Key videoKey = KeyFactory.stringToKey(vID);
+				//Key videoKey = KeyFactory.stringToKey(vID);
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				VideoMetadata a = VideoMetadata
-						.getVideoMetadata(user.getKey(), videoKey);
+						.getVideoMetadata(user.getKey(), Video.getFromKeyString(vID));
 				if (a == null)
 					a = VideoMetadata.createVideoMetadata(
-							user.getKey(), videoKey);
+							user.getKey(), Video.getFromKeyString(vID));
 				a.setMaterialRating(rating);
 				a.save();
 			} else if ("flagcontent".equals(action)) {
@@ -74,14 +74,14 @@ public class VideoServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String vID = request.getParameter(Keys.CONTENT_KEY);
-				Key videoKey = KeyFactory.stringToKey(vID);
+				//Key videoKey = KeyFactory.stringToKey(vID);
 				VideoMetadata a = VideoMetadata
-						.getVideoMetadata(user.getKey(), videoKey);
+						.getVideoMetadata(user.getKey(), Video.getFromKeyString(vID));
 
 				boolean flag = "true".equals(request.getParameter("flag"));
 				if (a == null)
 					a = VideoMetadata.createVideoMetadata(
-							user.getKey(), videoKey);
+							user.getKey(), Video.getFromKeyString(vID));
 				a.setFlagged(flag);
 				a.save();
 			}

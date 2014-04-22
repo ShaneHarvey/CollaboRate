@@ -21,14 +21,14 @@
 		<name>getNotesMetadata</name>
 		<function-class>material.NotesMetadata</function-class>
 		<function-signature>
-			material.NotesMetadata getNotesMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
+			material.NotesMetadata getNotesMetadata(com.google.appengine.api.datastore.Key, material.Notes)
 		</function-signature>
 	</function>
 	<function>
 	   <name>getQuestionMetadata</name>
 	   <function-class>material.QuestionMetadata</function-class>
 	   <function-signature>
-	       material.QuestionMetadata getQuestionMetadata(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key)
+	       material.QuestionMetadata getQuestionMetadata(com.google.appengine.api.datastore.Key, material.Question)
 	   </function-signature>
 	</function>
 	<function>

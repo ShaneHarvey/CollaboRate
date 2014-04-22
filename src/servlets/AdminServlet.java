@@ -1,16 +1,26 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import material.MaterialMetadata;
+import material.MaterialMetadata.FlaggedMaterial;
+import material.UserMaterialMetadata.MaterialType;
+import material.Notes;
+import material.Question;
 import material.Subject;
+import material.UserMaterialMetadata;
+import material.Video;
 import constants.Keys;
 import account.Account;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.*;
 
 public class AdminServlet extends HttpServlet {
@@ -30,9 +40,38 @@ public class AdminServlet extends HttpServlet {
 			if (acc == null || acc.getType() != Account.ActorType.ADMIN)
 				response.sendRedirect("/logout");
 			else {
+				ArrayList<FlaggedMaterial> flagged = MaterialMetadata
+						.getSortedFlagged();
+				ArrayList<Question> fQuestions = new ArrayList<Question>();
+				ArrayList<Video> fVideos = new ArrayList<Video>();
+				ArrayList<Notes> fNotes = new ArrayList<Notes>();
+
+				// Iterate over all flagged data and place them into their
+				// respective lists
+				for (FlaggedMaterial fm : flagged) {
+					MaterialType t = MaterialType.fromValue(fm
+							.getMaterialType());
+					switch (t) {
+						case VIDEO:
+							fVideos.add(Video.getVideo(fm.getKey()));
+							break;
+						case QUESTION:
+							fQuestions.add(Question.getQuestion(fm.getKey()));
+							break;
+						case NOTES:
+							fNotes.add(Notes.getNotes(fm.getKey()));
+					}
+				}
+
 				// Put all flagged questions in request
+				request.setAttribute(Keys.FLAGGED_QUESTIONS, fQuestions);
 				// Put all flagged videos in request
+				request.setAttribute(Keys.FLAGGED_VIDEOS, fVideos);
 				// Put all flagged lectures in request
+				request.setAttribute(Keys.FLAGGED_NOTES, fNotes);
+
+				getServletContext().getRequestDispatcher("/admin-home.jsp")
+						.forward(request, response);
 			}
 		} else {
 			if ("createsubject".equals(action)) {
@@ -50,8 +89,44 @@ public class AdminServlet extends HttpServlet {
 					e.printStackTrace();
 					response.getWriter().print("");
 				}
-			} else if ("deletecontent".equals(action)) {
-
+			} 
+			else if ("removecontent".equals(action)) {
+				String cID = request.getParameter(Keys.CONTENT_KEY);
+				long cType = Long.parseLong(request.getParameter(Keys.CONTENT_TYPE));
+				MaterialType t = MaterialType.fromValue(cType);
+				switch(t) {
+				case VIDEO:
+					Video v = Video.getFromKeyString(cID);
+					v.delete();
+					break;
+				case QUESTION: 
+					Question q = Question.getFromKeyString(cID);
+					q.delete();
+					break;
+				case NOTES: 
+					Notes n = Notes.getFromKeyString(cID);
+					n.delete();
+					break;
+				}
+			}
+			else if("unflagcontent".equals(action)) {
+				String cID = request.getParameter(Keys.CONTENT_KEY);
+				long cType = Long.parseLong(request.getParameter(Keys.CONTENT_TYPE));
+				MaterialType t = MaterialType.fromValue(cType);
+				switch(t) {
+				case VIDEO:
+					Video v = Video.getFromKeyString(cID);
+					v.unflag();
+					break;
+				case QUESTION: 
+					Question q = Question.getFromKeyString(cID);
+					q.unflag();
+					break;
+				case NOTES: 
+					Notes n = Notes.getFromKeyString(cID);
+					n.unflag();
+					break;
+				}
 			}
 		}
 	}

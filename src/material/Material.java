@@ -23,9 +23,6 @@ public abstract class Material extends DBObject {
 	private static final long serialVersionUID = -7741052799916096321L;
 
 	private Subtopic subtopic;
-	public static final String MATERIAL_RATING = "Rating";
-	public static final String MATERIAL_RATING_COUNT = "Rating_Count";
-	public static final String MATERIAL_FLAGGED_COUNT = "Flagged_Count";
 	public static final String MATERIAL_DATE = "Date Created";
 	public static final String MATERIAL_AUTHOR = "Author";
 	public static final String MATERIAL_TITLE = "title";
@@ -36,52 +33,6 @@ public abstract class Material extends DBObject {
 
 	protected Material(Entity e) {
 		super(e);
-		entity.setProperty(MATERIAL_RATING, 0);
-		/*
-		 * entity.setProperty(MATERIAL_RATING_COUNT, 0);
-		 * entity.setProperty(MATERIAL_RATING, 0);
-		 * entity.setProperty(MATERIAL_FLAGGED_COUNT, 0); Date currentDate = new
-		 * Date(); entity.setProperty(MATERIAL_DATE, currentDate);
-		 * entity.setProperty(MATERIAL_AUTHOR, "");
-		 * entity.setProperty(MATERIAL_TITLE, "");
-		 * entity.setProperty(MATERIAL_SUBTOPIC, "");
-		 */
-	}
-
-	/**
-	 * Updates the average rating for the material, given the new single rating
-	 * 
-	 * @param rateStar
-	 *            int - a single rating
-	 */
-	public void updateRating(int rateStar) {
-		double rating = (double) entity.getProperty(MATERIAL_RATING);
-		int rating_count = (int) entity.getProperty(MATERIAL_RATING_COUNT);
-		double temp = rating_count * rating;
-		rating_count++;
-		temp = (temp + rateStar) / (rating_count);
-		rating = temp;
-		entity.setProperty(MATERIAL_RATING, rating);
-		entity.setProperty(MATERIAL_RATING_COUNT, rating_count);
-		save();
-	}
-
-	/**
-	 * update the count of flags this Material has received by 1
-	 */
-	public void updateFlagged() {
-		int flagged_count = (int) entity.getProperty(MATERIAL_FLAGGED_COUNT);
-		flagged_count++;
-		entity.setProperty(MATERIAL_FLAGGED_COUNT, flagged_count);
-		save();
-	}
-
-	/**
-	 * set the number of flags this material has to 0
-	 */
-	public void resetFlagged() {
-		entity.setProperty(MATERIAL_FLAGGED_COUNT, 0);
-		save();
 	}
 
 	public void setAutor(Key author) {
@@ -158,6 +109,7 @@ public abstract class Material extends DBObject {
 			return -1;
 		}
 	}
+	
 	public boolean getUserFlagged(Key uID){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userIDFilter =
@@ -186,10 +138,48 @@ public abstract class Material extends DBObject {
 	}
 	
 	/*
-	 * TODO: Return the average global rating of this material
+	 * Return the average global rating of this material
 	 */
 	public int getGlobalRating(){
-		return 3;
+		return MaterialMetadata.getRating(entity.getKey());
 	}
 	
+	@Override
+	public void delete() {
+		deleteAllMetadata();
+		super.delete();
+	}
+
+	private void deleteAllMetadata() {
+		// Delete all metadata for this material
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter materialIdFilter = new FilterPredicate(
+				UserMaterialMetadata.MATERIALID, FilterOperator.EQUAL,
+				entity.getKey());
+
+		Query q = new Query(UserMaterialMetadata.USER_METADATA).setFilter(materialIdFilter);
+		PreparedQuery pq = datastore.prepare(q);
+		for (Entity ent : pq.asIterable()) {
+			DatastoreServiceFactory.getDatastoreService().delete(ent.getKey());
+		}
+	}
+	
+	/**
+	 *  Unflag all metadata for this material 
+	 */
+	public void unflag() {
+		// Delete all metadata for this material
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter materialIdFilter = new FilterPredicate(UserMaterialMetadata.MATERIALID,
+				FilterOperator.EQUAL, entity.getKey());
+
+		Query q = new Query(UserMaterialMetadata.USER_METADATA).setFilter(materialIdFilter);
+		PreparedQuery pq = datastore.prepare(q);
+		for (Entity ent : pq.asIterable()) {
+			ent.setProperty(UserMaterialMetadata.MATERIAL_FLAGGED, false);
+			DatastoreServiceFactory.getDatastoreService().put(ent);
+		}
+	}
 }

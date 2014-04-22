@@ -65,7 +65,7 @@ public class TestServlet extends HttpServlet {
 				request.getSession().setAttribute(Keys.TEST, test);
 				// Load Metadata for question
 				QuestionMetadata data = QuestionMetadata
-						.getQuestionMetadata(user.getKey(), question.getKey());
+						.getQuestionMetadata(user.getKey(), question);
 				request.setAttribute(Keys.META_DATA, data);
 				getServletContext().getRequestDispatcher("/take-test.jsp")
 						.forward(request, response);
@@ -88,14 +88,14 @@ public class TestServlet extends HttpServlet {
 				// Get the users answer
 				int userAnswer = Integer.parseInt(request.getParameter("answer"));
 				// Get correct answer
-				int correctAnswer = Question.getQuestion(questionKey)
-						.getCorrectIndex();
+				Question ques = Question.getQuestion(questionKey);
+				int correctAnswer = ques.getCorrectIndex();
 				// Update their question meta data
 				QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
-						user.getKey(), questionKey);
+						user.getKey(), ques);
 				if (a == null)
 					a = QuestionMetadata.createQuestionMetadata(
-							user.getKey(), questionKey, subjectKey);
+							user.getKey(), ques);
 				a.setAnswer(userAnswer == correctAnswer);
 				a.save();
 				// Log the user's result
@@ -112,7 +112,7 @@ public class TestServlet extends HttpServlet {
 					Question nextQuestion = test.getCurrentQuestion();
 					request.setAttribute(Keys.QUESTION, nextQuestion);
 					request.getSession().setAttribute(Keys.TEST, test);
-					QuestionMetadata data = QuestionMetadata.getQuestionMetadata(user.getKey(), nextQuestion.getKey());
+					QuestionMetadata data = QuestionMetadata.getQuestionMetadata(user.getKey(), nextQuestion);
 					// Send the answer and the next question
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
 							",\"nextQuestion\": {\"title\" : " + "\""+nextQuestion.getTitle()+"\"" +

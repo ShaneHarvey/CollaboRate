@@ -15,15 +15,15 @@ public class VideoMetadata extends UserMaterialMetadata{
 
 	private static final long serialVersionUID = -7499175721777484363L;
 
-	private VideoMetadata(Entity e) {
-		super(e);
+	private VideoMetadata(Entity e, Key stID) {
+		super(e, stID);
 	}
 	
-	public static VideoMetadata createVideoMetadata(Key uID, Key mID){
+	public static VideoMetadata createVideoMetadata(Key uID, Video vid){
 		Entity e = new Entity(USER_METADATA);
 		e.setProperty(UserMaterialMetadata.MATERIAL_TYPE, UserMaterialMetadata.MaterialType.VIDEO.val);
-		VideoMetadata temp = new VideoMetadata(e);
-		temp.setMaterialID(mID);
+		VideoMetadata temp = new VideoMetadata(e, vid.getSubtopicKey());
+		temp.setMaterialID(vid.getKey());
 		temp.setUserID(uID);
 		temp.setFlagged(false);
 		temp.setMaterialRating(-1);
@@ -31,7 +31,7 @@ public class VideoMetadata extends UserMaterialMetadata{
 		return temp;
 	}
 	
-	public static VideoMetadata getVideoMetadata(Key uID, Key mID){
+	public static VideoMetadata getVideoMetadata(Key uID, Video vid){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userIdFilter =
 				new FilterPredicate(USERID,
@@ -40,7 +40,7 @@ public class VideoMetadata extends UserMaterialMetadata{
 		Filter materialIdFilter = 
 				new FilterPredicate(MATERIALID,
 					FilterOperator.EQUAL,
-					mID);
+					vid.getKey());
 		Filter materialTypeFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
 				FilterOperator.EQUAL,
 				UserMaterialMetadata.MaterialType.VIDEO.val);
@@ -52,7 +52,7 @@ public class VideoMetadata extends UserMaterialMetadata{
 			PreparedQuery pq = datastore.prepare(q);
 			Entity metadata = pq.asSingleEntity();
 			if(metadata != null){
-				return new VideoMetadata(metadata);
+				return new VideoMetadata(metadata, vid.getSubtopicKey());
 			}else {
 				return null;
 			}

@@ -15,15 +15,15 @@ public class NotesMetadata extends UserMaterialMetadata{
 
 	private static final long serialVersionUID = -7499175721777484363L;
 
-	private NotesMetadata(Entity e) {
-		super(e);
+	private NotesMetadata(Entity e, Key stID) {
+		super(e, stID);
 	}
 	
-	public static NotesMetadata createNotesMetadata(Key uID, Key mID){
+	public static NotesMetadata createNotesMetadata(Key uID, Notes n){
 		Entity e = new Entity(USER_METADATA);
 		e.setProperty(UserMaterialMetadata.MATERIAL_TYPE, UserMaterialMetadata.MaterialType.NOTES.val);
-		NotesMetadata temp = new NotesMetadata(e);
-		temp.setMaterialID(mID);
+		NotesMetadata temp = new NotesMetadata(e, n.getSubtopicKey());
+		temp.setMaterialID(n.getKey());
 		temp.setUserID(uID);
 		temp.setFlagged(false);
 		temp.setMaterialRating(-1);
@@ -31,7 +31,7 @@ public class NotesMetadata extends UserMaterialMetadata{
 		return temp;
 	}
 	
-	public static NotesMetadata getNotesMetadata(Key uID, Key mID){
+	public static NotesMetadata getNotesMetadata(Key uID, Notes n){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userIdFilter =
 				new FilterPredicate(USERID,
@@ -40,7 +40,7 @@ public class NotesMetadata extends UserMaterialMetadata{
 		Filter materialIdFilter = 
 				new FilterPredicate(MATERIALID,
 					FilterOperator.EQUAL,
-					mID);
+					n.getKey());
 		Filter materialTypeFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
 				FilterOperator.EQUAL,
 				UserMaterialMetadata.MaterialType.NOTES.val);
@@ -52,7 +52,7 @@ public class NotesMetadata extends UserMaterialMetadata{
 			PreparedQuery pq = datastore.prepare(q);
 			Entity metadata = pq.asSingleEntity();
 			if(metadata != null){
-				return new NotesMetadata(metadata);
+				return new NotesMetadata(metadata, n.getSubtopicKey());
 			}else {
 				return null;
 			}

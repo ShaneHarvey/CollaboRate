@@ -57,7 +57,7 @@ public class Video extends Material implements Serializable {
 		return v;
 	}
 
-	public static ArrayList<Video> getFlaggedVideos() {
+	/*public static ArrayList<Video> getFlaggedVideos() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_FLAGGED_COUNT,
@@ -68,14 +68,14 @@ public class Video extends Material implements Serializable {
 			listOfFlagged.add(new Video(result));
 		}
 		return listOfFlagged;
-	}
+	}*/
 
-	public static ArrayList<Video> getTopRatedVideos(int limit, Key sKey) {
+	/*public static ArrayList<Video> getTopRatedVideos(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
 				FilterOperator.EQUAL, sKey);
-		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_RATING,
+		Query photoQuery = new Query(ENT_VIDEO).setFilter(subtopicFilter);/*.addSort(MATERIAL_RATING,
 				SortDirection.DESCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
 		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
@@ -83,7 +83,7 @@ public class Video extends Material implements Serializable {
 			topRatedVideos.add(new Video(result));
 		}
 		return topRatedVideos;
-	}
+	}*/
 
 	public static ArrayList<Video> getMostRecentVideos(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -98,5 +98,24 @@ public class Video extends Material implements Serializable {
 			topRatedVideos.add(new Video(result));
 		}
 		return topRatedVideos;
+	}
+	
+	public static ArrayList<Video> getXVideos(int limit, Key sKey) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, sKey);
+		Query randQuery = new Query(ENT_VIDEO).setFilter(subtopicFilter);
+		PreparedQuery pq = datastore.prepare(randQuery);
+		
+		// Add first x videos
+		ArrayList<Video> videos = new ArrayList<Video>();
+		for (Entity result : pq.asIterable()) {
+			if(videos.size() < limit)
+				videos.add(new Video(result));
+			else
+				break;
+		}
+		return videos;
 	}
 }

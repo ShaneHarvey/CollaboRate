@@ -1,7 +1,15 @@
 package material;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 import database.DBObject;
 
@@ -39,9 +47,11 @@ public abstract class UserMaterialMetadata extends DBObject {
 	public static final String USER_METADATA = "user_material_metadata";// table
 																		// name
 	public static final String MATERIAL_TYPE = "materialType";
-
-	public UserMaterialMetadata(Entity e) {
+	public static final String Material_SubTopic = "materialSubtopic";
+	
+	public UserMaterialMetadata(Entity e, Key stID) {
 		super(e);
+		e.setProperty(Material_SubTopic, stID);
 	}
 
 	protected void setUserID(Key uID) {
@@ -78,25 +88,4 @@ public abstract class UserMaterialMetadata extends DBObject {
 		Long rating = (Long) entity.getProperty(MATERIAL_RATING);
 		return rating == null ? -1 : rating.intValue();
 	}
-	
-	/*
-	 * public static UserMaterialMetadata createUserMaterialMetadata(Key uID,
-	 * Key mID){ Entity e = new Entity(USER_METADATA); UserMaterialMetadata temp
-	 * = new UserMaterialMetadata(e); temp.setMaterialID(mID);
-	 * temp.setUserID(uID); temp.setFlagged(false); temp.setMaterialRating(-1);
-	 * temp.save(); return temp; } public static UserMaterialMetadata
-	 * getUserMaterialMetadata(Key uID, Key mID){ DatastoreService datastore =
-	 * DatastoreServiceFactory.getDatastoreService(); Filter userIdFilter = new
-	 * FilterPredicate(USERID, FilterOperator.EQUAL, uID); Filter
-	 * materialIdFilter = new FilterPredicate(MATERIALID, FilterOperator.EQUAL,
-	 * mID); Filter combinedFilter =
-	 * CompositeFilterOperator.and(userIdFilter,materialIdFilter);
-	 * 
-	 * Query q = new Query(USER_METADATA).setFilter(combinedFilter); try{
-	 * PreparedQuery pq = datastore.prepare(q); Entity metadata =
-	 * pq.asSingleEntity(); if(metadata != null){ return new
-	 * UserMaterialMetadata(metadata); }else { return null; } }
-	 * catch(PreparedQuery.TooManyResultsException e){ e.printStackTrace();
-	 * return null; } }
-	 */
 }

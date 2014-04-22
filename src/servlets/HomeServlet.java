@@ -29,8 +29,7 @@ public class HomeServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/home.jsp").forward(
 					request, response);
 		else if (Account.ActorType.ADMIN == acc.getType())
-			getServletContext().getRequestDispatcher("/admin-home.jsp")
-					.forward(request, response);
+			response.sendRedirect("/admin");
 	}
 
 	protected void doGet(HttpServletRequest request,

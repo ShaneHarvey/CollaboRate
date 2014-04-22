@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import account.Account;
+import material.Notes;
 import material.NotesMetadata;
 import material.UserMaterialMetadata;
 import constants.Keys;
@@ -31,13 +32,13 @@ public class NotesServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String nID = request.getParameter(Keys.CONTENT_KEY);
-				Key notesKey = KeyFactory.stringToKey(nID);
+				//Key notesKey = KeyFactory.stringToKey(nID);
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				NotesMetadata a = NotesMetadata
-						.getNotesMetadata(user.getKey(), notesKey);
+						.getNotesMetadata(user.getKey(), Notes.getFromKeyString(nID));
 				if (a == null)
 					a = NotesMetadata.createNotesMetadata(
-							user.getKey(), notesKey);
+							user.getKey(), Notes.getFromKeyString(nID));
 				a.setMaterialRating(rating);
 				a.save();
 			} 
@@ -46,14 +47,14 @@ public class NotesServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String nID = request.getParameter(Keys.CONTENT_KEY);
-				Key notesKey = KeyFactory.stringToKey(nID);
+				//Key notesKey = KeyFactory.stringToKey(nID);
 				NotesMetadata a = NotesMetadata
-						.getNotesMetadata(user.getKey(), notesKey);
+						.getNotesMetadata(user.getKey(), Notes.getFromKeyString(nID));
 
 				boolean flag = "true".equals(request.getParameter("flag"));
 				if (a == null)
 					a = NotesMetadata.createNotesMetadata(
-							user.getKey(), notesKey);
+							user.getKey(), Notes.getFromKeyString(nID));
 				a.setFlagged(flag);
 				a.save();
 			}

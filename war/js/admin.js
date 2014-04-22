@@ -66,4 +66,29 @@ $(function(){
             }
         });
 	});
+	
+	$('.remove').click(function(){
+		var btn = $(this);
+		$.ajax({
+            type: 'POST',
+            data: 'cid=' + $(this).attr('cid') + '&ctype=' + $(this).attr('ctype') + '&action=removecontent',
+            url: '/admin',
+            success: function(data){
+            	btn.closest('.content-holder').remove();
+            }
+        });
+	});
+	
+	$('.unflag').click(function(){
+		var btn = $(this);
+		$.ajax({
+            type: 'POST',
+            data: 'cid=' + $(this).attr('cid') + '&ctype=' + $(this).attr('ctype') + '&action=unflagcontent',
+            url: '/admin',
+            success: function(data){
+            	btn.closest('.content-holder').remove();
+            }
+        });
+	});
+	
 });

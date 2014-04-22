@@ -30,7 +30,6 @@ public class QuestionServlet extends HttpServlet {
 				.getAttribute(Keys.ACCOUNT);
 		if (action == null) {
 			String qID = request.getParameter(Keys.QUESTION_KEY);
-			Key questionKey = KeyFactory.stringToKey(qID);
 			if (qID == null) {
 				// If no subjectId, redirect to home
 				response.sendRedirect("/home");
@@ -45,7 +44,7 @@ public class QuestionServlet extends HttpServlet {
 					request.setAttribute(Keys.SUBJECT, sub);
 					if (user != null) {
 						QuestionMetadata data = QuestionMetadata
-								.getQuestionMetadata(user.getKey(), questionKey);
+								.getQuestionMetadata(user.getKey(), ques);
 						request.setAttribute(Keys.META_DATA, data);
 					}
 					getServletContext().getRequestDispatcher("/question.jsp")
@@ -54,25 +53,24 @@ public class QuestionServlet extends HttpServlet {
 					response.sendRedirect("/home");
 				}
 			}
-		} else {
-			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
-			Key sKey = KeyFactory.stringToKey(subjectKey);
+		} 
+		else {
 			if ("answerquestion".equals(action)) {
 				String qID = request.getParameter(Keys.QUESTION_KEY);
 				Key questionKey = KeyFactory.stringToKey(qID);
 				// Get the correct answer
 				int answer = Integer.parseInt(request.getParameter("answer"));
+				Question ques = Question.getQuestion(questionKey);
 				// Get correct answer
-				int correctAnswer = Question.getQuestion(questionKey)
-						.getCorrectIndex();
+				int correctAnswer = ques.getCorrectIndex();
 				// If user exists, update their question meta data
 				if (user != null) {
 					// Get the question metadata
 					QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
-							user.getKey(), questionKey);
+							user.getKey(), ques);
 					if (a == null)
 						a = QuestionMetadata.createQuestionMetadata(
-								user.getKey(), questionKey, sKey);
+								user.getKey(), ques);
 					a.setAnswer(answer == correctAnswer);
 					a.save();
 				}
@@ -83,13 +81,13 @@ public class QuestionServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String qID = request.getParameter(Keys.CONTENT_KEY);
-				Key questionKey = KeyFactory.stringToKey(qID);
+				//Key questionKey = KeyFactory.stringToKey(qID);
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
-						user.getKey(), questionKey);
+						user.getKey(), Question.getFromKeyString(qID));
 				if (a == null)
 					a = QuestionMetadata.createQuestionMetadata(user.getKey(),
-							questionKey, sKey);
+							Question.getFromKeyString(qID));
 				a.setMaterialRating(rating);
 				a.save();
 			} else if ("flagcontent".equals(action)) {
@@ -97,14 +95,14 @@ public class QuestionServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String qID = request.getParameter(Keys.CONTENT_KEY);
-				Key questionKey = KeyFactory.stringToKey(qID);
+				//Key questionKey = KeyFactory.stringToKey(qID);
 				QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
-						user.getKey(), questionKey);
+						user.getKey(), Question.getFromKeyString(qID));
 
 				boolean flag = "true".equals(request.getParameter("flag"));
 				if (a == null)
 					a = QuestionMetadata.createQuestionMetadata(user.getKey(),
-							questionKey, sKey);
+							Question.getFromKeyString(qID));
 				a.setFlagged(flag);
 				a.save();
 			}

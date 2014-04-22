@@ -32,4 +32,11 @@ public abstract class DBObject implements Serializable {
 	public void delete() {
 		DatastoreServiceFactory.getDatastoreService().delete(entity.getKey());
 	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj == null || !(obj instanceof DBObject))
+			return false;
+		return entity.getKey().equals(((DBObject)obj).getKey());
+	}
 }
