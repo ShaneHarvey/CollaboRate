@@ -14,13 +14,10 @@ import material.UserMaterialMetadata.MaterialType;
 import material.Notes;
 import material.Question;
 import material.Subject;
-import material.UserMaterialMetadata;
 import material.Video;
 import constants.Keys;
 import account.Account;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.*;
 
 public class AdminServlet extends HttpServlet {

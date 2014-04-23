@@ -11,7 +11,6 @@ import account.Account;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.gson.Gson;
 
 import material.Question;
 import material.QuestionMetadata;
@@ -76,15 +75,10 @@ public class TestServlet extends HttpServlet {
 			if ("answerquestion".equals(action)) {
 				// Load the test object
 				Test test = (Test) request.getSession().getAttribute(Keys.TEST);
-				if(test == null){
-					response.sendRedirect("/subtopic?"+Keys.SUBJECT_TOPIC_KEY+
-							"="+request.getParameter(Keys.SUBJECT_TOPIC_KEY));
+				if(test == null)
 					return;
-				}
 				String qID = request.getParameter(Keys.QUESTION_KEY);
 				Key questionKey = KeyFactory.stringToKey(qID);
-				String subjectID =	request.getParameter(Keys.SUBJECT_KEY);
-				Key subjectKey = 	KeyFactory.stringToKey(subjectID);
 				// Get the users answer
 				int userAnswer = Integer.parseInt(request.getParameter("answer"));
 				// Get correct answer

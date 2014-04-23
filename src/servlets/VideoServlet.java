@@ -7,13 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 import account.Account;
 import material.Subject;
 import material.Subtopic;
-import material.UserMaterialMetadata;
 import material.Video;
 import material.VideoMetadata;
 import constants.Keys;

@@ -1,24 +1,16 @@
 package material;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
 
 import database.DBObject;
 
 public class QuestionStatistics extends DBObject implements Serializable{
+
+	private static final long serialVersionUID = 8212586260956871462L;
+
 	public static final String STATS = "question_stats";
 	public static final String STATS_SUBJECT = "subject";
 	public static final String STATS_USER = "user";

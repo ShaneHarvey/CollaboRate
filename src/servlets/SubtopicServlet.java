@@ -17,7 +17,6 @@ import material.Subject;
 import material.Subtopic;
 import material.Test;
 import material.Video;
-import material.MaterialMetadata.FlaggedMaterial;
 import material.UserMaterialMetadata.MaterialType;
 import constants.Keys;
 

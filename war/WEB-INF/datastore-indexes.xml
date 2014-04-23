@@ -27,4 +27,16 @@
         <property name="postID" direction="asc"/>
         <property name="Date Created" direction="desc"/>
     </datastore-index>
+    <datastore-index kind="user_material_metadata" ancestor="false" source="manual">
+        <property name="materialFlagged" direction="asc"/>
+        <property name="materialID" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="subtopic" ancestor="false" source="manual">
+        <property name="subject" direction="asc"/>
+        <property name="order" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="user_material_metadata" ancestor="false" source="manual">
+        <property name="materialSubtopic" direction="asc"/>
+        <property name="materialID" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>
