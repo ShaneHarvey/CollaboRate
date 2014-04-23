@@ -64,7 +64,7 @@ public class MaterialMetadata {
 			// Get current from iterator
 			Entity curr = ents.next();
 			// If they have the same key, they are the same material type, just increment counter
-			if(currentMaterial.getKey().equals(curr.getProperty(UserMaterialMetadata.MATERIALID))) {
+			if(currentMaterial.getProperty(UserMaterialMetadata.MATERIALID).equals(curr.getProperty(UserMaterialMetadata.MATERIALID))) {
 				currentNumRated++;
 				currentRatingSum += (long)curr.getProperty(UserMaterialMetadata.MATERIAL_RATING);
 			}
