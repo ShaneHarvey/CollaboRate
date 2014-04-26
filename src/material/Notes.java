@@ -117,4 +117,15 @@ public class Notes extends Material {
 		}
 		return notes;
 	}
+	public static ArrayList<Notes> getUsersGeneratedNotes(Key userKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
+		Query userContent = new Query(ENT_NOTES).setFilter(userFilter).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Notes> notes = new ArrayList<Notes>();
+		for(Entity result:pq.asIterable()){
+			notes.add(new Notes(result));
+		}
+		return notes;
+	}
 }

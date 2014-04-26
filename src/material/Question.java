@@ -206,5 +206,15 @@ public class Question extends Material implements Serializable {
 		}
 		return randomQuestions;
 	}
-	
+	public static ArrayList<Question> getUsersGeneratedQuestions(Key userKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
+		Query userContent = new Query(QUESTION).setFilter(userFilter).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Question> questions = new ArrayList<Question>();
+		for(Entity result:pq.asIterable()){
+			questions.add(new Question(result));
+		}
+		return questions;
+	}
 }

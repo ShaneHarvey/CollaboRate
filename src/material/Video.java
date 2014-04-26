@@ -118,4 +118,15 @@ public class Video extends Material implements Serializable {
 		}
 		return videos;
 	}
+	public static ArrayList<Video> getUsersGeneratedVideo(Key userKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
+		Query userContent = new Query(ENT_VIDEO).setFilter(userFilter).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Video> videos = new ArrayList<Video>();
+		for(Entity result:pq.asIterable()){
+			videos.add(new Video(result));
+		}
+		return videos;
+	}
 }
