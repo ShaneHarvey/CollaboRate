@@ -128,4 +128,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>TestServlet</servlet-name>
 		<url-pattern>/test</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>RequestSubjectServlet</servlet-name>
+		<servlet-class>servlets.RequestSubjectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RequestSubjectServlet</servlet-name>
+		<url-pattern>/RequestSubjectServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
