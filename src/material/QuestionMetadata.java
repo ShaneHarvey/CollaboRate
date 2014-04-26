@@ -15,8 +15,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 
 	private static final long serialVersionUID = -7499175721777484363L;
 	public static final String STATS_SUBJECT = "subject";
-	private static final String QUES_CORRECT_ANSWER = "answerCorrect";
-	public static final String STATS_CORRECT = "correct";
+	public static final String QUES_CORRECT_ANSWER = "answerCorrect";
 	private QuestionMetadata(Entity e, Key stID) {
 		super(e, stID);
 	}
@@ -27,14 +26,8 @@ public class QuestionMetadata extends UserMaterialMetadata{
 	private void setSubjectKey(Key sKey){
 		entity.setProperty(STATS_SUBJECT, sKey);
 	}
-	private void setCorrect(boolean b){
-		entity.setProperty(STATS_CORRECT, b);
-	}
 	public Key getSubjectKey(){
 		return (Key)entity.getProperty(STATS_SUBJECT);
-	}
-	public boolean getCorrect(){
-		return (boolean)entity.getProperty(STATS_CORRECT);
 	}
 
 	/*
