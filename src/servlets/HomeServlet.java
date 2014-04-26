@@ -19,17 +19,17 @@ public class HomeServlet extends HttpServlet {
 
 		// Attempt to retrieve account from session
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		
+
 		// If user is logged out, redirect
 		if (acc == null)
 			getServletContext().getRequestDispatcher("/index.jsp").forward(
 					request, response);
-		else if (Account.ActorType.USER == acc.getType()
-				|| Account.ActorType.TRUSTED_USER == acc.getType())
-			getServletContext().getRequestDispatcher("/home.jsp").forward(
-					request, response);
 		else if (Account.ActorType.ADMIN == acc.getType())
 			response.sendRedirect("/admin");
+		else
+			getServletContext().getRequestDispatcher("/home.jsp").forward(
+					request, response);
+
 	}
 
 	protected void doGet(HttpServletRequest request,

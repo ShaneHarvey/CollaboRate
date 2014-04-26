@@ -109,8 +109,7 @@ public class SubtopicServlet extends HttpServlet {
 				// If logged in, try to place test data for this subtopic in the
 				// response
 				if (acc != null) {
-					Test t = Test.getTest(acc.getKey(), sub.getKey(),
-							st.getKey());
+					Test t = Test.getTest(acc, st);
 					// If user hasn't taken this test or hasn't passed it, false
 					if (t == null || !t.getPassed())
 						request.setAttribute(Keys.TEST, false);

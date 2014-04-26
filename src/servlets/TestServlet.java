@@ -46,13 +46,13 @@ public class TestServlet extends HttpServlet {
 				request.setAttribute(Keys.SUBTOPIC, st);
 				request.setAttribute(Keys.SUBJECT, sub);
 				// See if this user already took test
-				Test test = Test.getTest(user.getKey(), subjectKey, subtopicKey);
+				Test test = Test.getTest(user, st);
 				if(test != null && test.getPassed()) {
 					response.sendRedirect("/home");	
 					return;
 				}
 				// Create test
-				test = Test.createTest(user.getKey(), subjectKey, subtopicKey);
+				test = Test.createTest(user, st);
 				// Store the test in the session
 				Question question = test.getCurrentQuestion();
 				if (question == null){
