@@ -30,7 +30,7 @@ $(function(){
 				"searchreplace visualblocks code fullscreen",
 				"insertdatetime media table contextmenu paste" ],
 				toolbar: "undo redo | eqneditor link image | styleselect | bold italic | bullist numlist outdent indent ",
-				selector : "textarea.richText"
+				selector : "textarea#richText"
 				});
 			if(count === 5)
 				$('#btn_addAnswer').hide();
