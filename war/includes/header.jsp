@@ -7,7 +7,7 @@
 			<!-- This will collapse to dropdown menu if not enough room to display list -->
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a class="brand-name" href="/home">Educator</a></li>
+					<li><a class="brand-name" href="/home">CollaboRate</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Learn<span class="caret"></span></a>
 						<ul class="dropdown-menu">

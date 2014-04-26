@@ -16,7 +16,7 @@ tinymce.init({
 </script>
 
 <meta charset="utf-8">
-<title>Educator</title>
+<title>CollaboRate</title>
 <jsp:include page="/includes/css.jsp"></jsp:include>
 </head>
 <body>

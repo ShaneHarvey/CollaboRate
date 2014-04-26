@@ -35,7 +35,14 @@
 	   <name>getTest</name>
 	   <function-class>material.Test</function-class>
 	   <function-signature>
-	       material.Test getTest(com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key, com.google.appengine.api.datastore.Key);
+	       material.Test getTest(account.Account, material.Subtopic);
 	   </function-signature>
 	</function>
+	   <function>
+       <name>userTrusted</name>
+       <function-class>material.Subject</function-class>
+       <function-signature>
+           boolean userTrusted(material.Subject, account.Account);
+       </function-signature>
+    </function>
 </taglib>

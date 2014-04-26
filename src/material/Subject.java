@@ -2,6 +2,9 @@ package material;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import account.Account;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -11,6 +14,10 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 import database.DBObject;
@@ -19,7 +26,6 @@ import database.DBObject;
 public class Subject extends DBObject implements Serializable{
 
 	private static final long serialVersionUID = 5487744678389202343L;
-	//private Entity subjectEntity;
 	public static final String ENT_SUBJECT_TITLE = "subjectTitle";
 	public static final String ENT_SUBJECT_DESCRIPTION ="subjectDescription";
 	public static final String ENT_SUBJECT ="subject";
@@ -125,5 +131,43 @@ public class Subject extends DBObject implements Serializable{
 		s.setTitle(sTitle);
 		s.setDescription(sDescription);
 		s.save();
+	}
+	
+	/**
+	 * Check if the user is trusted with this subject
+	 * 
+	 * @param acc The user
+	 * @return Is user trusted with this subject
+	 */
+	public boolean userTrusted(Account acc) {
+		if(acc == null)
+			return false;
+		if(acc.getType() == Account.ActorType.ADMIN)
+			return true;
+		else {
+			// For each subtopic under this subject, check if this user
+			// has finished a test under that subtopic
+			for(Subtopic s : getSubtopics()) {
+				Test t = Test.getTest(acc, s);
+				if(t == null || !t.getPassed())
+					return false;
+			}
+			// If made it to this point, user completed tests for all subtopics
+			return true;
+		}
+	}
+	
+	/**
+	 * Static version of userTrusted
+	 */
+	public static boolean userTrusted(Subject sub, Account acc) {
+		return sub.userTrusted(acc);
+	}
+	
+	/**
+	 * @return A list of all unverified questions for this subject
+	 */
+	public ArrayList<Question> getUnverifiedQuestions(){
+		return Question.getUnverifiedQuestions(this);
 	}
 }

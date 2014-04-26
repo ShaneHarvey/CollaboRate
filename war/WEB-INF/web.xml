@@ -136,4 +136,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>RequestSubjectServlet</servlet-name>
 		<url-pattern>/RequestSubjectServlet</url-pattern>
 	</servlet-mapping>
+        <servlet-name>VerifyServlet</servlet-name>
+        <servlet-class>servlets.VerifyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VerifyServlet</servlet-name>
+        <url-pattern>/verify</url-pattern>
+    </servlet-mapping>
 </web-app>

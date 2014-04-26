@@ -44,11 +44,8 @@ $(function(){
             url: '/admin',
             success: function(data) {
             	$('#subjectLoading').hide();
-            	if(data === 'success') {
-            		$('#subjectName').val("");
-            		$('#subTopicTable tr:gt(0)').remove();
-            		$('#subTopicTable input').each(function(){$(this).val('')});
-            	}
+            	if(data === 'success')
+            		window.location.href = '/admin';
             	else {
             		$('#subjectName').effect('shake');
             		$('#subTopicTable input').each(function(){
