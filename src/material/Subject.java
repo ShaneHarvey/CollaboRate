@@ -140,12 +140,14 @@ public class Subject extends DBObject implements Serializable{
 	 * @return Is user trusted with this subject
 	 */
 	public boolean userTrusted(Account acc) {
+		if(acc == null)
+			return false;
 		if(acc.getType() == Account.ActorType.ADMIN)
 			return true;
 		else {
 			// For each subtopic under this subject, check if this user
 			// has finished a test under that subtopic
-			for(Subtopic s : subtopicsList) {
+			for(Subtopic s : getSubtopics()) {
 				Test t = Test.getTest(acc, s);
 				if(t == null || !t.getPassed())
 					return false;
@@ -153,5 +155,19 @@ public class Subject extends DBObject implements Serializable{
 			// If made it to this point, user completed tests for all subtopics
 			return true;
 		}
+	}
+	
+	/**
+	 * Static version of userTrusted
+	 */
+	public static boolean userTrusted(Subject sub, Account acc) {
+		return sub.userTrusted(acc);
+	}
+	
+	/**
+	 * @return A list of all unverified questions for this subject
+	 */
+	public ArrayList<Question> getUnverifiedQuestions(){
+		return Question.getUnverifiedQuestions(this);
 	}
 }

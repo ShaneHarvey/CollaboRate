@@ -169,7 +169,7 @@ public class Question extends Material implements Serializable {
 	public static ArrayList<Question> getUnverifiedQuestions(Subject sub){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBJECT,
 				FilterOperator.EQUAL, sub.getKey());
 		Filter verifiedFilter = new FilterPredicate(QUESTION_VERIFIED,
 				FilterOperator.EQUAL, false);

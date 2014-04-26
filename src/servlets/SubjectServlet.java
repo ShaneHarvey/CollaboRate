@@ -28,10 +28,11 @@ public class SubjectServlet extends HttpServlet {
 			// Load subject and subtopics and put them into the response
 			try{
 				Subject sub = Subject.getFromKeyString(subID);
-				ArrayList<Subtopic> subtopics = sub.getSubtopics();
-				request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
-				request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
-				request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
+				//ArrayList<Subtopic> subtopics = sub.getSubtopics();
+				request.setAttribute(Keys.SUBJECT, sub);
+				//request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
+				//request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
+				//request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
 				getServletContext().getRequestDispatcher("/subject.jsp").forward(request, response);
 			} catch(IllegalArgumentException e){
 				response.sendRedirect("/home");
