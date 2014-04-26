@@ -84,24 +84,6 @@ public class MaterialMetadata {
 		return ratedList;//return the flagged list 
 	}
 	
-	/*public static int getFlagged(Key materialID){
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter materialIdFilter = 
-				new FilterPredicate(UserMaterialMetadata.MATERIALID,
-					FilterOperator.EQUAL,
-					materialID);
-		Query q = new Query(UserMaterialMetadata.USER_METADATA).setFilter(materialIdFilter);
-		PreparedQuery pq = datastore.prepare(q);
-		int resultTotal = 0;
-		boolean resultFlagged;
-		for (Entity result : pq.asIterable()) {
-			 resultFlagged = (boolean)result.getProperty(UserMaterialMetadata.MATERIAL_FLAGGED);
-			 if(resultFlagged==false){continue;}
-			 resultTotal++;;
-		}
-		return (int)resultTotal;
-	}*/
-	
 	public static ArrayList<FlaggedMaterial> getSortedFlagged(){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		//Sort based on MaterialID

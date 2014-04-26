@@ -29,13 +29,9 @@ public class SubjectServlet extends HttpServlet {
 			response.sendRedirect("/home");
 		}
 		else {
-			// Load subject and subtopics and put them into the response
 			try{
 				Subject sub = Subject.getFromKeyString(subID);
-				ArrayList<Subtopic> subtopics = sub.getSubtopics();
-				request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
-				request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
-				request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
+
 				// Load the statistics
 				Account user = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
 				Key subjectKey = sub.getKey();
@@ -63,6 +59,11 @@ public class SubjectServlet extends HttpServlet {
 					request.setAttribute(Keys.NUM_TOP_COMPLETED, Integer.toString(numSubtopicsCompleted));
 					request.setAttribute(Keys.NUM_TOP_NOT_STARTED, Integer.toString(numSubtopicsNotStarted));
 				}
+				//ArrayList<Subtopic> subtopics = sub.getSubtopics();
+				request.setAttribute(Keys.SUBJECT, sub);
+				//request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
+				//request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
+				//request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
 				getServletContext().getRequestDispatcher("/subject.jsp").forward(request, response);
 			} catch(IllegalArgumentException e){
 				response.sendRedirect("/home");
