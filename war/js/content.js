@@ -23,7 +23,15 @@ $(function(){
 			count++;
 		});
 		if(count < 6) {
-			$('#answerChoiceTable').append('<tr><td><textarea rows="1"></textarea></td><td><input type="radio" name="answers" value="'+ count + '"/></td></tr>');
+			$('#answerChoiceTable').append('<tr><td><textarea class="richText" rows="1"></textarea></td><td><input type="radio" name="answers" value="'+ count + '"/></td></tr>');
+			tinymce.init({
+				plugins: [
+				"eqneditor advlist autolink lists link image charmap print preview anchor",
+				"searchreplace visualblocks code fullscreen",
+				"insertdatetime media table contextmenu paste" ],
+				toolbar: "undo redo | eqneditor link image | styleselect | bold italic | bullist numlist outdent indent ",
+				selector : "textarea#richText"
+				});
 			if(count === 5)
 				$('#btn_addAnswer').hide();
 		}
