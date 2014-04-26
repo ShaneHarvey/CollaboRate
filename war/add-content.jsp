@@ -2,6 +2,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+	plugins: [
+	"eqneditor advlist autolink lists link image charmap print preview anchor",
+	"searchreplace visualblocks code fullscreen",
+	"insertdatetime media table contextmenu paste" ],
+	toolbar: "undo redo | eqneditor link image | styleselect | bold italic | bullist numlist outdent indent ",
+	selector : "textarea.richText"
+	});
+</script>
+
 <meta charset="utf-8">
 <title>Educator</title>
 <jsp:include page="/includes/css.jsp"></jsp:include>
@@ -32,16 +45,16 @@
 						<div class="content-holder tc">
 							<h1 class="tc">Create Question</h1>
 							<span class="title">Question Description:</span> <br />
-							<textarea id="questionDescription"></textarea>
+							<textarea class="richText" id="questionDescription"></textarea>
 							<br /> <span class="title">Answers:</span> <br />
 							<div class="question-table-wrapper">
 								<table id="answerChoiceTable">
 									<tr>
-										<td><textarea rows="1"></textarea></td>
+										<td><textarea class="richText" rows="1"></textarea></td>
 										<td><input type="radio" name="answers" value="0" checked /></td>
 									</tr>
 									<tr>
-										<td><textarea rows="1"></textarea></td>
+										<td><textarea class="richText" rows="1"></textarea></td>
 										<td><input type="radio" name="answers" value="1" /></td>
 									</tr>
 								</table>
@@ -118,6 +131,7 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
+		<a href="http://www.codecogs.com" target="_blank"><img src="http://www.codecogs.com/images/poweredbycodecogs.png" border="0" title="CodeCogs - An Open Source Scientific Library" alt="CodeCogs - An Open Source Scientific Library"></a>
 	</div>
 
 	<jsp:include page="/includes/footer.jsp"></jsp:include>
