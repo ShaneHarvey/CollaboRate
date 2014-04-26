@@ -32,11 +32,22 @@ public class RequestSubject extends Subject implements Serializable{
 	public static RequestSubject getFromKeyString(String key) {
 		return getSubjectRequest(KeyFactory.stringToKey(key));
 	}
+	/**
+	 * Returns a ArrayList of all the associated subtopics for a requested subject
+	 * @return
+	 */
 	public ArrayList<RequestSubtopic> getSubtopicRequests(){
 		if(subtopicsRequestList == null)
-			subtopicsRequestList = RequestSubtopic.getSubtopicsRequest(entity.getKey());
+			subtopicsRequestList = RequestSubtopic.getSubjectSubtopicsRequest(entity.getKey());
 		return subtopicsRequestList;
 	}
+	/**
+	 * Creates a new entity that represents a new subtopic request
+	 * @param sTitle - Title of the requested subject
+	 * @param sDescription - Description of the requested subject
+	 * @param subtopicsRequests - String array of the requested subjects subtopics
+	 * @return - the RequetSubject object
+	 */
 	public static RequestSubject createSubjectRequest(String sTitle, String sDescription, String[] subtopicsRequests){
 		Entity subjectE = new Entity(ENT_SUBJECT_REQUEST);
 		//TODO check to make sure sTitle does not match a Subject title in the datastore
@@ -46,11 +57,15 @@ public class RequestSubject extends Subject implements Serializable{
 		s.save();
 		long order = 0;
 		for(String st: subtopicsRequests) {
-			RequestSubtopic.createSubtopic(st, s.getKey(), st, order);
+			RequestSubtopic.createSubjectSubtopicRequest(st, s.getKey(), st, order);
 			order += 100;
 		}
 		return s;
 	}
+	/**
+	 * Generates an array list of all the subjects that have been requested by users
+	 * @return - an array list containing RequestSubject objects that will be displayed in the UI
+	 */
 	public static ArrayList<RequestSubject> getSubjectRequests(){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -64,6 +79,11 @@ public class RequestSubject extends Subject implements Serializable{
 		}
 		return reqSubjects;
 	}
+	/**
+	 * Inserts a Requested subject into the Subject table and all the associated subtopics for it.
+	 * @param subjectReqKey The key of the Requested Subject to insert
+	 * @return Return true if the insertion was successful or false if it failed
+	 */
 	public static boolean insertSubjectRequest(Key subjectReqKey){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -72,6 +92,8 @@ public class RequestSubject extends Subject implements Serializable{
 			subRequest = datastore.get(subjectReqKey);
 			RequestSubject req = new RequestSubject(subRequest);
 			Subject newSubect = Subject.createSubject(req.getTitle(), req.getDescription(), req.getSubtopicRequests());
+			
+			datastore.delete(subjectReqKey);//delete the Subject Request after it has been inserted
 			return true;
 		} catch (EntityNotFoundException e) {
 			return false;
