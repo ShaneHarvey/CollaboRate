@@ -30,7 +30,7 @@ public class Account extends DBObject{
 			+ "([^a-zA-Z][a-zA-Z])).{0,})$";
 	private static final String emailRegEx = "^[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)(.[a-z]{2,4})$";
 	// Different types of actors
-	public enum ActorType { USER(0), ADMIN(1), TRUSTED_USER(2) ;
+	public enum ActorType { USER(0), ADMIN(1);
 		public final long val;
 		private ActorType(int val) {
 			this.val = val;

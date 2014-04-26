@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Educator</title>
+<title>CollaboRate</title>
 <jsp:include page="/includes/css.jsp"></jsp:include>
 </head>
 <body>
@@ -18,7 +18,7 @@
 					href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
 				/ Question
 			</div>
-			<div class="questions-remaining">
+			<div class="right-float">
 				<div class="tl">Progress:</div>
 				<div class="progress">
 					<div id="progress-bar" class="progress-bar" style="width: 0%;">

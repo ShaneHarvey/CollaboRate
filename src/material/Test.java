@@ -3,6 +3,8 @@ package material;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import account.Account;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -74,8 +76,8 @@ public class Test extends DBObject implements Serializable {
 		return this.questionList;
 	}
 
-	public static Test createTest(Key uID, Key subjectID, Key subtopicID) throws Exception {
-		Test t = getTest(uID, subjectID, subtopicID);
+	public static Test createTest(Account acc, Subtopic st) throws Exception {
+		Test t = getTest(acc, st);
 		if(t != null) {
 			if(!t.getPassed())
 				t.delete();
@@ -85,11 +87,11 @@ public class Test extends DBObject implements Serializable {
 		Entity testEntity = new Entity(TEST);
 		testEntity.setProperty(TEST_PASSED, false);
 		t = new Test(testEntity);
-		t.setSubjectKey(subjectID);
-		t.setSubtopicKey(subtopicID);
-		t.setUserKey(uID);
-		t.setQuestionList(Question.getRandomQuestions(MAX_QUESTION_COUNT,
-				subtopicID));
+		t.setSubjectKey(st.getSubject().getKey());
+		t.setSubtopicKey(st.getKey());
+		t.setUserKey(acc.getKey());
+		t.setQuestionList(Question.getRandomVerifiedQuestions(MAX_QUESTION_COUNT,
+				st.getKey()));
 		return t;
 	}
 
@@ -99,13 +101,13 @@ public class Test extends DBObject implements Serializable {
 	 * @param email
 	 * @return true if the email exists, false otherwise
 	 */
-	public static Test getTest(Key uID, Key subjectID, Key subtopicID) {
+	public static Test getTest(Account acc, Subtopic st) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Filter userFilter = new FilterPredicate(TEST_USER_ID,
-				FilterOperator.EQUAL, uID);
+				FilterOperator.EQUAL, acc.getKey());
 		Filter subtopicFilter = new FilterPredicate(TEST_SUBTOPIC,
-				FilterOperator.EQUAL, subtopicID);
+				FilterOperator.EQUAL, st.getKey());
 		Filter combinedFilter =
 				CompositeFilterOperator.and(userFilter, subtopicFilter);
 		Query q = new Query(TEST).setFilter(combinedFilter);

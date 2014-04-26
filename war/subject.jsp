@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Educator</title>
+<title>CollaboRate</title>
 <jsp:include page="/includes/css.jsp"></jsp:include>
 </head>
 <body>
@@ -14,16 +14,29 @@
 	<div class="body">
 		<div class="body-center-div">
 			<div class="bread-crumbs">
-				<a href="/home">Home</a> / ${subjectName}
+				<a href="/home">Home</a> / ${subject.title}
 			</div>
-			<h1 class="tc">${subjectName}</h1>
+			<div class="right-float">
+				<c:if test="${fn:userTrusted(subject, account)}">
+					<div class="tl">
+						<a href="/verify?sid=${subject.keyAsString}">Help Verify
+							Questions!</a>
+					</div>
+				</c:if>
+				<c:if test="${account != null}">
+					<div class="tl">
+						<a href="#">Request a subtopic!</a>
+					</div>
+				</c:if>
+			</div>
+			<h1 class="tc">${subject.title}</h1>
 			<div class="row">
 				<div class="col-lg-4 content-holder shift-left-5">
 					<h3 class="tc">Topics</h3>
 					<table class="content-table">
-						<c:forEach items="${stlist}" var="st">
+						<c:forEach items="${subject.subtopics}" var="st">
 							<c:set var="testdata"
-								value="${account == null ? null : fn:getTest(account.key, sid, st.key)}" />
+								value="${account == null ? null : fn:getTest(account, st)}" />
 							<c:set var="passed"
 								value="${(testdata == null || !testdata.passed) ? false : true}" />
 							<tr>
@@ -32,17 +45,6 @@
 										green" : ""}" href="/subtopic?stid=${st.keyAsString}">${st.title}</a></span></td>
 							</tr>
 						</c:forEach>
-						<!--<tr><td><span class="glyphicon glyphicon-ok green"></span>Math Skills needed for Chemistry</td></tr>
-						<tr><td><span class="glyphicon glyphicon-ok green"></span>Atomic Concepts</td></tr>
-						<tr><td><span class="glyphicon glyphicon-asterisk yellow"></span>Periodic Table</td></tr>
-						<tr><td><span class="glyphicon glyphicon-asterisk yellow"></span>Moles/Stoichiometry</td></tr>
-						<tr><td><a href="topic.jsp">Chemical Bonding</a></td></tr>
-						<tr><td>Physical Behavior of Matter</td></tr>
-						<tr><td>Kinetics/Equilibrium</td></tr>
-						<tr><td>Organic Chemistry</td></tr>
-						<tr><td>Oxidation-Reduction</td></tr>
-						<tr><td class="not-available">Acids, Bases and Salts</td></tr>
-						<tr><td class="not-available">Nuclear Chemistry</td></tr>-->
 					</table>
 				</div>
 				<div class="col-lg-8 content-holder shift-right-5">

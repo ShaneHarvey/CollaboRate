@@ -324,8 +324,8 @@ input[disabled] {
 	font-weight: bold;
 }
 
-/* Div containing number of questions remaining in a test */
-.questions-remaining {
+/* right floated div */
+.right-float {
 	text-align: right;
 	font-size: 16px;
     width: 20%;
