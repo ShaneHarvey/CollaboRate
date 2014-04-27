@@ -53,6 +53,7 @@ public class Video extends Material implements Serializable {
 		v.setSubtopicKey(sKey);
 		v.setAuthor(authorKey);
 		v.setSubject(subjectKey);
+		v.setDate();
 		v.save();
 		return v;
 	}
@@ -121,11 +122,11 @@ public class Video extends Material implements Serializable {
 	public static ArrayList<Video> getUsersGeneratedVideo(Key userKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
-		Query userContent = new Query(ENT_VIDEO).setFilter(userFilter).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+		Query userContent = new Query(ENT_VIDEO).addSort(MATERIAL_DATE, SortDirection.DESCENDING).setFilter(userFilter);
 		PreparedQuery pq = datastore.prepare(userContent);
 		ArrayList<Video> videos = new ArrayList<Video>();
 		for(Entity result:pq.asIterable()){
-			videos.add(new Video(result));
+				videos.add(new Video(result));
 		}
 		return videos;
 	}

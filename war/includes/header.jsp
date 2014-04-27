@@ -31,6 +31,7 @@
 								data-toggle="dropdown">${account.email}<span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="/account">My Account</a></li>
+									<li><a href="/UserContent">My Contributions</a></li>
 									<li><a href="/logout">Log Out</a></li>
 								</ul></li>
 						</c:when>

@@ -52,10 +52,6 @@
 										<iframe width="640" height="480" src="${v.URL}"
 											frameborder="0" allowfullscreen></iframe>
 									</div>
-									<div class="tc">
-										<a class="btn btn-cg remove" cid="${v.keyAsString}" ctype="0">Remove</a> <a
-											class="btn btn-cg unflag" cid="${v.keyAsString}" ctype="0">Unflag</a>
-									</div>
 								</div>
 							</c:forEach>
 						</div>
@@ -67,10 +63,6 @@
 								<div class="content-holder side-margins-10 tc">
 									<h3 class="tc">${n.title}</h3>
 									<a href="${n.URL}" target="_blank">${n.URL}</a> <br /> <br />
-									<div class="tc">
-										<a class="btn btn-cg remove" cid="${n.keyAsString}" ctype="2">Remove</a> <a
-											class="btn btn-cg unflag" cid="${n.keyAsString}" ctype="2">Unflag</a>
-									</div>
 								</div>
 							</c:forEach>
 						</div>

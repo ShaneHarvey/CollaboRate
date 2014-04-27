@@ -52,6 +52,7 @@ public class Notes extends Material {
 		l.setSubtopicKey(lKey);
 		l.setAuthor(authorKey);
 		l.setSubject(subjectKey);
+		l.setDate();
 		l.save();
 		return l;
 	}
@@ -119,17 +120,13 @@ public class Notes extends Material {
 	}
 	public static ArrayList<Notes> getUsersGeneratedNotes(Key userKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		//Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
-		Query userContent = new Query(ENT_NOTES);//.setFilter(userFilter).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
+		Query userContent = new Query(ENT_NOTES).addSort(MATERIAL_DATE, SortDirection.DESCENDING).setFilter(userFilter);
 		PreparedQuery pq = datastore.prepare(userContent);
 		ArrayList<Notes> notes = new ArrayList<Notes>();
 		//System.out.println(userKey.toString());
 		for(Entity result: pq.asIterable()){
-			Key checkKey = (Key)result.getProperty(MATERIAL_AUTHOR);
-			if(checkKey.equals(userKey)){
 				notes.add(new Notes(result));
-			}
-			
 		}
 		return notes;
 	}

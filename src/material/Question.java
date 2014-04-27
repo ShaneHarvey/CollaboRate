@@ -127,6 +127,7 @@ public class Question extends Material implements Serializable {
 		newQuestion.setSubtopicKey(st.getKey());
 		newQuestion.setSubject(sub.getKey());
 		newQuestion.setVerified(sub.userTrusted(acc));
+		newQuestion.setDate();
 		newQuestion.save();
 
 		return newQuestion;
@@ -222,7 +223,7 @@ public class Question extends Material implements Serializable {
 		PreparedQuery pq = datastore.prepare(userContent);
 		ArrayList<Question> questions = new ArrayList<Question>();
 		for(Entity result:pq.asIterable()){
-			questions.add(new Question(result));
+				questions.add(new Question(result));
 		}
 		return questions;
 	}

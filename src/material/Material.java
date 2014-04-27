@@ -1,5 +1,7 @@
 package material;
 
+import java.util.Date;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -56,6 +58,16 @@ public abstract class Material extends DBObject {
 	}
 	protected void setSubject(Key subjectKey){
 		entity.setProperty(MATERIAL_SUBJECT, subjectKey);
+	}
+	/**
+	 * Sets the Discussion Entry to the current date
+	 */
+	protected void setDate(){
+		Date currentDate = new Date();
+		entity.setProperty(MATERIAL_DATE, currentDate);
+	}
+	public Date getDate(){
+		return (Date)entity.getProperty(MATERIAL_DATE);
 	}
 	public Key getSubject(){
 		return (Key)entity.getProperty(MATERIAL_SUBJECT);
