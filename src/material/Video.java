@@ -51,7 +51,7 @@ public class Video extends Material implements Serializable {
 		//v.setDescription(vDescription);
 		v.setURL(vURL);
 		v.setSubtopicKey(sKey);
-		v.setAutor(authorKey);
+		v.setAuthor(authorKey);
 		v.setSubject(subjectKey);
 		v.save();
 		return v;

@@ -123,7 +123,7 @@ public class Question extends Material implements Serializable {
 		newQuestion.setAnswerChoices(choicesJSON);
 		// newQuestion.setAnswerExplainations(explainationsJSON);
 		newQuestion.setCorrectIndex(correctIndex);
-		newQuestion.setAutor(acc.getKey());
+		newQuestion.setAuthor(acc.getKey());
 		newQuestion.setSubtopicKey(st.getKey());
 		newQuestion.setSubject(sub.getKey());
 		newQuestion.setVerified(sub.userTrusted(acc));
