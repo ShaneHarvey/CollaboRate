@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="/WEB-INF/function.tld" prefix="fn"%>
 <!DOCTYPE html>
 <html>
@@ -51,21 +52,25 @@
 					<h3 class="tc">Statistics</h3>
 					<div class="col-lg-6">
 						<h4 class="tc">Global</h4>
-						<span>Total Topics:</span><span class="detail">11</span> <br /> <span>Total
-							Questions:</span><span class="detail">550</span> <br /> <span>Questions
-							/ Topic (average):</span><span class="detail">50</span> <br /> <span>Active
-							Users:</span><span class="detail">327</span> <br /> <span>Average
-							Topics Completed:</span><span class="detail">4</span> <br /> <span>Number
-							of Users Completed:</span><span class="detail">16</span> <br />
+						<span>Total Topics:</span><span class="detail">${numTopicsInSubject}</span> <br />
+						<span>Total	Questions:</span><span class="detail">${numQuestionsInSubject}</span> <br /> 
+						<span>Questions / Topic (average):</span><span class="detail"><fmt:formatNumber value="${numQuestionsInSubject / numTopicsInSubject}" maxFractionDigits="1"/></span> <br />
+						<!--
+						<span>Active Users:</span><span class="detail">327</span> <br />
+						<span>Average Topics Completed:</span><span class="detail">4</span> <br />
+						<span>Number of Users Completed:</span><span class="detail">16</span> <br />
+						-->
 					</div>
 					<div class="col-lg-6">
 						<h4 class="tc">Personal</h4>
-						<span>Topics Completed:</span><span class="detail">2</span> <br />
-						<span>Topics In Progress Completed:</span><span class="detail">2</span>
-						<br /> <span>Topics Not Started:</span><span class="detail">7</span>
-						<br /> <span>Questions Completed:</span><span class="detail">135</span>
-						<br /> <span>Percentage Questions Correct:</span><span
-							class="detail">84%</span> <br />
+						<span>Topics Completed:</span><span class="detail">${numTopicsCompleted}</span> <br />
+						<!--
+						<span>Topics In Progress Completed:</span><span class="detail">2</span> <br /> 
+						-->
+						<span>Topics Not Started:</span><span class="detail">${numSubtopicsNotStarted}</span> <br /> 
+						<span>Questions Completed:</span><span class="detail">${numQuestionsCompleted}</span> <br />  
+						<span>Questions Correct:</span><span class="detail">${numQuestionsCorrect}</span> <br /> 
+						<span>Percentage Questions Correct:</span><span class="detail">${percentCorrect}</span> <br />
 					</div>
 				</div>
 			</div>

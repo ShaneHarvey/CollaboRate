@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Key;
+
+import account.Account;
+import material.Statistics;
 import material.Subject;
 import material.Subtopic;
 import constants.Keys;
@@ -25,9 +29,36 @@ public class SubjectServlet extends HttpServlet {
 			response.sendRedirect("/home");
 		}
 		else {
-			// Load subject and subtopics and put them into the response
 			try{
 				Subject sub = Subject.getFromKeyString(subID);
+
+				// Load the statistics
+				Account user = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
+				Key subjectKey = sub.getKey();
+
+				int numQuestionsForSubject = 	Statistics.getNumberOfQuestionsForSubject(subjectKey);
+				int numTopics = 				Statistics.getNumberOfSubtopics(subjectKey);
+				request.setAttribute(Keys.NUM_Q_SUB, numQuestionsForSubject);
+				request.setAttribute(Keys.NUM_TOPS, numTopics);
+				if(user == null){
+					request.setAttribute(Keys.NUM_Q_COMPLETED, "None");
+					request.setAttribute(Keys.NUM_Q_CORRECT, "None");
+					request.setAttribute(Keys.PERCENT_Q_CORRECT, "None");
+					request.setAttribute(Keys.NUM_TOP_COMPLETED, "None");
+					request.setAttribute(Keys.NUM_TOP_NOT_STARTED, "None");
+				} else{
+					Key userKey = user.getKey();
+					int numQuestionsCompleted = 	Statistics.getNumberQuestionsCompleted(userKey, subjectKey);
+					int numQuestionsCorrect = 		Statistics.getNumberQuestionsCorrect(userKey, subjectKey);
+					double percentQuestionsCorrect =Statistics.getPercentageCorrect(userKey, subjectKey);
+					int numSubtopicsCompleted =		Statistics.getSubtopicsCompleted(userKey, subjectKey);
+					int numSubtopicsNotStarted = 	Statistics.getSubtopicsNotStarted(userKey, subjectKey);
+					request.setAttribute(Keys.NUM_Q_COMPLETED, Integer.toString(numQuestionsCompleted));
+					request.setAttribute(Keys.NUM_Q_CORRECT, Integer.toString(numQuestionsCorrect));
+					request.setAttribute(Keys.PERCENT_Q_CORRECT, (int)Math.round(percentQuestionsCorrect)+"%");
+					request.setAttribute(Keys.NUM_TOP_COMPLETED, Integer.toString(numSubtopicsCompleted));
+					request.setAttribute(Keys.NUM_TOP_NOT_STARTED, Integer.toString(numSubtopicsNotStarted));
+				}
 				//ArrayList<Subtopic> subtopics = sub.getSubtopics();
 				request.setAttribute(Keys.SUBJECT, sub);
 				//request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());

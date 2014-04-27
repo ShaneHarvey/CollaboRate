@@ -4,8 +4,13 @@
  */
 
 $(function(){
-	
-	/* Try to log in */
+	// Set enter key to click the loginButton
+	$("#loginEmail, #loginPassword").keyup(function(event){
+	    if(event.keyCode == 13){
+	        $("#loginButton").click();
+	    }
+	});
+	// Try to log in
 	$('#loginButton').click(function(){
 		
 		// Make sure email isn't empty

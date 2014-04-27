@@ -40,4 +40,13 @@ public class Keys {
 	public static final String USERS_VIDEOS = "userVideos";
 	public static final String USERS_NOTES =  "userNotes";
 			
+	// Used in SubjectServlet for statistics
+	public static final String NUM_Q_SUB = "numQuestionsInSubject";
+	public static final String NUM_TOPS = "numTopicsInSubject";
+	public static final String NUM_Q_COMPLETED = "numQuestionsCompleted";
+	public static final String NUM_Q_CORRECT = "numQuestionsCorrect";
+	public static final String PERCENT_Q_CORRECT = "percentCorrect";
+	public static final String NUM_TOP_COMPLETED = "numTopicsCompleted";
+	public static final String NUM_TOP_NOT_STARTED = "numSubtopicsNotStarted";
+	
 }

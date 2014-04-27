@@ -86,6 +86,7 @@
 
 
     <!-- Contact us -->
+    <!--
     <div class="container">
 
     	<hr />
@@ -115,6 +116,7 @@
     			</div>
     		</div>
     </div>
+    -->
 
     <jsp:include page="/includes/footer.jsp"></jsp:include>
 

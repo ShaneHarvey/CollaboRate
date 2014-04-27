@@ -35,7 +35,7 @@ public abstract class Material extends DBObject {
 		super(e);
 	}
 
-	public void setAutor(Key author) {
+	public void setAuthor(Key author) {
 		entity.setProperty(MATERIAL_AUTHOR, author);
 	}
 

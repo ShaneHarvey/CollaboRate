@@ -50,7 +50,7 @@ public class Notes extends Material {
 		//l.setDescription(lDescription);
 		l.setURL(lURL);
 		l.setSubtopicKey(lKey);
-		l.setAutor(authorKey);
+		l.setAuthor(authorKey);
 		l.setSubject(subjectKey);
 		l.save();
 		return l;

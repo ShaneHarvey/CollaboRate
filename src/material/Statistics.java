@@ -44,7 +44,7 @@ public class Statistics {
 				FilterOperator.EQUAL, uKey);
 		Filter subjectFilter = new FilterPredicate(QuestionMetadata.STATS_SUBJECT,
 				FilterOperator.EQUAL, sKey);
-		Filter correctFilter = new FilterPredicate(QuestionMetadata.STATS_CORRECT,
+		Filter correctFilter = new FilterPredicate(QuestionMetadata.QUES_CORRECT_ANSWER,
 				FilterOperator.EQUAL, true);
 		Filter user_Subject_Filter =
 				  CompositeFilterOperator.and(userFilter, subjectFilter, correctFilter);
@@ -57,10 +57,10 @@ public class Statistics {
 	 * @param sKey The subject Key the query will be performed on 
 	 * @return the double representing the percentage correct
 	 */
-	private static double getPercentageCorrect(Key uKey, Key sKey){
+	public static double getPercentageCorrect(Key uKey, Key sKey){
 		int totalQuestions = getNumberQuestionsCompleted(uKey, sKey);
 		int correctQuestions = getNumberQuestionsCorrect(uKey, sKey);
-		return (double) (correctQuestions/totalQuestions)* 100;
+		return  ((double)correctQuestions/totalQuestions)* 100;
 	}
 	/**
 	 * The counts the number of questions there are for a given subject
@@ -100,9 +100,9 @@ public class Statistics {
 				FilterOperator.EQUAL, subjectKey);
 		Filter completedFilter = new FilterPredicate(Test.TEST_PASSED,
 				FilterOperator.EQUAL, true);
-		Filter user_Subject_Completed_Filter =
+		Filter userSubjectCompletedFilter =
 				  CompositeFilterOperator.and(userFilter, subjectFilter, completedFilter);
-		Query photoQuery = new Query(QuestionStatistics.STATS).setFilter(user_Subject_Completed_Filter);
+		Query photoQuery = new Query(Test.TEST).setFilter(userSubjectCompletedFilter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 	}
 	/**
@@ -128,9 +128,9 @@ public class Statistics {
 				FilterOperator.EQUAL, uKey);
 		Filter subjectFilter = new FilterPredicate(Test.TEST_SUBTOPIC,
 				FilterOperator.EQUAL, subtopicKey);
-		Filter user_Subtopic_Completed_Filter =
+		Filter userSubtopicPassedFilter =
 				  CompositeFilterOperator.and(userFilter, subjectFilter);
-		Query photoQuery = new Query(QuestionStatistics.STATS).setFilter(user_Subtopic_Completed_Filter);
+		Query photoQuery = new Query(Test.TEST).setFilter(userSubtopicPassedFilter);
 		try{
 			PreparedQuery pq = datastore.prepare(photoQuery);
 			Entity test = pq.asSingleEntity();

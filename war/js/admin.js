@@ -4,7 +4,12 @@
  */
 
 $(function(){
-	
+	// Set enter key to click the #btn_addSubject button
+	$("#subjectName, #subTopicTable").keyup(function(event){
+	    if(event.keyCode == 13){
+	        $("#btn_addSubject").click();
+	    }
+	});
 	// Add another row to sub topic table
 	$('#btn_AddSubtopic').click(function(){
 		$('#subTopicTable').append('<tr><td><input type="text"/></td></tr>');
