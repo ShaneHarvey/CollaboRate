@@ -36,4 +36,8 @@ public class Keys {
 	public static final String TOP_QUESTIONS = "topQuestions";
 	public static final String TOP_VIDEOS = "topVideos";
 	public static final String TOP_NOTES = "topNotes";
+	public static final String USERS_QUESTIONS = "userQuestions";
+	public static final String USERS_VIDEOS = "userVideos";
+	public static final String USERS_NOTES =  "userNotes";
+			
 }

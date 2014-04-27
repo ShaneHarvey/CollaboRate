@@ -25,7 +25,7 @@
 				</c:if>
 				<c:if test="${account != null}">
 					<div class="tl">
-						<a href="#">Request a subtopic!</a>
+						<a href="/RequestSubtopic?subjectname=${subject.title}&sid=${subject.keyAsString}">Request a subtopic!</a>
 					</div>
 				</c:if>
 			</div>

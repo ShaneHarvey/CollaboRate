@@ -15,7 +15,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 public class RequestSubject extends Subject implements Serializable{
 	private static final long serialVersionUID = -8250505173208208901L;
-	private static final String ENT_SUBJECT_REQUEST = "subtopic_request";
+	private static final String ENT_SUBJECT_REQUEST = "subject_request";
 	private ArrayList<RequestSubtopic> subtopicsRequestList;
 	public RequestSubject(Entity ent){
 		super(ent);

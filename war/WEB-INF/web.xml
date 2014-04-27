@@ -134,8 +134,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RequestSubjectServlet</servlet-name>
-		<url-pattern>/RequestSubjectServlet</url-pattern>
+		<url-pattern>/RequestSubject</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>RequestSubtopicServlet</servlet-name>
+		<servlet-class>servlets.RequestSubtopicServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RequestSubtopicServlet</servlet-name>
+		<url-pattern>/RequestSubtopic</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserContentServlet</servlet-name>
+		<servlet-class>servlets.UserContentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserContentServlet</servlet-name>
+		<url-pattern>/UserContent</url-pattern>
+	</servlet-mapping>
+	<servlet>
         <servlet-name>VerifyServlet</servlet-name>
         <servlet-class>servlets.VerifyServlet</servlet-class>
     </servlet>

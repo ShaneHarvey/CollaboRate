@@ -15,7 +15,7 @@
 								<li><a href="/subject?sid=${sub.keyAsString}">${sub.title}</a></li>
 							</c:forEach>
 							<li class="divider"></li>
-							<li class="dropdown-header"><a href="/RequestSubjectServlet">Request a
+							<li class="dropdown-header"><a href="/RequestSubject">Request a
 									Subject</a></li>
 						</ul></li>
 					<c:if test="${account != null}">
