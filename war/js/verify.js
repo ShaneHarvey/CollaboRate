@@ -18,7 +18,7 @@ $(function(){
         });
 	});
 	
-	$('.remove').click(function(){
+	$('.rm').click(function(){
 		var btn = $(this);
 		$.ajax({
             type: 'POST',

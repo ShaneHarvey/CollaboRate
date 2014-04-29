@@ -38,11 +38,18 @@
 	       material.Test getTest(account.Account, material.Subtopic);
 	   </function-signature>
 	</function>
-	   <function>
+	<function>
        <name>userTrusted</name>
        <function-class>material.Subject</function-class>
        <function-signature>
            boolean userTrusted(material.Subject, account.Account);
+       </function-signature>
+    </function>
+    <function>
+       <name>getAllUnverifiedQuestions</name>
+       <function-class>material.Question</function-class>
+       <function-signature>
+           ArrayList getAllUnverifiedQuestions();
        </function-signature>
     </function>
 </taglib>
