@@ -22,3 +22,5 @@ war/WEB-INF/appengine-generated/
 
 # Eclipse Crap #
 RemoteSystemsTempFiles/
+
+.settings/org.eclipse.core.resources.prefs

@@ -47,7 +47,7 @@ $(function(){
             type: 'POST',
             data: 'subjectName=' + encodeURIComponent($('#subjectName').val()) + '&subTopicList=' + encodeURIComponent(subTopicsString) + '&action=createsubject',
             url: '/admin',
-            success: function(data) {
+            success: function(data, textStatus, jqXHR) {
             	$('#subjectLoading').hide();
             	if(data === 'success')
             		window.location.href = '/admin';
@@ -92,5 +92,21 @@ $(function(){
             }
         });
 	});
+	
+	$('select[name="subjectSelector"]').change(function(){
+		$.ajax({
+            type: 'POST',
+            data: 'sid=' + $(this).val(),
+            url: '/admin',
+            success: function(data){
+            	
+            	var subList = data.split('<html>')[0];
+            	$('#subtopicList').html(subList);
+            }
+        });
+	        
+	});
+	
+	
 	
 });

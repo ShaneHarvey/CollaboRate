@@ -14,6 +14,7 @@ import material.UserMaterialMetadata.MaterialType;
 import material.Notes;
 import material.Question;
 import material.Subject;
+import material.Subtopic;
 import material.Video;
 import constants.Keys;
 import account.Account;
@@ -31,6 +32,8 @@ public class AdminServlet extends HttpServlet {
 		String action = (String) request.getParameter("action");
 		// Attempt to retrieve account from session
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
+		
+		
 
 		if (action == null) {
 			// Make sure there is an admin account account
@@ -66,6 +69,47 @@ public class AdminServlet extends HttpServlet {
 				request.setAttribute(Keys.FLAGGED_VIDEOS, fVideos);
 				// Put all flagged lectures in request
 				request.setAttribute(Keys.FLAGGED_NOTES, fNotes);
+				
+				
+				
+				//Stuff for manage subject  -  phil
+				String subtopicListHTML="<table>";
+				String subtopicListHTMLend = "</table>";
+				
+				request.setAttribute(Keys.SUBJECT_LIST,
+						Subject.getAllSubjects());
+				String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+				if (subjectKey == null) {
+					
+				}
+				else {
+					// Place the subject in the session;
+					Subject sub = Subject.getFromKeyString(subjectKey);
+					request.setAttribute(Keys.SUBJECT, sub);
+					String subtopicKey = request
+							.getParameter(Keys.SUBJECT_TOPIC_KEY);
+					if (subtopicKey != null) {
+						// Place the subtopic in the session
+						Subtopic st = Subtopic.getFromKeyString(subtopicKey);
+						request.setAttribute(Keys.SUBTOPIC, st);
+					}
+					else{
+						
+					}
+					
+					String next = "";
+					for(Subtopic s:sub.getSubtopics()){
+						next = "<tr><td><input class=\"subtopicInput\" value=\"" + s.getOrder() + "\" size=\"5\"></td>" 
+								+ "<td id=\" " + s.getKeyAsString() + "\">" + 
+								s.getTitle() + "</td></tr>";
+						
+						subtopicListHTML += next;
+					}
+					subtopicListHTML += "</table>";
+					
+					response.getWriter().print(subtopicListHTML);
+					
+				}
 
 				getServletContext().getRequestDispatcher("/admin-home.jsp")
 						.forward(request, response);

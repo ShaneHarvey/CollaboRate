@@ -429,3 +429,11 @@ input[disabled] {
 	text-shadow: 0 0 1px #58427C;
     text-decoration: none;
 }
+
+
+
+/* */
+.subtopicInput{
+	
+	size:5;
+}
