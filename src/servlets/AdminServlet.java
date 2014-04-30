@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import material.MaterialMetadata;
 import material.MaterialMetadata.FlaggedMaterial;
+import material.RequestSubtopic;
 import material.UserMaterialMetadata.MaterialType;
 import material.Notes;
 import material.Question;
@@ -35,7 +36,7 @@ public class AdminServlet extends HttpServlet {
 		
 		
 
-		if (action == null) {
+		if (action == null || action.equals("changeOrder") || action.equals("insertOrder")) {
 			// Make sure there is an admin account account
 			if (acc == null || acc.getType() != Account.ActorType.ADMIN)
 				response.sendRedirect("/logout");
@@ -73,39 +74,67 @@ public class AdminServlet extends HttpServlet {
 				
 				
 				//Stuff for manage subject  -  phil
-				String subtopicListHTML="<table>";
-				String subtopicListHTMLend = "</table>";
+
 				
 				request.setAttribute(Keys.SUBJECT_LIST,
 						Subject.getAllSubjects());
 				String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
-				if (subjectKey == null) {
-					
+				if (subjectKey == null || subjectKey.equals("")) {
+					response.getWriter().print("");
 				}
 				else {
 					// Place the subject in the session;
 					Subject sub = Subject.getFromKeyString(subjectKey);
-					request.setAttribute(Keys.SUBJECT, sub);
-					String subtopicKey = request
-							.getParameter(Keys.SUBJECT_TOPIC_KEY);
-					if (subtopicKey != null) {
-						// Place the subtopic in the session
-						Subtopic st = Subtopic.getFromKeyString(subtopicKey);
-						request.setAttribute(Keys.SUBTOPIC, st);
-					}
-					else{
+					//request.setAttribute(Keys.SUBJECT, sub);
+					sub.getSubtopics();
+					
+					String subtopicListHTML="<h3>Current Subtopics</h3><table class=\"subtopicList\" id=\"" + subjectKey +"\">";
+					String subtopicListHTMLend = "</table>";
+					
+					
+					if("changeOrder".equals(action)){
+						String subtopicKey = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
+						Subtopic subtopic = Subtopic.getFromKeyString(subtopicKey);
+						String newPlaceString = request.getParameter(Keys.ORDER);
 						
+						sub.changeOrder(subtopic, Integer.parseInt(newPlaceString));
+					}
+					else if("insertOrder".equals(action)){
+						String requestedKey = request.getParameter(Keys.REQUESTED_SUBTOPIC_KEY);
+						RequestSubtopic reqSubtopic = RequestSubtopic.getFromKeyString(requestedKey);
+						
+						sub.insertSubtopic(reqSubtopic,reqSubtopic.getOrder());
 					}
 					
+					//put the subtopics there
 					String next = "";
 					for(Subtopic s:sub.getSubtopics()){
-						next = "<tr><td><input class=\"subtopicInput\" value=\"" + s.getOrder() + "\" size=\"5\"></td>" 
-								+ "<td id=\" " + s.getKeyAsString() + "\">" + 
-								s.getTitle() + "</td></tr>";
+						next = "<tr><td><input id=\"" + s.getKeyAsString() + "\" class=\"subtopicInput\" value=\"" + s.getOrder() + "\" size=\"5\" onchange=\"reOrder(this.id)\"></td>" 
+								+ "<td>" + s.getTitle() + "</td></tr>";
 						
 						subtopicListHTML += next;
 					}
-					subtopicListHTML += "</table>";
+					
+					//end subtopics
+					subtopicListHTML += "</table><br/><br/><br/>";
+					
+					//start requested subtopics
+					subtopicListHTML += "<h3>Requested Subtopics</h3><table>";
+					
+					
+					//here i include the description
+					for(RequestSubtopic rs: RequestSubtopic.getSubtopicsRequestfromSubject(subjectKey)){
+						next = "<tr><td><span id=\"" + rs.getKeyAsString() + "\" class=\"glyphicon glyphicon-plus hoverHand\""
+								+  "onclick=\"insertInOrder(this.id)\"></td>" 
+								+ "<td>" + rs.getTitle() + "</td><td>" + rs.getDescription()+"</td</tr>";
+						
+						subtopicListHTML += next;
+					}
+					
+					
+					
+					
+					
 					
 					response.getWriter().print(subtopicListHTML);
 					

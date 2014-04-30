@@ -118,13 +118,24 @@
 							<h3>Choose a Subject</h3>
 							<div class="content-holder side-margins-10 tc">
 								<select id="subjectSelector" name="subjectSelector">
+								<option value=""></option>
 									<c:forEach items="${subjectList}" var="sub">
 										<option value="${sub.keyAsString}">${sub.title}</option>
 									</c:forEach>
 								</select> <br /> <br />
 							</div>
 
-							<div class="content-holder side-margins-10 tc" id="subtopicList"></div>
+							<div class="content-holder side-margins-10 tc" id="subtopicList">
+							
+							
+							</div>
+							
+							
+							<div class="content-holder side-margins-10 tc" id="requestedSubtopics">
+							
+							<span id="btn_AddRequestedSubtopic"
+											class="glyphicon glyphicon-plus hoverHand"></span>
+							</div>
 
 
 

@@ -99,14 +99,70 @@ $(function(){
             data: 'sid=' + $(this).val(),
             url: '/admin',
             success: function(data){
-            	
             	var subList = data.split('<html>')[0];
+            	subList = subList.split('<!')[0];
             	$('#subtopicList').html(subList);
+            	
+            	/*$('.subtopicInput').blur(function(){
+            		$.ajax({
+                        type: 'POST',
+                        data: 'order=' + $(this).val() + '&stid=' + $(this).attr('id') + '&action=changeOrder&sid=' + $('.subtopicList').filter(":first").attr('id') ,
+                        url: '/admin',
+                        success: function(data2){
+                        	
+                        	var subList2 = data2.split('<html>')[0];
+                        	$('#subtopicList').html(subList2);
+                        }
+                    });   
+            	});*/
             }
-        });
-	        
+        });   
 	});
 	
 	
 	
+	
+	/* change the order of subtopics
+	$('#btn_AddSubtopic').click(function(){
+		var subtopi
+		
+		$.ajax({
+            type: 'POST',
+            data: 'cid=' + $(this).attr('cid') + '&ctype=' + $(this).attr('ctype') + '&action=unflagcontent',
+            url: '/admin',
+            success: function(data){
+            	btn.closest('.content-holder').remove();
+            }
+        });
+	});
+	*/
+	
+	
 });
+
+function reOrder(id){
+	$.ajax({
+        type: 'POST',
+        data: 'order=' + $('#'+id).val() + '&stid=' + id + '&action=changeOrder&sid=' + $('.subtopicList').filter(":first").attr('id') ,
+        url: '/admin',
+        success: function(data2){
+        	
+        	var subList2 = data2.split('<html>')[0];
+        	$('#subtopicList').html(subList2);
+        }
+    });
+}
+
+function insertInOrder(id){
+	$('#' + id).remove();
+	$.ajax({
+        type: 'POST',
+        data: 'rstid=' + id + '&action=insertOrder&sid=' + $('.subtopicList').filter(":first").attr('id') ,
+        url: '/admin',
+        success: function(data2){
+        	
+        	var subList2 = data2.split('<html>')[0];
+        	$('#subtopicList').html(subList2);
+        }
+    });
+}

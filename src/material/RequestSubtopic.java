@@ -95,6 +95,18 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		}
 		return reqSubtopics;
 	}
+	
+	
+	/**
+	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it
+	 * @param sKey the requestedSubject Key
+	 * @return The array list of Requested Subtopic objects.
+	 */
+	public static ArrayList<RequestSubtopic> getSubjectSubtopicsRequest(String sKey) {
+		return getSubjectSubtopicsRequest(KeyFactory.stringToKey(sKey));
+	}
+	
+	
 	/**
 	 * Gets the requested subtopics. Different from the subject subtopic requests.
 	 * @return An array list of RequestedSubtopic objects
@@ -128,22 +140,40 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		} catch (EntityNotFoundException e) {
 			return false;
 		}
-		
-		/*Query subtopicRequestQuery = new Query(ENT_SUBTOPIC_REQUEST).setFilter(
-				subjectFilter);
-		try{
-			PreparedQuery pq = datastore.prepare(subtopicRequestQuery);
-			Entity request = pq.asSingleEntity();
-			if(request != null){
-				RequestSubtopic s = new RequestSubtopic(request);
-				Subtopic newSubtopic = Subtopic.createSubtopic(s.getTitle(), s.getSubjectKey(), s.getDescription(), s.getOrder());
-				newSubtopic.save();
-				return true;
-			}
-			return false;
-		} catch(PreparedQuery.TooManyResultsException e){
-			e.printStackTrace();
-			return false;
-		}*/
 	}
-}
+	
+	
+	/**
+	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it
+	 * @param sKey the requestedSubject Key
+	 * @return The array list of Requested Subtopic objects.
+	 */
+	public static ArrayList<RequestSubtopic> getSubtopicsRequestfromSubject(Key sKey) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter subjectFilter = new FilterPredicate("subject",
+				FilterOperator.EQUAL, sKey);
+		Query subtopicQuery = new Query(ENT_SUBTOPIC_REQUEST).addSort(
+				ENT_SUBTOPIC_ORDER, SortDirection.ASCENDING).setFilter(
+				subjectFilter);
+		PreparedQuery pq = datastore.prepare(subtopicQuery);
+		ArrayList<RequestSubtopic> reqSubtopics = new ArrayList<RequestSubtopic>();
+		for (Entity result : pq.asIterable()) {
+			RequestSubtopic tempSubtopic = new RequestSubtopic(result);
+			reqSubtopics.add(tempSubtopic);
+		}
+		return reqSubtopics;
+	}
+	
+	
+	/**
+	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it
+	 * @param sKey the requestedSubject Key
+	 * @return The array list of Requested Subtopic objects.
+	 */
+	public static ArrayList<RequestSubtopic> getSubtopicsRequestfromSubject(String sKey) {
+		return getSubtopicsRequestfromSubject(KeyFactory.stringToKey(sKey));
+	}
+	
+	
+}//class

@@ -75,7 +75,7 @@ public class Subject extends DBObject implements Serializable{
 		long order = 0;
 		for(String st: subtopics) {
 			Subtopic.createSubtopic(st, s.getKey(), st, order);
-			order += 100;
+			order ++;
 		}
 		return s;
 	}
@@ -89,7 +89,7 @@ public class Subject extends DBObject implements Serializable{
 		long order = 0;
 		for(RequestSubtopic st: subtopics) {
 			Subtopic.createSubtopic(st.getTitle(), st.getKey(), st.getDescription(), st.getOrder());
-			order += 100;
+			order ++;
 		}
 		return s;
 	}
@@ -170,4 +170,107 @@ public class Subject extends DBObject implements Serializable{
 	public ArrayList<Question> getUnverifiedQuestions(){
 		return Question.getUnverifiedQuestions(this);
 	}
+	
+	
+	
+	public boolean saveAllSubtopics(){
+		if(subtopicsList == null || subtopicsList.isEmpty()){
+			return false;
+		}
+		
+		for(Subtopic s: subtopicsList){
+			s.save();
+		}
+		return true;
+	}
+	
+	/**
+	 * Change the place of a given subtopic in the current subject. Fails if the subtopics have not been 
+	 * loaded. Subtopics have been loaded iff getSubtopics method was called.
+	 * @param subtopic
+	 * @param newOrder - the new place in the list to put this subtopic
+	 * @return boolean
+	 */
+	public boolean changeOrder(Subtopic subtopic, long newOrder){
+		
+		if(subtopicsList == null || subtopicsList.isEmpty()){
+			return false;
+		}
+		//bounds check
+		if (newOrder < 0) {
+			newOrder = 0;
+		} else if (newOrder > subtopicsList.size()) {
+			newOrder = subtopicsList.size();
+		}
+		int i = (int)subtopic.getOrder();
+		subtopicsList.remove(i);//remove the subtopic that is being moved
+		subtopicsList.add((int)newOrder, subtopic);
+		
+		int counter = 0;
+		for(Subtopic s: subtopicsList){
+			s.setOrder(counter++);
+		}
+		
+		this.save();
+		return this.saveAllSubtopics();
+		
+	}
+	
+	
+	/**
+	 * Add the given subtopic to this subject at the desired position
+	 * @param newSubtopic
+	 * @param order
+	 * @return
+	 */
+	public boolean insertSubtopic(RequestSubtopic reqSubtopic, long order){
+		if(subtopicsList == null || subtopicsList.isEmpty()){
+			return false;
+		}
+		//bounds check
+		if(order<0 || order>subtopicsList.size()){
+			order = subtopicsList.size();
+		}
+		Subtopic newSubtopic = Subtopic.createSubtopic(reqSubtopic.getTitle(), reqSubtopic.getSubjectKey(), reqSubtopic.getDescription(), reqSubtopic.getOrder());
+		newSubtopic.setOrder(order);
+		subtopicsList.add((int)order,newSubtopic);
+		
+		int counter = 0;
+		for(Subtopic s: subtopicsList){
+			s.setOrder(counter++);
+		}
+		
+		reqSubtopic.delete();//get rid of request since it has been added
+		this.save(); //save the subject
+		return saveAllSubtopics();	//save all the subtopics because you may have changed some of their orders
+	}
+	
+	/**
+	 * add the given subtopic to this subject at the end of the subtopic list
+	 * @param newSubtopic
+	 * @return
+	 */
+	public boolean insertSubtopic(RequestSubtopic reqSubtopic){
+		if(subtopicsList == null || subtopicsList.isEmpty()){
+			return false;
+		}
+		Subtopic newSubtopic = Subtopic.createSubtopic(reqSubtopic.getTitle(), reqSubtopic.getSubjectKey(), reqSubtopic.getDescription(), reqSubtopic.getOrder());
+		newSubtopic.setOrder(subtopicsList.size());
+		subtopicsList.add(subtopicsList.size(),newSubtopic);
+		
+		
+		int counter = 0;
+		for(Subtopic s: subtopicsList){
+			s.setOrder(counter++);
+		}
+		
+		reqSubtopic.delete();
+		this.save();
+		//newSubtopic.save();
+		return saveAllSubtopics();
+	}
+	
+	
+	
+	//public boolean change
 }
