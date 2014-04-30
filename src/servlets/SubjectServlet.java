@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.gson.Gson;
 
 import account.Account;
 import material.Statistics;
@@ -23,6 +24,20 @@ public class SubjectServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
+		String action = request.getParameter("action");
+		Account user = (Account) request.getSession()
+				.getAttribute(Keys.ACCOUNT);
+		if("updatetopics".equals(action) && user != null && user.getType() == Account.ActorType.ADMIN){
+			String tops = request.getParameter("toplist");
+			String[] topArray = new Gson().fromJson(tops, String[].class);
+			long index = 0;
+			for(String t : topArray){
+				Subtopic top = Subtopic.getFromKeyString(t);
+				top.setOrder(index++);
+				top.save();
+			}
+			return;
+		}
 		String subID = request.getParameter(Keys.SUBJECT_KEY);
 		if(subID == null) {
 			// If no subjectId, redirect to home
@@ -33,7 +48,6 @@ public class SubjectServlet extends HttpServlet {
 				Subject sub = Subject.getFromKeyString(subID);
 
 				// Load the statistics
-				Account user = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
 				Key subjectKey = sub.getKey();
 
 				int numQuestionsForSubject = 	Statistics.getNumberOfQuestionsForSubject(subjectKey);
@@ -64,6 +78,10 @@ public class SubjectServlet extends HttpServlet {
 				//request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
 				//request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
 				//request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
+				
+				/* Used to display drag and drop subtopics or not in jsp*/
+				request.setAttribute("accountIsAdmin", user == null? false : user.getType() == Account.ActorType.ADMIN);
+				
 				getServletContext().getRequestDispatcher("/subject.jsp").forward(request, response);
 			} catch(IllegalArgumentException e){
 				response.sendRedirect("/home");
