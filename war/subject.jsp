@@ -34,19 +34,37 @@
 			<div class="row">
 				<div class="col-lg-4 content-holder shift-left-5">
 					<h3 class="tc">Topics</h3>
-					<table class="content-table">
-						<c:forEach items="${subject.subtopics}" var="st">
-							<c:set var="testdata"
-								value="${account == null ? null : fn:getTest(account, st)}" />
-							<c:set var="passed"
-								value="${(testdata == null || !testdata.passed) ? false : true}" />
-							<tr>
-								<td><span><a class="${passed ? " glyphicon
-										glyphicon-ok
-										green" : ""}" href="/subtopic?stid=${st.keyAsString}">${st.title}</a></span></td>
-							</tr>
-						</c:forEach>
-					</table>
+					<c:choose>
+						<c:when test="${!accountIsAdmin}">
+							<table class="content-table">
+								<c:forEach items="${subject.subtopics}" var="st">
+									<c:set var="testdata"
+										value="${account == null ? null : fn:getTest(account, st)}" />
+									<c:set var="passed"
+										value="${(testdata == null || !testdata.passed) ? false : true}" />
+									<tr>
+										<td><span><a class="${passed ? " glyphicon
+												glyphicon-ok
+												green" : ""}" href="/subtopic?stid=${st.keyAsString}">${st.title}</a></span></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</c:when>
+						<c:otherwise>
+							<ul class="sortable list">
+								<c:forEach items="${subject.subtopics}" var="st">
+									<c:set var="testdata"
+										value="${account == null ? null : fn:getTest(account, st)}" />
+									<c:set var="passed"
+										value="${(testdata == null || !testdata.passed) ? false : true}" />
+									<li><a class="${passed ? " glyphicon
+												glyphicon-ok
+												green" : ""}" href="/subtopic?stid=${st.keyAsString}">${st.title}</a>
+									</li>
+								</c:forEach>
+							</ul>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="col-lg-8 content-holder shift-right-5">
 					<h3 class="tc">Statistics</h3>
@@ -81,4 +99,6 @@
 
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
+<script src="/js/jquery.sortable.min.js"></script>
+<script src="/js/subjectsorting.js"></script>
 </html>

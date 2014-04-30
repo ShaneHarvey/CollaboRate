@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/function.tld" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,9 @@
 							Videos</a></li>
 					<li><a href="#tabs1-pane4" data-toggle="tab">Flagged
 							Lectures</a></li>
-					<li><a href="#tabs1-pane5" data-toggle="tab">Manage
+					<li><a href="#tabs1-pane5" data-toggle="tab">Verify
+							Questions</a></li>
+					<li><a href="#tabs1-pane6" data-toggle="tab">Manage
 							Subject</a></li>
 				</ul>
 				<br />
@@ -112,8 +115,29 @@
 							</c:forEach>
 						</div>
 					</div>
-
 					<div class="tab-pane" id="tabs1-pane5">
+						<div class="content-holder">
+							<h2 class="tc">Unverified Questions</h2>
+							<c:forEach items="${fn:getAllUnverifiedQuestions()}" var="q">
+								<div class="content-holder side-margins-10">
+									<h3 class="tc">${q.title}</h3>
+									<div class="question-answers">
+										<ol>
+											<c:forEach items="${q.answerChoices}" var="c">
+												<li><span>${c}</span></li>
+											</c:forEach>
+										</ol>
+									</div>
+									<div class="tc">
+										<a class="btn btn-cg verify" cid="${q.keyAsString}">Verify</a>
+										<a class="btn btn-cg rm" cid="${q.keyAsString}">Remove</a>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+
+					<div class="tab-pane" id="tabs1-pane6">
 						<div class="content-holder">
 							<h3>Choose a Subject</h3>
 							<div class="content-holder side-margins-10 tc">
@@ -133,8 +157,6 @@
 							
 							<div class="content-holder side-margins-10 tc" id="requestedSubtopics">
 							
-							<span id="btn_AddRequestedSubtopic"
-											class="glyphicon glyphicon-plus hoverHand"></span>
 							</div>
 
 
@@ -157,4 +179,5 @@
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
 <script src="/js/admin.js"></script>
+<script src="/js/verify.js"></script>
 </html>

@@ -32,7 +32,7 @@
 						</div>
 						<div class="tc">
 							<a class="btn btn-cg verify" cid="${q.keyAsString}">Verify</a> <a
-								class="btn btn-cg remove" cid="${q.keyAsString}">Remove</a>
+								class="btn btn-cg rm" cid="${q.keyAsString}">Remove</a>
 						</div>
 					</div>
 				</c:forEach>

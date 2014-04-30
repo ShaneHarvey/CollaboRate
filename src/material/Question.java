@@ -186,6 +186,22 @@ public class Question extends Material implements Serializable {
 		}
 		return questions;
 	}
+	
+	public static ArrayList<Question> getAllUnverifiedQuestions(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter verifiedFilter = new FilterPredicate(QUESTION_VERIFIED,
+				FilterOperator.EQUAL, false);
+		Query randQuery = new Query(QUESTION).setFilter(verifiedFilter);
+		
+		PreparedQuery pq = datastore.prepare(randQuery);
+		ArrayList<Question> questions = new ArrayList<Question>();
+		// Create questions
+		for (Entity result : pq.asIterable()) {
+			questions.add(new Question(result));
+		}
+		return questions;
+	}
 
 	public static ArrayList<Question> getRandomVerifiedQuestions(int limit,
 			Key sKey) {
