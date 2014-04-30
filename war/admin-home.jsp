@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/function.tld" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,8 @@
 							Videos</a></li>
 					<li><a href="#tabs1-pane4" data-toggle="tab">Flagged
 							Lectures</a></li>
+					<li><a href="#tabs1-pane5" data-toggle="tab">Verify
+							Questions</a></li>
 				</ul>
 				<br />
 				<div class="tab-content">
@@ -70,8 +73,8 @@
 										</ol>
 									</div>
 									<div class="tc">
-										<a class="btn btn-cg remove" cid="${q.keyAsString}" ctype="1">Remove</a> <a
-											class="btn btn-cg unflag" cid="${q.keyAsString}" ctype="1">Unflag</a>
+										<a class="btn btn-cg remove" cid="${q.keyAsString}" ctype="1">Remove</a>
+										<a class="btn btn-cg unflag" cid="${q.keyAsString}" ctype="1">Unflag</a>
 									</div>
 								</div>
 							</c:forEach>
@@ -88,8 +91,8 @@
 											frameborder="0" allowfullscreen></iframe>
 									</div>
 									<div class="tc">
-										<a class="btn btn-cg remove" cid="${v.keyAsString}" ctype="0">Remove</a> <a
-											class="btn btn-cg unflag" cid="${v.keyAsString}" ctype="0">Unflag</a>
+										<a class="btn btn-cg remove" cid="${v.keyAsString}" ctype="0">Remove</a>
+										<a class="btn btn-cg unflag" cid="${v.keyAsString}" ctype="0">Unflag</a>
 									</div>
 								</div>
 							</c:forEach>
@@ -103,8 +106,29 @@
 									<h3 class="tc">${n.title}</h3>
 									<a href="${n.URL}" target="_blank">${n.URL}</a> <br /> <br />
 									<div class="tc">
-										<a class="btn btn-cg remove" cid="${n.keyAsString}" ctype="2">Remove</a> <a
-											class="btn btn-cg unflag" cid="${n.keyAsString}" ctype="2">Unflag</a>
+										<a class="btn btn-cg remove" cid="${n.keyAsString}" ctype="2">Remove</a>
+										<a class="btn btn-cg unflag" cid="${n.keyAsString}" ctype="2">Unflag</a>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+					<div class="tab-pane" id="tabs1-pane5">
+						<div class="content-holder">
+							<h2 class="tc">Unverified Questions</h2>
+							<c:forEach items="${fn:getAllUnverifiedQuestions()}" var="q">
+								<div class="content-holder side-margins-10">
+									<h3 class="tc">${q.title}</h3>
+									<div class="question-answers">
+										<ol>
+											<c:forEach items="${q.answerChoices}" var="c">
+												<li><span>${c}</span></li>
+											</c:forEach>
+										</ol>
+									</div>
+									<div class="tc">
+										<a class="btn btn-cg verify" cid="${q.keyAsString}">Verify</a>
+										<a class="btn btn-cg rm" cid="${q.keyAsString}">Remove</a>
 									</div>
 								</div>
 							</c:forEach>
@@ -122,4 +146,5 @@
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
 <script src="/js/admin.js"></script>
+<script src="/js/verify.js"></script>
 </html>
