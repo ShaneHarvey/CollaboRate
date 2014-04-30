@@ -20,7 +20,7 @@
 .connected, .sortable, .exclude, .handles {
 	margin: auto;
 	padding: 0;
-	width: 310px;
+	width: auto;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -38,8 +38,11 @@
 	font-family: "Tahoma";
 	color: #1C94C4;
 	margin: 5px;
-	padding: 5px;
+	padding: 2px;
 	height: 22px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 8px;
 }
 .handles span {
 	cursor: move;

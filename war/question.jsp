@@ -18,11 +18,11 @@
 					href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
 				/ Question
 			</div>
-			
+			<!--
 			<textarea id="editor">
 			TinyMce!
 			</textarea>
-			
+			  -->
 			<h1 class="tc">${question.title}</h1>
 
 			<div class="question-answers">
@@ -57,6 +57,7 @@
 <jsp:include page="/includes/js.jsp"></jsp:include>
 <script src="/js/plugins/FeedbackDisplay.js"></script>
 <script src="/js/question.js"></script>
+<!-- 
 <script src="/js/tinymce/tinymce.min.js"></script>
 <script>
 	tinymce.init({
@@ -70,4 +71,5 @@
 	$('.mce-toolbar-grp').remove();
 	$('.mce-statusbar').remove();
 </script>
+ -->
 </html>
