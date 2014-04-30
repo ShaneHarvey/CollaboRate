@@ -39,6 +39,10 @@ public class Keys {
 	public static final String USERS_QUESTIONS = "userQuestions";
 	public static final String USERS_VIDEOS = "userVideos";
 	public static final String USERS_NOTES =  "userNotes";
+	
+	public static final String ORDER = "order";
+	public static final String REQUESTED_SUBTOPIC_KEY = "rstid";
+	
 			
 	// Used in SubjectServlet for statistics
 	public static final String NUM_Q_SUB = "numQuestionsInSubject";

@@ -26,6 +26,8 @@
 							Lectures</a></li>
 					<li><a href="#tabs1-pane5" data-toggle="tab">Verify
 							Questions</a></li>
+					<li><a href="#tabs1-pane6" data-toggle="tab">Manage
+							Subject</a></li>
 				</ul>
 				<br />
 				<div class="tab-content">
@@ -132,6 +134,37 @@
 									</div>
 								</div>
 							</c:forEach>
+						</div>
+					</div>
+
+					<div class="tab-pane" id="tabs1-pane6">
+						<div class="content-holder">
+							<h3>Choose a Subject</h3>
+							<div class="content-holder side-margins-10 tc">
+								<select id="subjectSelector" name="subjectSelector">
+								<option value=""></option>
+									<c:forEach items="${subjectList}" var="sub">
+										<option value="${sub.keyAsString}">${sub.title}</option>
+									</c:forEach>
+								</select> <br /> <br />
+							</div>
+
+							<div class="content-holder side-margins-10 tc" id="subtopicList">
+							
+							
+							</div>
+							
+							
+							<div class="content-holder side-margins-10 tc" id="requestedSubtopics">
+							
+							</div>
+
+
+
+
+
+
+
 						</div>
 					</div>
 				</div>
