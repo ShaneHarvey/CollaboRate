@@ -39,4 +39,8 @@
         <property name="materialSubtopic" direction="asc"/>
         <property name="materialID" direction="asc"/>
     </datastore-index>
+    <datastore-index kind="subtopic_request" ancestor="false" source="manual">
+        <property name="subject" direction="asc"/>
+        <property name="order" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>
