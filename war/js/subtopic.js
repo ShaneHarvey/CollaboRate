@@ -11,14 +11,13 @@ $(function() {
 		
 		$(this).mouseover(function(){
 			var holder = $(this);
-			/*$('.feedback-tooltip').hide();*/
 		    $(this).addClass('hover');
 		    setTimeout(function(){
 				if(holder.hasClass('hover')){
 				    var offset = holder.parent().offset();
 				    var width = holder.parent().outerWidth();
 				    holder.parent().find('.feedback-tooltip').each(function(){
-				    	$(this).css({top:offset.top - 575, left:offset.left - 325}).fadeIn();
+				    	$(this).css({top:offset.top - 560, left:offset.left - 325}).fadeIn();
 				    	$(this).mouseover(function(){
 				    		holder.mouseover();
 				    	});

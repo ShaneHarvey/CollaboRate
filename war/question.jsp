@@ -8,46 +8,48 @@
 </head>
 <body>
 
-	<jsp:include page="/includes/header.jsp"></jsp:include>
+	<div class="wrapper">
+		<jsp:include page="/includes/header.jsp"></jsp:include>
 
-	<div class="body">
-		<div class="body-center-div">
-			<div class="bread-crumbs">
-				<a href="/home">Home</a> / <a
-					href="/subject?sid=${subject.keyAsString}">${subject.title}</a> / <a
-					href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
-				/ Question
-			</div>
-			<!--
+		<div class="body">
+			<div class="body-center-div">
+				<div class="bread-crumbs">
+					<a href="/home">Home</a> / <a
+						href="/subject?sid=${subject.keyAsString}">${subject.title}</a> /
+					<a href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
+					/ Question
+				</div>
+				<!--
 			<textarea id="editor">
 			TinyMce!
 			</textarea>
 			  -->
-			<h1 class="tc">${question.title}</h1>
+				<h1 class="tc">${question.title}</h1>
 
-			<div class="question-answers">
-				<ol id="question-list">
-					<c:forEach items="${question.answerChoices}" var="choice">
-						<li><span>${choice}</span></li>
-					</c:forEach>
-				</ol>
-			</div>
-			<div class="tc">
-				<a id="btn_submitAnswer" class="btn btn-cg"
-					qid="${question.keyAsString}">Submit</a>
-				<div id="answerLoading" class="tc loadingDiv"
-					style="display: none;">
-					<img src="/images/ajax-loader.gif" alt="loading">
+				<div class="question-answers">
+					<ol id="question-list">
+						<c:forEach items="${question.answerChoices}" var="choice">
+							<li><span>${choice}</span></li>
+						</c:forEach>
+					</ol>
 				</div>
-				<h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
-				<h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
+				<div class="tc">
+					<a id="btn_submitAnswer" class="btn btn-cg"
+						qid="${question.keyAsString}">Submit</a>
+					<div id="answerLoading" class="tc loadingDiv"
+						style="display: none;">
+						<img src="/images/ajax-loader.gif" alt="loading">
+					</div>
+					<h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
+					<h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
+				</div>
+				<div id="feedback" class="feedback"
+					loggedin="${account == null ? false : true}" url="question"
+					cid="${question.keyAsString}"
+					ur="${metadata == null ? -1 : metadata.rating}"
+					uf="${metadata == null ? false : metadata.flagged}"
+					gr="${question.globalRating}"></div>
 			</div>
-			<div id="feedback" class="feedback"
-				loggedin="${account == null ? false : true}" url="question"
-				cid="${question.keyAsString}"
-				ur="${metadata == null ? -1 : metadata.rating}"
-				uf="${metadata == null ? false : metadata.flagged}"
-				gr="${question.globalRating}"></div>
 		</div>
 	</div>
 

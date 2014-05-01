@@ -5,3 +5,8 @@
 <link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/custom-jquery-ui.css">
 <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+<!--[if !IE 7]>
+    <style type="text/css">
+        #wrap {display:table;height:100%}
+    </style>
+<![endif]-->

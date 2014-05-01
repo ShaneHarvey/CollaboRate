@@ -8,51 +8,54 @@
 </head>
 <body>
 
-	<jsp:include page="/includes/header.jsp"></jsp:include>
+	<div class="wrapper">
+		<jsp:include page="/includes/header.jsp"></jsp:include>
 
-	<div class="body">
-		<div class="body-center-div">
-			<h1 class="tc">User Panel</h1>
-			<div class="tabbable">
-				<br />
-				<div class="tab-content">
-					<div class="tab-pane active" id="tabs1-pane1">
-						<div class="content-holder tc">
-							<h2 class="tc">Request Subject</h2>
-							<br />
-							<div class="table-wrapper">
-								<table>
-									<tr>
-										<td><span class="title">Subject:</span></td>
-										<td><input id="subjectName" type="text" /></td>
-									</tr>
-									<tr>
-										<td valign="top"><span class="title">SubTopics:</span></td>
-										<td class="subTopicTableWrapper">
-											<table id="subTopicTable">
-												<tr>
-													<td><input type="text" /></td>
-												</tr>
-											</table> <span id="btn_AddSubtopic"
-											class="glyphicon glyphicon-plus hoverHand"></span>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<a id="btn_addSubject" class="btn btn-cg">Add Subject</a>
-							<div id="subjectLoading" class="tc loadingDiv"
-								style="display: none;">
-								<img src="/images/ajax-loader.gif" alt="loading"><br /> <br />
+		<div class="body">
+			<div class="body-center-div">
+				<h1 class="tc">User Panel</h1>
+				<div class="tabbable">
+					<br />
+					<div class="tab-content">
+						<div class="tab-pane active" id="tabs1-pane1">
+							<div class="content-holder tc">
+								<h2 class="tc">Request Subject</h2>
+								<br />
+								<div class="table-wrapper">
+									<table>
+										<tr>
+											<td><span class="title">Subject:</span></td>
+											<td><input id="subjectName" type="text" /></td>
+										</tr>
+										<tr>
+											<td valign="top"><span class="title">SubTopics:</span></td>
+											<td class="subTopicTableWrapper">
+												<table id="subTopicTable">
+													<tr>
+														<td><input type="text" /></td>
+													</tr>
+												</table> <span id="btn_AddSubtopic"
+												class="glyphicon glyphicon-plus hoverHand"></span>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<a id="btn_addSubject" class="btn btn-cg">Add Subject</a>
+								<div id="subjectLoading" class="tc loadingDiv"
+									style="display: none;">
+									<img src="/images/ajax-loader.gif" alt="loading"><br />
+									<br />
+								</div>
 							</div>
 						</div>
 					</div>
+					<!-- /.tab-content -->
 				</div>
-				<!-- /.tab-content -->
+				<!-- /.tabbable -->
 			</div>
-			<!-- /.tabbable -->
 		</div>
-	</div>
 
+	</div>
 	<jsp:include page="/includes/footer.jsp"></jsp:include>
 
 </body>

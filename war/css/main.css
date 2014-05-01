@@ -12,6 +12,8 @@
 /* Default color is cyber grape */
 html,body {
 	color: #58427C;
+	height: 100%;
+    background-color: #DDD
 }
 
 /* Center text */
@@ -30,21 +32,41 @@ html,body {
 	margin-right: auto
 }
 
-/* Footer div*/
-.footer {
-	/*padding-top:30px;*/
-	/*min-height: 100px;*/
-	padding-bottom: 15px;
-	padding-top: 15px;
+/* Hack to change background of landing page*/
+.bghack {
+	background: #FFF;
+	width: 100%;
+	padding-bottom: 160px;
+	height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
 }
 
 /* Body div */
 .body {
-	min-height: 400px;
+	min-height: 500px;
 	margin-top: 53px;
 	padding-top: 75px;
-	padding-bottom: 75px;
+    padding-bottom: 250px;
+    overflow:auto;
+    width: 100%;
+    background-color: #DDD;
 }
+
+/* Used on admin page*/
+.too-thin-hack {
+	min-width: 1000px;
+}
+
+.footer {
+	position: relative;
+    margin-top: -153px; 
+    height: 153px;
+    clear:both;
+    background-color: #FFF;
+} 
 
 /* Display gap with hr */
 hr {
@@ -92,16 +114,6 @@ hr {
 /* Adding 150px padding to left side */
 .left-padding-150 {
 	padding-left: 150px;
-}
-
-/* Body of pages*/
-.body {
-	margin-top: 53px;
-	width: 100%;
-	background-color: #DDD;
-	padding-top: 75px;
-	padding-bottom: 75px;
-	min-height: 500px;
 }
 
 /* Center div of login / signup pages */
@@ -430,10 +442,6 @@ input[disabled] {
     text-decoration: none;
 }
 
-
-
-/* */
-.subtopicInput{
-	
+.subtopicInput{	
 	size:5;
 }
