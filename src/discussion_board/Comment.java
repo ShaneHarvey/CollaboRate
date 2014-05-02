@@ -59,7 +59,7 @@ public class Comment extends DiscussionEntries{
 		Filter subtopicFilter = new FilterPredicate(ENT_COMMENT_POST,
 				FilterOperator.EQUAL, postID);
 		Query photoQuery = new Query(ENT_COMMENT).addSort(DiscussionEntries.ENTRY_DATE,
-				SortDirection.DESCENDING).setFilter(subtopicFilter);
+				SortDirection.ASCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
 		//ArrayList<Comment> topRatedQuestions = new ArrayList<Comment>();
 		for (Entity result : pq.asIterable()) {
