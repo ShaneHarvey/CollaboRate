@@ -117,8 +117,9 @@ $(function() {
 							$('#question-title').text(response.nextQuestion.title);
 							$('#question-list').empty();
 							//$('#question-list').remove('li');
-							for(var answerChoice in response.nextQuestion.answerChoices){
-								$('#question-list').append('<li><span>'+answerChoice+'</span></li>');
+							
+							for(var i =0; i< response.nextQuestion.answerChoices.length; i++){
+								$('#question-list').append('<li><span>'+response.nextQuestion.answerChoices[i]+'</span></li>');
 							}
 							// Add click lister to questions on view question page
 							$('#question-list li').click(function() {
