@@ -4,6 +4,9 @@
  */
 
 $(function() {
+	
+	// Can user click button
+	var canClick = true;
 
 	// Add click lister to questions on view question page
 	$('#question-list li').click(function() {
@@ -78,8 +81,10 @@ $(function() {
 			});
 	
 	// Add click listener to button on view question page
-	$('#btn_testSubmitAnswer').click(
-			function() {
+	$('#btn_testSubmitAnswer').click( function() {
+				// Prevent user from clicking to submit question multiple times
+				if(!canClick)
+					return;
 				var index = -1;
 				var counter = 0;
 				// Find the user's answer
@@ -101,6 +106,7 @@ $(function() {
 
 				$('#btn_submitAnswer').hide();
 				$('#answerLoading').show()
+				canClick = false;
 				// Try to answer the question
 				$.ajax({
 					type : 'POST',
@@ -108,6 +114,7 @@ $(function() {
 							+ '&action=answerquestion',
 					url : 'test',
 					success : function(data) {
+						canClick = true;
 						$('#answerLoading').hide();
 						var response = JSON.parse(data);
 						if(typeof response.testResult === 'undefined'){
@@ -148,6 +155,7 @@ $(function() {
 						}
 					},
 					error : function(data) {
+						canClick = true;
 						// Couldn't connect to the server
 						$('#answerLoading').hide();
 						$('#question-list').effect('shake');
@@ -155,5 +163,6 @@ $(function() {
 					}
 				});
 			});
+	
 	$('#feedback').FeedbackDisplay();
 });

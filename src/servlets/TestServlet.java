@@ -110,7 +110,7 @@ public class TestServlet extends HttpServlet {
 					QuestionMetadata data = QuestionMetadata.getQuestionMetadata(user.getKey(), nextQuestion);
 					// Send the answer and the next question
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
-							",\"nextQuestion\": {\"title\" : " + "\""+new Gson().toJson(nextQuestion.getTitle())+"\"" +
+							",\"nextQuestion\": {\"title\" : " + new Gson().toJson(nextQuestion.getTitle()) +
 							",\"answerChoices\":" + nextQuestion.getAnswerChoicesJson() +
 							",\"qid\" : " + "\"" + nextQuestion.getKeyAsString() + "\"" + 
 							",\"globalRating\":" + nextQuestion.getGlobalRating() + "}" +

@@ -26,8 +26,8 @@
 							0%</div>
 					</div>
 				</div>
+				<br />
 				<h1 class="tc" id="question-title">${question.title}</h1>
-
 				<div class="question-answers">
 					<ol id="question-list">
 						<c:forEach items="${question.answerChoices}" var="choice">
