@@ -39,7 +39,7 @@
 							<br />
 							<c:forEach items="${post.comments}" var="c">
 								<div class="content-holder discussion-board-question">
-									<p>${c.body}</p>
+									<div>${c.body}</div>
 									<c:if test="${fn:canDelete(c, account)}">
 										<div class="del-button-holder-ques">
 											<a id="btn_deleteComment" cid="${c.keyAsString}"
@@ -52,7 +52,7 @@
 								</div>
 							</c:forEach>
 							<c:if test="${account != null}">
-								<textarea id="commentText" class="discussion-question"></textarea>
+								<textarea id="commentText" class="discussion-question rt"></textarea>
 								<div class="tc">
 									<a id="btn_createComment" class="btn btn-cg"
 										sid="${subject.keyAsString}" stid="${subtopic.keyAsString}"
@@ -135,5 +135,7 @@
 
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
+<script src="/js/plugins/tinymce/tinymce.min.js"></script>
+<script src="/js/plugins/tinymce/tiny.js"></script>
 <script src="/js/discuss.js"></script>
 </html>

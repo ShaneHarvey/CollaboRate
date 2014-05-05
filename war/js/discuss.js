@@ -44,8 +44,8 @@ $(function() {
 
 	$('#btn_createComment').click(
 			function() {
-				var commentText = $('#commentText').val();
-				if (commentText === '' || commentText.length >= 500) {
+				var commentText = tinymce.get('commentText').getContent();
+				if (!validTinyInput(commentText)) {
 					$('#commentText').effect('shake');
 					return;
 				}
@@ -109,5 +109,7 @@ $(function() {
 			window.location.href = redirect;
 		});
 	});
-
+	
+	// Create text text editors using tinymce
+	tinyitize();
 });
