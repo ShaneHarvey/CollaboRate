@@ -25,7 +25,7 @@
     </datastore-index>
         <datastore-index kind="comment" ancestor="false" source="manual">
         <property name="postID" direction="asc"/>
-        <property name="Date Created" direction="desc"/>
+        <property name="Date Created" direction="asc"/>
     </datastore-index>
     <datastore-index kind="user_material_metadata" ancestor="false" source="manual">
         <property name="materialFlagged" direction="asc"/>

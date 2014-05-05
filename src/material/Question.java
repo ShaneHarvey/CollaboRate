@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.*;
 
 public class Question extends Material implements Serializable {
@@ -41,12 +42,18 @@ public class Question extends Material implements Serializable {
 	}
 
 	private void setAnswerChoices(String[] choices) {
-		String jsonChoices = new Gson().toJson(choices);
+		// Convert each choice to Text
+		Text[] textChoices = new Text[choices.length];
+		for(int i=0; i<choices.length; i++){
+			textChoices[i] = new Text(choices[i]);
+		}
+		// Convert Text array into a Json Text object
+		Text jsonChoices = new Text(new Gson().toJson(textChoices));
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
 
 	private void setAnswerExplaination(String answerExp) {
-		entity.setProperty(ANSWER_EXPLAINATION, answerExp);
+		entity.setProperty(ANSWER_EXPLAINATION, new Text(answerExp));
 	}
 
 	private void setCorrectIndex(int index) {
@@ -54,8 +61,13 @@ public class Question extends Material implements Serializable {
 	}
 
 	public String[] getAnswerChoices() {
-		String jsonChoices = (String) entity.getProperty(ANSWER_CHOICES);
-		return new Gson().fromJson(jsonChoices, String[].class);
+		Text jsonChoices = (Text) entity.getProperty(ANSWER_CHOICES);
+		Text[] textChoices = new Gson().fromJson(jsonChoices.getValue(), Text[].class);
+		String[] choices = new String[textChoices.length];
+		for(int i=0; i<textChoices.length; i++){
+			choices[i] = textChoices[i].getValue();
+		}
+		return choices;
 	}
 
 	public String getAnswerChoicesJson() {
@@ -63,7 +75,7 @@ public class Question extends Material implements Serializable {
 	}
 
 	public String getAnswerExplaination() {
-		return (String) entity.getProperty(ANSWER_EXPLAINATION);
+		return ((Text)entity.getProperty(ANSWER_EXPLAINATION)).getValue();
 	}
 
 	public int getCorrectIndex() {
