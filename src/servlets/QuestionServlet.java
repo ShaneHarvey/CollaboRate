@@ -11,6 +11,7 @@ import account.Account;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
 
 import material.Question;
 import material.QuestionMetadata;
@@ -74,8 +75,7 @@ public class QuestionServlet extends HttpServlet {
 					a.setAnswer(answer == correctAnswer);
 					a.save();
 				}
-				response.getWriter().print(
-						"{ \"answer\" : " + correctAnswer + "}");
+				response.getWriter().print("{ \"answer\" : " + correctAnswer + ", \"explanation\" : " + new Gson().toJson(ques.getAnswerExplaination()) + "}");
 			} else if ("ratecontent".equals(action)) {
 				// If not logged in can't rate
 				if (user == null)
@@ -95,7 +95,6 @@ public class QuestionServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String qID = request.getParameter(Keys.CONTENT_KEY);
-				//Key questionKey = KeyFactory.stringToKey(qID);
 				QuestionMetadata a = QuestionMetadata.getQuestionMetadata(
 						user.getKey(), Question.getFromKeyString(qID));
 

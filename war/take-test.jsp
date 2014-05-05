@@ -12,7 +12,7 @@
 		<jsp:include page="/includes/header.jsp"></jsp:include>
 
 		<div class="body">
-			<div class="body-center-div">
+			<div class="body-center-div question-body">
 				<div class="bread-crumbs">
 					<a href="/home">Home</a> / <a
 						href="/subject?sid=${subject.keyAsString}">${subject.title}</a> /
@@ -27,11 +27,12 @@
 					</div>
 				</div>
 				<br />
-				<h1 class="tc" id="question-title">${question.title}</h1>
+				<br />
+				<div class="question-title">${question.title}</div>
 				<div class="question-answers">
 					<ol id="question-list">
 						<c:forEach items="${question.answerChoices}" var="choice">
-							<li><span>${choice}</span></li>
+							<li>${choice}</li>
 						</c:forEach>
 					</ol>
 				</div>
