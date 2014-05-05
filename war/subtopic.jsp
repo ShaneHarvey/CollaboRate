@@ -31,7 +31,7 @@
 									value="${(metadata == null || !metadata.answerCorrect) ? false : true}" />
 								<li><span><a class="${correct ? " glyphicon
 										glyphicon-ok
-										green" : ""}" href="/question?qid=${q.keyAsString}">${q.shortTitle}</a></span></li>
+										green" : ""}" href="/question?qid=${q.keyAsString}">${q.title}</a></span></li>
 							</c:forEach>
 						</ol>
 						<!--<div class="tc">

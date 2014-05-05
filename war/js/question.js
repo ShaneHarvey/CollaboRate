@@ -10,19 +10,18 @@ $(function() {
 
 	// Add click lister to questions on view question page
 	$('#question-list li').click(function() {
-		$('#question-list span').each(function() {
+		$('#question-list li').each(function() {
 			$(this).removeClass('selected-answer');
 		});
-		$(this).children('span').addClass('selected-answer');
+		$(this).addClass('selected-answer');
 	});
 
 	// Add click listener to button on view question page
-	$('#btn_submitAnswer').click(
-			function() {
+	$('#btn_submitAnswer').click(function() {
 				var index = -1;
 				var counter = 0;
 				// Find the user's answer
-				$('#question-list span').each(function() {
+				$('#question-list li').each(function() {
 					if ($(this).hasClass('selected-answer'))
 						index = counter;
 					counter++;
@@ -48,10 +47,11 @@ $(function() {
 					url : 'question',
 					success : function(data) {
 						$('#answerLoading').hide();
-						var answer = JSON.parse(data).answer;
+						var obj = JSON.parse(data);
+						var answer = obj.answer;
 						if (answer === index) {
 							$('#correctAnswer').show();
-							$('#question-list span').each(function() {
+							$('#question-list li').each(function() {
 								if ($(this).hasClass('selected-answer')) {
 									$(this).removeClass('selected-answer');
 									$(this).addClass('correct-answer');
@@ -60,7 +60,7 @@ $(function() {
 						} else {
 							$('#incorrectAnswer').show();
 							var counter = 0;
-							$('#question-list span').each(function() {
+							$('#question-list li').each(function() {
 								if ($(this).hasClass('selected-answer')) {
 									$(this).removeClass('selected-answer');
 									$(this).addClass('incorrect-answer');
@@ -69,6 +69,9 @@ $(function() {
 									$(this).addClass('correct-answer');
 								counter++;
 							});
+							$('#answerExplanation').append(obj.explanation);
+							$('#answerExplanation').show();
+							$('#explanation').show();
 						}
 					},
 					error : function(data) {
@@ -88,7 +91,7 @@ $(function() {
 				var index = -1;
 				var counter = 0;
 				// Find the user's answer
-				$('#question-list span').each(function() {
+				$('#question-list li').each(function() {
 					if ($(this).hasClass('selected-answer'))
 						index = counter;
 					counter++;
@@ -114,26 +117,25 @@ $(function() {
 							+ '&action=answerquestion',
 					url : 'test',
 					success : function(data) {
-						canClick = true;
 						$('#answerLoading').hide();
 						var response = JSON.parse(data);
 						if(typeof response.testResult === 'undefined'){
+							canClick = true;
 							$('#progress-bar').attr('style', 'width: ' + response.pct + '%');
 							$('#progress-bar').text(response.pct + '%');
 							// Load the next question
 							$('#question-title').text(response.nextQuestion.title);
 							$('#question-list').empty();
-							//$('#question-list').remove('li');
 							
 							for(var i =0; i< response.nextQuestion.answerChoices.length; i++){
-								$('#question-list').append('<li><span>'+response.nextQuestion.answerChoices[i]+'</span></li>');
+								$('#question-list').append('<li>' + response.nextQuestion.answerChoices[i] + '</li>');
 							}
 							// Add click lister to questions on view question page
 							$('#question-list li').click(function() {
-								$('#question-list span').each(function() {
+								$('#question-list li').each(function() {
 									$(this).removeClass('selected-answer');
 								});
-								$(this).children('span').addClass('selected-answer');
+								$(this).addClass('selected-answer');
 							});
 							$('#btn_testSubmitAnswer').attr('qid', response.nextQuestion.qid);
 							$('#correctAnswer').hide();

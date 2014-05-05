@@ -29,11 +29,12 @@
 								<div class="table-wrapper">
 									<c:forEach items="${userQuestions}" var="q">
 										<div class="content-holder side-margins-10">
-											<h3 class="tc">${q.title}</h3>
+										    <br />
+											<div class="question-title">${q.title}</div>
 											<div class="question-answers">
 												<ol>
 													<c:forEach items="${q.answerChoices}" var="c">
-														<li><span>${c}</span></li>
+														<li>${c}</li>
 													</c:forEach>
 												</ol>
 											</div>

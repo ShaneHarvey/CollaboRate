@@ -21,16 +21,16 @@
 				</div>
 				
 				<br />
-				<div>${question.title}</div>
+				<div class="question-title">${question.title}</div>
 
 				<div class="question-answers">
 					<ol id="question-list">
 						<c:forEach items="${question.answerChoices}" var="choice">
-							<li><span>${choice}</span></li>
+							<li>${choice}</li>
 						</c:forEach>
 					</ol>
 				</div>
-				<div class="left-padding-25">
+				<div class="tc">
 					<a id="btn_submitAnswer" class="btn btn-cg"
 						qid="${question.keyAsString}">Submit</a>
 					<div id="answerLoading" class="tc loadingDiv"
@@ -40,6 +40,8 @@
 					<h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
 					<h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
 				</div>
+				<h3 id="explanation" style="display:none;">Explanation:</h3>
+				<div id="answerExplanation" style="display:none;"></div>
 				<div id="feedback" class="feedback"
 					loggedin="${account == null ? false : true}" url="question"
 					cid="${question.keyAsString}"
