@@ -6,6 +6,7 @@ import account.Account;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 import database.DBObject;
 
@@ -24,7 +25,7 @@ public abstract class DiscussionEntries extends DBObject {
 		entity.setProperty(ENTRY_AUTHOR, authorID);
 	}
 	protected void setBody(String msgBody){
-		entity.setProperty(ENTRY_BODY, msgBody);
+		entity.setProperty(ENTRY_BODY, new Text(msgBody));
 	}
 	/**
 	 * Sets the Discussion Entry to the current date
@@ -42,7 +43,7 @@ public abstract class DiscussionEntries extends DBObject {
 		return (Date)entity.getProperty(ENTRY_DATE);
 	}
 	public String getBody(){
-		return (String)entity.getProperty(ENTRY_BODY);
+		return ((Text)entity.getProperty(ENTRY_BODY)).getValue();
 	}
 	
 	/**
