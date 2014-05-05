@@ -1,5 +1,9 @@
 package material;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
@@ -37,7 +41,7 @@ public abstract class UserMaterialMetadata extends DBObject {
 	public static final String MATERIAL_FLAGGED = "materialFlagged";
 	public static final String MATERIAL_VIEWED = "materialViewed";
 	public static final String USER_METADATA = "user_material_metadata";// table
-																		// name
+	public static final String METADATA_DATE = "date";																	// name
 	public static final String MATERIAL_TYPE = "materialType";
 	public static final String Material_SubTopic = "materialSubtopic";
 	
@@ -53,7 +57,20 @@ public abstract class UserMaterialMetadata extends DBObject {
 	protected void setMaterialID(Key mID) {
 		entity.setProperty(MATERIALID, mID);
 	}
-
+	
+	protected void setDate(){
+		Date currentDate = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			Date todayWithZeroTime =formatter.parse(formatter.format(currentDate));
+			entity.setProperty(METADATA_DATE, todayWithZeroTime);
+		} catch (ParseException e) {
+			entity.setProperty(METADATA_DATE, currentDate);
+			//e.printStackTrace();
+		}
+		
+	}
+	
 	public void setFlagged(boolean b) {
 		entity.setProperty(MATERIAL_FLAGGED, b);
 	}
@@ -65,7 +82,11 @@ public abstract class UserMaterialMetadata extends DBObject {
 	public void setMaterialRating(int rating) {
 		entity.setProperty(MATERIAL_RATING, rating);
 	}
-
+	
+	public Date getDate(){
+		return (Date)entity.getProperty(METADATA_DATE);
+	}
+	
 	public boolean getFlagged() {
 		Boolean flagged = (Boolean) entity.getProperty(MATERIAL_FLAGGED);
 		return flagged == null ? false : flagged;

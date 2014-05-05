@@ -1,6 +1,9 @@
 package material;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -11,6 +14,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -130,4 +134,17 @@ public class Notes extends Material {
 		}
 		return notes;
 	}
+	public static Notes getMostRecentNotes(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query photoQuery = new Query(ENT_NOTES).addSort(MATERIAL_DATE,
+				SortDirection.DESCENDING).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(photoQuery);
+		Entity toReturn = null;
+		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(1))) {
+			toReturn = result;
+			break;
+		}
+		return new Notes(toReturn);
+	}	
 }

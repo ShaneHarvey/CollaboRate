@@ -1,7 +1,12 @@
 package material;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -10,6 +15,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -129,5 +135,69 @@ public class Video extends Material implements Serializable {
 				videos.add(new Video(result));
 		}
 		return videos;
+	}
+	public static Video getHottestVideo(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		//Sort based on MaterialID
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date currentDate = new Date();
+		try {
+			Date todayWithZeroTime =formatter.parse(formatter.format(currentDate));
+			Filter dateFilter = new FilterPredicate(UserMaterialMetadata.METADATA_DATE,
+					FilterOperator.EQUAL,
+					todayWithZeroTime);
+			Filter videoFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
+					FilterOperator.EQUAL,
+					UserMaterialMetadata.MaterialType.VIDEO.val);
+			Filter videoAndDateFilter = CompositeFilterOperator.and(dateFilter, videoFilter);
+			Query q = new Query(UserMaterialMetadata.USER_METADATA).addSort(UserMaterialMetadata.MATERIALID).setFilter(videoAndDateFilter);
+			PreparedQuery pq = datastore.prepare(q);
+			
+			// Current material being viewed
+			Entity currentMaterial = null;
+			int currentTimesAttempted = 1;//Count the number of viewed in the current Material
+			ArrayList<DayCount> attemptedList = new ArrayList<DayCount>();// Hold all of the flagged material
+			// Get an iterator over all viewed materials
+			Iterator<Entity> ents = pq.asIterable().iterator();
+			// If there are viewed materials, initialize currentMaterial to the first
+			if(ents.hasNext()) 
+				currentMaterial = ents.next();
+			// Go over the rest of the flagged materials
+			while(ents.hasNext()) {
+				// Get current from iterator
+				Entity curr = ents.next();
+				// If they have the same key, they are the same material type, just increment counter
+				if(currentMaterial.getKey().equals(curr.getProperty(UserMaterialMetadata.MATERIALID)))
+					currentTimesAttempted++;
+				else{
+					// New material found, add viewed material to list and move on to start counting next material.
+					attemptedList.add(new DayCount(currentMaterial, currentTimesAttempted));
+					currentMaterial = curr; // Advance to next entity
+					currentTimesAttempted = 1; // Reset the flag count
+				}
+			}
+			// The last entity will be skipped by the for loop, add it here
+			if(currentMaterial != null)
+				attemptedList.add(new DayCount(currentMaterial, currentTimesAttempted));
+			Collections.sort(attemptedList);//call the collections sort which will sort the array list
+			if(attemptedList.size()>0){
+				Key videoKey = (Key) attemptedList.get(0).ent.getProperty(UserMaterialMetadata.MATERIALID);
+				return Video.getVideo(videoKey);
+			}
+			else{
+				Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_DATE,
+						SortDirection.DESCENDING);
+				PreparedQuery pq2 = datastore.prepare(photoQuery);
+				ArrayList<Video> topRatedVideos = new ArrayList<Video>();
+				Entity result = pq2.asList(FetchOptions.Builder.withLimit(1)).get(0);
+				if(result!= null){
+					return new Video(result);
+				}
+			}
+			return null;
+			
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 }
