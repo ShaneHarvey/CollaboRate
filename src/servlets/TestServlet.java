@@ -11,6 +11,7 @@ import account.Account;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
 
 import material.Question;
 import material.QuestionMetadata;
@@ -109,7 +110,7 @@ public class TestServlet extends HttpServlet {
 					QuestionMetadata data = QuestionMetadata.getQuestionMetadata(user.getKey(), nextQuestion);
 					// Send the answer and the next question
 					response.getWriter().print("{ \"answer\":" + correctAnswer + 
-							",\"nextQuestion\": {\"title\" : " + "\""+nextQuestion.getTitle()+"\"" +
+							",\"nextQuestion\": {\"title\" : " + "\""+new Gson().toJson(nextQuestion.getTitle())+"\"" +
 							",\"answerChoices\":" + nextQuestion.getAnswerChoicesJson() +
 							",\"qid\" : " + "\"" + nextQuestion.getKeyAsString() + "\"" + 
 							",\"globalRating\":" + nextQuestion.getGlobalRating() + "}" +
