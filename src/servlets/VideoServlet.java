@@ -43,7 +43,14 @@ public class VideoServlet extends HttpServlet {
 					VideoMetadata data = VideoMetadata
 							.getVideoMetadata(user.getKey(),
 									vid);
-					request.setAttribute(Keys.META_DATA, data);
+					
+					if(data == null){
+						VideoMetadata newData = VideoMetadata.createVideoMetadata(user.getKey(), vid);
+						request.setAttribute(Keys.META_DATA, data);
+					}
+					else{
+						request.setAttribute(Keys.META_DATA, data);
+					}
 				}
 
 				getServletContext().getRequestDispatcher("/video.jsp").forward(

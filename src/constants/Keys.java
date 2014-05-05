@@ -22,6 +22,7 @@ public class Keys {
 	public static final String QUESTION_KEY = "qid"; // Used for holding the key of a question
 	public static final String VIDEO_KEY = "vid"; // Used for holding the key of a video
 	public static final String VIDEO = "video"; // Used for holding onto video
+	public static final String NOTES = "notes";//Used for holding onto the notes
 	public static final String QUESTION = "question"; // Used for holding onto question
 	public static final String ALL_SUBJECTS_LIST = "allsubjectslist"; // Used for holding onto subjects
 	public static final String POST_KEY = "pid"; // Used for holding post key

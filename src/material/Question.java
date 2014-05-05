@@ -1,8 +1,12 @@
 package material;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 
 import account.Account;
 
@@ -242,5 +246,69 @@ public class Question extends Material implements Serializable {
 				questions.add(new Question(result));
 		}
 		return questions;
+	}
+	public static Question getHottestQuestion(){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		//Sort based on MaterialID
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date currentDate = new Date();
+		try {
+			Date todayWithZeroTime =formatter.parse(formatter.format(currentDate));
+			Filter dateFilter = new FilterPredicate(UserMaterialMetadata.METADATA_DATE,
+					FilterOperator.EQUAL,
+					todayWithZeroTime);
+			Filter questionFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
+					FilterOperator.EQUAL,
+					UserMaterialMetadata.MaterialType.QUESTION.val);
+			Filter questionAndDateFilter = CompositeFilterOperator.and(dateFilter, questionFilter);
+			Query q = new Query(UserMaterialMetadata.USER_METADATA).addSort(UserMaterialMetadata.MATERIALID).setFilter(questionAndDateFilter);
+			PreparedQuery pq = datastore.prepare(q);
+			
+			// Current material being viewed
+			Entity currentMaterial = null;
+			int currentTimesAttempted = 1;//Count the number of flagged in the current Material
+			ArrayList<DayCount> attemptedList = new ArrayList<DayCount>();// Hold all of the flagged material
+			// Get an iterator over all flagged materials
+			Iterator<Entity> ents = pq.asIterable().iterator();
+			// If there are flagged materials, initialize currentMaterial to the first
+			if(ents.hasNext()) 
+				currentMaterial = ents.next();
+			// Go over the rest of the flagged materials
+			while(ents.hasNext()) {
+				// Get current from iterator
+				Entity curr = ents.next();
+				// If they have the same key, they are the same material type, just increment counter
+				if(currentMaterial.getKey().equals(curr.getProperty(UserMaterialMetadata.MATERIALID)))
+					currentTimesAttempted++;
+				else{
+					// New material found, add flagged material to list and move on to start counting next material.
+					attemptedList.add(new DayCount(currentMaterial, currentTimesAttempted));
+					currentMaterial = curr; // Advance to next entity
+					currentTimesAttempted = 1; // Reset the flag count
+				}
+			}
+			// The last entity will be skipped by the for loop, add it here
+			if(currentMaterial != null)
+				attemptedList.add(new DayCount(currentMaterial, currentTimesAttempted));
+			Collections.sort(attemptedList);//call the collections sort which will sort the array list
+			if(attemptedList.size()>0){
+				Key questionKey = (Key) attemptedList.get(0).ent.getProperty(UserMaterialMetadata.MATERIALID);
+				return Question.getQuestion(questionKey);
+			}
+			else{
+				Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE,
+						SortDirection.DESCENDING);
+				PreparedQuery pq2 = datastore.prepare(photoQuery);
+				ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
+				Entity recentQuestion = pq2.asList(FetchOptions.Builder.withLimit(1)).get(0);
+				if(recentQuestion != null){
+					return new Question(recentQuestion);
+				}
+			}
+			return null;
+		} catch (ParseException e) {
+			return null;
+		}
+		
 	}
 }

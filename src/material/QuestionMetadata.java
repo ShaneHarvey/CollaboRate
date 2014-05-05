@@ -48,6 +48,7 @@ public class QuestionMetadata extends UserMaterialMetadata{
 		temp.setMaterialRating(-1);
 		temp.setAnswer(false);
 		temp.setSubjectKey(ques.getSubject());
+		temp.setDate();
 		temp.save();
 		return temp;
 	}
