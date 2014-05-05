@@ -39,3 +39,8 @@
 .open>.dropdown-toggle {
 	text-shadow:0 0 1px #FFF;
 }
+
+.ansChoice{
+	color: #58427C;
+	text-align: left;
+}

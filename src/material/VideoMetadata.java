@@ -27,6 +27,7 @@ public class VideoMetadata extends UserMaterialMetadata{
 		temp.setUserID(uID);
 		temp.setFlagged(false);
 		temp.setMaterialRating(-1);
+		temp.setDate();
 		temp.save();
 		return temp;
 	}
