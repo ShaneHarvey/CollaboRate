@@ -32,7 +32,7 @@ public class Question extends Material implements Serializable {
 
 	public final static String QUESTION = "question";
 	private final static String ANSWER_CHOICES = "answer_choices";
-	private final static String ANSWER_EXPLAINATIONS = "answer_explainations";
+	private final static String ANSWER_EXPLAINATION = "answer_explaination";
 	private final static String CORRECT_INDEX = "correct_index";
 	private final static String QUESTION_VERIFIED = "verified";
 
@@ -45,10 +45,9 @@ public class Question extends Material implements Serializable {
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
 
-	/*
-	 * private void setAnswerExplainations(String jsonAnswer) {
-	 * entity.setProperty(ANSWER_EXPLAINATIONS, jsonAnswer); }
-	 */
+	private void setAnswerExplaination(String answerExp) {
+		entity.setProperty(ANSWER_EXPLAINATION, answerExp);
+	}
 
 	private void setCorrectIndex(int index) {
 		entity.setProperty(CORRECT_INDEX, String.valueOf(index));
@@ -63,8 +62,8 @@ public class Question extends Material implements Serializable {
 		return (String) entity.getProperty(ANSWER_CHOICES);
 	}
 
-	public String getAnswerExplainations() {
-		return (String) entity.getProperty(ANSWER_EXPLAINATIONS);
+	public String getAnswerExplaination() {
+		return (String) entity.getProperty(ANSWER_EXPLAINATION);
 	}
 
 	public int getCorrectIndex() {
@@ -116,16 +115,17 @@ public class Question extends Material implements Serializable {
 	 *            String - which choice is correct
 	 * @return
 	 */
-	public static Question createQuestion(String title, String[] choicesJSON,
-			int correctIndex, Subtopic st, Account acc) {
+	public static Question createQuestion(String title,
+			String answerDescription, String[] choicesJSON, int correctIndex,
+			Subtopic st, Account acc) {
 		// Took String explanationsJSON out this week, will add back next week
-		
+
 		Subject sub = st.getSubject();
 		Entity ent = new Entity(QUESTION);
 		Question newQuestion = new Question(ent);
 		newQuestion.setTitle(title);
 		newQuestion.setAnswerChoices(choicesJSON);
-		// newQuestion.setAnswerExplainations(explainationsJSON);
+		newQuestion.setAnswerExplaination(answerDescription);
 		newQuestion.setCorrectIndex(correctIndex);
 		newQuestion.setAuthor(acc.getKey());
 		newQuestion.setSubtopicKey(st.getKey());
@@ -170,8 +170,8 @@ public class Question extends Material implements Serializable {
 		}
 		return questions;
 	}
-	
-	public static ArrayList<Question> getUnverifiedQuestions(Subject sub){
+
+	public static ArrayList<Question> getUnverifiedQuestions(Subject sub) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBJECT,
@@ -181,7 +181,7 @@ public class Question extends Material implements Serializable {
 		Filter combinedFilter = CompositeFilterOperator.and(subtopicFilter,
 				verifiedFilter);
 		Query randQuery = new Query(QUESTION).setFilter(combinedFilter);
-		
+
 		PreparedQuery pq = datastore.prepare(randQuery);
 		ArrayList<Question> questions = new ArrayList<Question>();
 		// Create questions
@@ -190,14 +190,14 @@ public class Question extends Material implements Serializable {
 		}
 		return questions;
 	}
-	
-	public static ArrayList<Question> getAllUnverifiedQuestions(){
+
+	public static ArrayList<Question> getAllUnverifiedQuestions() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Filter verifiedFilter = new FilterPredicate(QUESTION_VERIFIED,
 				FilterOperator.EQUAL, false);
 		Query randQuery = new Query(QUESTION).setFilter(verifiedFilter);
-		
+
 		PreparedQuery pq = datastore.prepare(randQuery);
 		ArrayList<Question> questions = new ArrayList<Question>();
 		// Create questions
@@ -236,72 +236,95 @@ public class Question extends Material implements Serializable {
 		return randomQuestions;
 	}
 
-	public static ArrayList<Question> getUsersGeneratedQuestions(Key userKey){
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
-		Query userContent = new Query(QUESTION).setFilter(userFilter).addSort(MATERIAL_DATE, SortDirection.DESCENDING);
+	public static ArrayList<Question> getUsersGeneratedQuestions(Key userKey) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR,
+				FilterOperator.EQUAL, userKey);
+		Query userContent = new Query(QUESTION).setFilter(userFilter).addSort(
+				MATERIAL_DATE, SortDirection.DESCENDING);
 		PreparedQuery pq = datastore.prepare(userContent);
 		ArrayList<Question> questions = new ArrayList<Question>();
-		for(Entity result:pq.asIterable()){
-				questions.add(new Question(result));
+		for (Entity result : pq.asIterable()) {
+			questions.add(new Question(result));
 		}
 		return questions;
 	}
-	public static Question getHottestQuestion(){
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		//Sort based on MaterialID
+
+	public static Question getHottestQuestion() {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		// Sort based on MaterialID
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date currentDate = new Date();
 		try {
-			Date todayWithZeroTime =formatter.parse(formatter.format(currentDate));
-			Filter dateFilter = new FilterPredicate(UserMaterialMetadata.METADATA_DATE,
-					FilterOperator.EQUAL,
+			Date todayWithZeroTime = formatter.parse(formatter
+					.format(currentDate));
+			Filter dateFilter = new FilterPredicate(
+					UserMaterialMetadata.METADATA_DATE, FilterOperator.EQUAL,
 					todayWithZeroTime);
-			Filter questionFilter = new FilterPredicate(UserMaterialMetadata.MATERIAL_TYPE,
-					FilterOperator.EQUAL,
+			Filter questionFilter = new FilterPredicate(
+					UserMaterialMetadata.MATERIAL_TYPE, FilterOperator.EQUAL,
 					UserMaterialMetadata.MaterialType.QUESTION.val);
-			Filter questionAndDateFilter = CompositeFilterOperator.and(dateFilter, questionFilter);
-			Query q = new Query(UserMaterialMetadata.USER_METADATA).addSort(UserMaterialMetadata.MATERIALID).setFilter(questionAndDateFilter);
+			Filter questionAndDateFilter = CompositeFilterOperator.and(
+					dateFilter, questionFilter);
+			Query q = new Query(UserMaterialMetadata.USER_METADATA).addSort(
+					UserMaterialMetadata.MATERIALID).setFilter(
+					questionAndDateFilter);
 			PreparedQuery pq = datastore.prepare(q);
-			
+
 			// Current material being viewed
 			Entity currentMaterial = null;
-			int currentTimesAttempted = 1;//Count the number of flagged in the current Material
-			ArrayList<DayCount> attemptedList = new ArrayList<DayCount>();// Hold all of the flagged material
+			int currentTimesAttempted = 1;// Count the number of flagged in the
+											// current Material
+			ArrayList<DayCount> attemptedList = new ArrayList<DayCount>();// Hold
+																			// all
+																			// of
+																			// the
+																			// flagged
+																			// material
 			// Get an iterator over all flagged materials
 			Iterator<Entity> ents = pq.asIterable().iterator();
-			// If there are flagged materials, initialize currentMaterial to the first
-			if(ents.hasNext()) 
+			// If there are flagged materials, initialize currentMaterial to the
+			// first
+			if (ents.hasNext())
 				currentMaterial = ents.next();
 			// Go over the rest of the flagged materials
-			while(ents.hasNext()) {
+			while (ents.hasNext()) {
 				// Get current from iterator
 				Entity curr = ents.next();
-				// If they have the same key, they are the same material type, just increment counter
-				if(currentMaterial.getKey().equals(curr.getProperty(UserMaterialMetadata.MATERIALID)))
+				// If they have the same key, they are the same material type,
+				// just increment counter
+				if (currentMaterial.getKey().equals(
+						curr.getProperty(UserMaterialMetadata.MATERIALID)))
 					currentTimesAttempted++;
-				else{
-					// New material found, add flagged material to list and move on to start counting next material.
-					attemptedList.add(new DayCount(currentMaterial, currentTimesAttempted));
+				else {
+					// New material found, add flagged material to list and move
+					// on to start counting next material.
+					attemptedList.add(new DayCount(currentMaterial,
+							currentTimesAttempted));
 					currentMaterial = curr; // Advance to next entity
 					currentTimesAttempted = 1; // Reset the flag count
 				}
 			}
 			// The last entity will be skipped by the for loop, add it here
-			if(currentMaterial != null)
-				attemptedList.add(new DayCount(currentMaterial, currentTimesAttempted));
-			Collections.sort(attemptedList);//call the collections sort which will sort the array list
-			if(attemptedList.size()>0){
-				Key questionKey = (Key) attemptedList.get(0).ent.getProperty(UserMaterialMetadata.MATERIALID);
+			if (currentMaterial != null)
+				attemptedList.add(new DayCount(currentMaterial,
+						currentTimesAttempted));
+			Collections.sort(attemptedList);// call the collections sort which
+											// will sort the array list
+			if (attemptedList.size() > 0) {
+				Key questionKey = (Key) attemptedList.get(0).ent
+						.getProperty(UserMaterialMetadata.MATERIALID);
 				return Question.getQuestion(questionKey);
-			}
-			else{
+			} else {
 				Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE,
 						SortDirection.DESCENDING);
 				PreparedQuery pq2 = datastore.prepare(photoQuery);
 				ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
-				Entity recentQuestion = pq2.asList(FetchOptions.Builder.withLimit(1)).get(0);
-				if(recentQuestion != null){
+				Entity recentQuestion = pq2.asList(
+						FetchOptions.Builder.withLimit(1)).get(0);
+				if (recentQuestion != null) {
 					return new Question(recentQuestion);
 				}
 			}
@@ -309,6 +332,6 @@ public class Question extends Material implements Serializable {
 		} catch (ParseException e) {
 			return null;
 		}
-		
+
 	}
 }

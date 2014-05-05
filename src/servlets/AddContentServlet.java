@@ -58,14 +58,14 @@ public class AddContentServlet extends HttpServlet {
 				if ("createquestion".equals(action)) {
 					// Create a question
 					String questionDescription = request.getParameter("description");
+					String answerDescription = request.getParameter("answerdescription");
 
 					String answersString = request.getParameter("answersList");
 					String[] answersList = new Gson().fromJson(answersString,String[].class);
-					// we are going to store the answers as json
-					// we need to discuss
+					
 					int answerIndex = Integer.parseInt(request
 							.getParameter("answerIndex"));
-					Question.createQuestion(questionDescription, answersList,
+					Question.createQuestion(questionDescription, answerDescription, answersList,
 							answerIndex, subtopic, acc);
 
 					response.getWriter().print("success");

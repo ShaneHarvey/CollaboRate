@@ -32,19 +32,21 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs1-pane1">
 									<div class="content-holder tc">
-										<h1 class="tc">Create Question</h1>
-										<span class="title">Question Description:</span> <br />
-										<textarea class="richText" id="questionDescription"></textarea>
-										<br /> <span class="title">Answers:</span> <br />
+										<h2 class="tc">Question Description:</h2>
+										<div id="questionDescription" class="rt"></div>
+										<br>
+										<h2 class="tc">Answer Description:</h2>
+                                        <div id="answerDescription" class="rt"></div>
+										<h2 class="tc">Answers:</h2>
 										<div class="question-table-wrapper">
 											<table id="answerChoiceTable">
 												<tr>
-													<td><textarea class="richText" rows="1"></textarea></td>
+													<td><div class="rt"></div></td>
 													<td><input type="radio" name="answers" value="0"
 														checked /></td>
 												</tr>
 												<tr>
-													<td><textarea class="richText" rows="1"></textarea></td>
+													<td><div class="rt"></div></td>
 													<td><input type="radio" name="answers" value="1" /></td>
 												</tr>
 											</table>
@@ -137,16 +139,6 @@
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
 <script src="/js/content.js"></script>
-<!--<script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript">
-    tinymce
-            .init({
-                plugins : [
-                        "eqneditor advlist autolink lists link image charmap print preview anchor",
-                        "searchreplace visualblocks code fullscreen",
-                        "insertdatetime media table contextmenu paste" ],
-                toolbar : "undo redo | eqneditor link image | styleselect | bold italic | bullist numlist outdent indent ",
-                selector : "textarea#richText"
-            });
-</script>-->
+<script type="text/javascript" src="/js/plugins/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/js/plugins/tinymce/tiny.js"></script>
 </html>

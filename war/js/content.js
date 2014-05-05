@@ -1,6 +1,6 @@
 /**
  *  content.js contains all functionality related to adding new content   
- *  requires jquery and jquery ui
+ *  requires jquery, jquery ui, and tinymce
  */
 
 $(function(){
@@ -23,15 +23,8 @@ $(function(){
 			count++;
 		});
 		if(count < 6) {
-			$('#answerChoiceTable').append('<tr><td><textarea class="richText" rows="1"></textarea></td><td><input type="radio" name="answers" value="'+ count + '"/></td></tr>');
-			tinymce.init({
-				plugins: [
-				"eqneditor advlist autolink lists link image charmap print preview anchor",
-				"searchreplace visualblocks code fullscreen",
-				"insertdatetime media table contextmenu paste" ],
-				toolbar: "undo redo | eqneditor link image | styleselect | bold italic | bullist numlist outdent indent ",
-				selector : "textarea#richText"
-				});
+			$('#answerChoiceTable').append('<tr><td><div class="rt"></div></td><td><input type="radio" name="answers" value="'+ count + '"/></td></tr>');
+			tinyitize();
 			if(count === 5)
 				$('#btn_addAnswer').hide();
 		}
@@ -39,21 +32,32 @@ $(function(){
 	
 	// Try to add a question
 	$('#btn_addQuestion').click(function(){
-		// Make sure valid description
-		if($('#questionDescription').val() === '') {
-			$('#questionDescription').effect('shake');
+		// Make sure valid question description
+		var questionDescription = $('#questionDescription_ifr').contents().find('body').html();
+		if(!validTinyInput(questionDescription)) {
+			// TODO Give meaningful error
+			//$('#questionDescription_ifr').effect('shake');
+			return;
+		}
+		// Make sure valid answer description
+		var answerDescription = $('#answerDescription_ifr').contents().find('body').html();
+		if(!validTinyInput(answerDescription)) {
+			// TODO Give meaningful error
+			//$('#questionDescription').effect('shake');
 			return;
 		}
 		// Make sure all answers filled
 		var hasEmpty = false;
 		var answerList = [];
-		$('#answerChoiceTable textarea').each(function(){
-			if($(this).val() === '')  {
+		$('#answerChoiceTable iframe').each(function(){
+			var text = $(this).contents().find('body').html()
+			if(!validTinyInput(text)) {
+				// TODO: Give meaningful error message
 				hasEmpty = true;
-				$(this).effect('shake');
+				//$(this).effect('shake');
 			}
 			else
-				answerList.push($(this).val());
+				answerList.push(text);
 		});
 		if(hasEmpty)
 			return;
@@ -68,28 +72,36 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'description=' + encodeURIComponent($('#questionDescription').val()) + '&answersList=' + encodeURIComponent(answersString) + '&answerIndex=' + answerIndex + '&stid=' + $(this).attr('stid') + '&sid=' + $(this).attr('sid') + '&action=createquestion',
+            data: 'description=' + encodeURIComponent(questionDescription) + '&answerdescription=' + encodeURIComponent(answerDescription) + '&answersList=' + encodeURIComponent(answersString) + '&answerIndex=' + answerIndex + '&stid=' + $(this).attr('stid') + '&sid=' + $(this).attr('sid') + '&action=createquestion',
             url: '/addcontent',
             success: function(data) {
             	$('#questionLoading').hide();
             	if(data === 'success') {
-            		$('#questionDescription').val("");
+            		// Empty descriptions of question and answer
+            		$('#questionDescription_ifr').contents().find('p').replaceWith('<p><br data-mce-bogus="1"></p>');
+            		$('#answerDescription_ifr').contents().find('p').replaceWith('<p><br data-mce-bogus="1"></p>');
+            		// Remove all rows passed 2
             		$('#answerChoiceTable tr:gt(1)').remove();
-            		$('#answerChoiceTable textarea').each(function(){$(this).val('')});
+            		// Empty all question answers
+            		$('#answerChoiceTable iframe').each(function(){
+            			$(this).contents().find('p').replaceWith('<p><br data-mce-bogus="1"></p>');
+            		});
             	}
             	else {
-                	$('#questionDescription').effect('shake');
+            		// TODO: Give meaningful error message
+                	/*$('#questionDescription').effect('shake');
             		$('#answerChoiceTable textarea').each(function(){
             			$(this).effect('shake');
-            		});
+            		});*/
             	}
             },
             error: function(data) {
             	$('#questionLoading').hide();
-            	$('#questionDescription').effect('shake');
-        		$('#answerChoiceTable textarea').each(function(){
+            	// TODO: Give meaningful error message
+            	//$('#questionDescription').effect('shake');
+        		/*$('#answerChoiceTable textarea').each(function(){
         			$(this).effect('shake');
-        		});
+        		});*/
             	console.log(data);
             }
         });
@@ -97,7 +109,6 @@ $(function(){
 	
 	// Try to add a video
 	$('#btn_addVideo').click(function(){
-		// TODO: Add check for url to match valid regex here instead of just empty.
 		// Make sure theres a url
 		if($('#videoURL').val() === '') {
 			$('#videoURL').effect('shake');
@@ -182,4 +193,6 @@ $(function(){
 		
 	});
 	
+	// Create text text editors using tinymce
+	tinyitize();
 });
