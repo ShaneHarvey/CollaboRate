@@ -11,6 +11,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import material.Notes;
 import material.Question;
 import material.Subject;
@@ -57,15 +60,19 @@ public class AddContentServlet extends HttpServlet {
 				Key subjectKey2 = KeyFactory.stringToKey(subjectKeyStr);;
 				if ("createquestion".equals(action)) {
 					// Create a question
-					String questionDescription = request.getParameter("description");
-					String answerDescription = request.getParameter("answerdescription");
+					String questionDescription =  Jsoup.clean(request.getParameter("description"), Whitelist.basicWithImages());
+					String answerDescription = Jsoup.clean(request.getParameter("answerdescription"), Whitelist.basicWithImages());
 
 					String answersString = request.getParameter("answersList");
-					String[] answersList = new Gson().fromJson(answersString,String[].class);
+					String[] unsafeAnswers = new Gson().fromJson(answersString,String[].class);
+					String[] safeAnswers = new String[unsafeAnswers.length];
+					for(int i=0; i< unsafeAnswers.length; i++){
+						safeAnswers[i] = Jsoup.clean(unsafeAnswers[i], Whitelist.basicWithImages());
+					}
 					
 					int answerIndex = Integer.parseInt(request
 							.getParameter("answerIndex"));
-					Question.createQuestion(questionDescription, answerDescription, answersList,
+					Question.createQuestion(questionDescription, answerDescription, safeAnswers,
 							answerIndex, subtopic, acc);
 
 					response.getWriter().print("success");

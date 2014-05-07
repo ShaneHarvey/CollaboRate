@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import account.Account;
 import material.Subject;
 import material.Subtopic;
@@ -60,7 +63,7 @@ public class DiscussionBoardServlet extends HttpServlet {
 					response.getWriter().print("");
 			}
 			else if("createcomment".equals(action)) {
-				String content = request.getParameter("content");
+				String content = Jsoup.clean(request.getParameter("content"), Whitelist.basicWithImages());
 				Account acc = (Account)request.getSession().getAttribute(Keys.ACCOUNT);
 				if(content != null && content.length() > 0 && acc != null) {
 					String postID = request.getParameter("post");
