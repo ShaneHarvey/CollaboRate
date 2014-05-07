@@ -18,7 +18,7 @@
 								</c:forEach>
 								<li class="divider"></li>
 							</c:forEach>
-							<li class="divider"></li>
+							
 							<li class="dropdown-header"><a href="/RequestSubject">Request a
 									Subject</a></li>
 						</ul></li>
