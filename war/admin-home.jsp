@@ -29,6 +29,8 @@
 								Questions</a></li>
 						<li><a href="#tabs1-pane6" data-toggle="tab">Manage
 								Subject</a></li>
+						<li><a href="#tabs1-pane7" data-toggle="tab">Add Category</a></li>
+								
 					</ul>
 					<br />
 					<div class="tab-content">
@@ -38,6 +40,17 @@
 								<br />
 								<div class="table-wrapper">
 									<table>
+										<tr>
+											<td><span class="title">Category</span></td>
+											<td>
+											<select id="categoryKey">
+												<c:forEach var="category" items="${categoryList}">
+													<option value="${category.keyAsString}">${category.title}</option>
+												</c:forEach>
+											</select>
+											</td>
+											
+										</tr>
 										<tr>
 											<td><span class="title">Subject:</span></td>
 											<td><input id="subjectName" type="text" /></td>
@@ -142,14 +155,18 @@
 
 						<div class="tab-pane" id="tabs1-pane6">
 							<div class="content-holder">
-								<h3>Choose a Subject</h3>
+							<h3>Choose a Category</h3>
 								<div class="content-holder side-margins-10 tc">
-									<select id="subjectSelector" name="subjectSelector">
+									<select id="categorySelector" name="categorySelector">
 										<option value=""></option>
-										<c:forEach items="${subjectList}" var="sub">
-											<option value="${sub.keyAsString}">${sub.title}</option>
+										<c:forEach items="${categoryList}" var="cat">
+											<option value="${cat.keyAsString}">${cat.title}</option>
 										</c:forEach>
 									</select> <br /> <br />
+								</div>
+								<h3>Choose a Subject</h3>
+								<div class="content-holder side-margins-10 tc" id="subjectSelectDiv">
+									
 								</div>
 
 								<div class="content-holder side-margins-10 tc" id="subtopicList">
@@ -160,6 +177,21 @@
 
 								<div class="content-holder side-margins-10 tc"
 									id="requestedSubtopics"></div>
+							</div>
+						</div>
+						<div class="tab-pane" id="tabs1-pane7">
+							<div class="content-holder tc">
+								<h2 class="tc">Category</h2>
+								<br />
+								<div class="table-wrapper">
+									<table>
+										<tr>
+											<td><span class="title">Category:</span></td>
+											<td><input id="categoryName" type="text" /></td>
+										</tr>
+									</table>
+								</div>
+								<a id="btn_addCategory" class="btn btn-cg">Add Category</a>
 							</div>
 						</div>
 					</div>
@@ -176,4 +208,5 @@
 <jsp:include page="/includes/js.jsp"></jsp:include>
 <script src="/js/admin.js"></script>
 <script src="/js/verify.js"></script>
+<script src="/js/AddCategory.js"></script>
 </html>

@@ -11,6 +11,20 @@
 		</function-signature>
 	</function>
 	<function>
+		<name>getAllCategories</name>
+		<function-class>material.Category</function-class>
+		<function-signature>
+			ArrayList getAllCategories()
+		</function-signature>
+	</function>
+	<function>
+		<name>getCategorySubjects</name>
+		<function-class>material.Subject</function-class>
+		<function-signature>
+			ArrayList getCategorySubjects(java.lang.String)
+		</function-signature>
+	</function>
+	<function>
 		<name>getAllSubjects</name>
 		<function-class>material.Subject</function-class>
 		<function-signature>

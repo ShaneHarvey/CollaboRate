@@ -289,12 +289,7 @@ public class Question extends Material implements Serializable {
 			Entity currentMaterial = null;
 			int currentTimesAttempted = 1;// Count the number of flagged in the
 											// current Material
-			ArrayList<DayCount> attemptedList = new ArrayList<DayCount>();// Hold
-																			// all
-																			// of
-																			// the
-																			// flagged
-																			// material
+			ArrayList<DayCount> attemptedList = new ArrayList<DayCount>();
 			// Get an iterator over all flagged materials
 			Iterator<Entity> ents = pq.asIterable().iterator();
 			// If there are flagged materials, initialize currentMaterial to the
