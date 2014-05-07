@@ -17,6 +17,11 @@ $(function(){
 	
 	// Try to add this subject and it's subtopics
 	$('#btn_addSubject').click(function(){
+		if($('#categoryKey').val() === ''){
+			$('#categoryKey').effect('shake');
+			return;
+		}
+		
 		// Make sure subject name is populated 
 		if($('#subjectName').val() === '') {
 			$('#subjectName').effect('shake');
@@ -45,7 +50,7 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'subjectName=' + encodeURIComponent($('#subjectName').val()) + '&subTopicList=' + encodeURIComponent(subTopicsString) + '&action=createsubject',
+            data: 'categoryKey='+ encodeURIComponent($('#categoryKey').val())+'&subjectName=' + encodeURIComponent($('#subjectName').val()) + '&subTopicList=' + encodeURIComponent(subTopicsString) + '&action=createsubject',
             url: '/admin',
             success: function(data, textStatus, jqXHR) {
             	$('#subjectLoading').hide();
@@ -119,6 +124,19 @@ $(function(){
         });   
 	});
 	
+	$('select[name="categorySelector"]').change(function(){
+		$.ajax({
+            type: 'POST',
+            data: 'catid=' + $(this).val(),
+            url: '/admin',
+            success: function(data){
+            	var subList = data.split('<html>')[0];
+            	subList = subList.split('<!')[0];
+            	$('#subjectSelectDiv').html(subList);
+            }
+        });   
+	});
+
 	
 	
 	

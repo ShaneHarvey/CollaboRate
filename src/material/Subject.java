@@ -29,6 +29,7 @@ public class Subject extends DBObject implements Serializable{
 	public static final String ENT_SUBJECT_TITLE = "subjectTitle";
 	public static final String ENT_SUBJECT_DESCRIPTION ="subjectDescription";
 	public static final String ENT_SUBJECT ="subject";
+	public static final String ENT_SUBJECT_CATEGORY = "category";
 	private ArrayList<Subtopic> subtopicsList;
 	/**
 	 * Constructor for the Subject class. Sets the subjectEntity to the passed entity
@@ -65,12 +66,13 @@ public class Subject extends DBObject implements Serializable{
 	 * @param sDescription the description of the subject
 	 * @return the Subject object
 	 */
-	public static Subject createSubject(String sTitle, String sDescription, String[] subtopics){
+	public static Subject createSubject(String sTitle, String sDescription, String[] subtopics, Key cKey){
 		Entity subjectE = new Entity(ENT_SUBJECT);
 		//TODO check to make sure sTitle does not match a Subject title in the datastore
 		Subject s = new Subject(subjectE);
 		s.setTitle(sTitle);
 		s.setDescription(sDescription);
+		s.setCategory(cKey);
 		s.save();
 		long order = 0;
 		for(String st: subtopics) {
@@ -98,6 +100,12 @@ public class Subject extends DBObject implements Serializable{
 	}
 	protected void setDescription(String subjectDescription){
 		entity.setProperty(ENT_SUBJECT_DESCRIPTION, subjectDescription);
+	}
+	protected void setCategory(Key cKey){
+		entity.setProperty(ENT_SUBJECT_CATEGORY, cKey);
+	}
+	public Key getCategory(){
+		return (Key)entity.getProperty(ENT_SUBJECT_CATEGORY);
 	}
 	public String getTitle(){
 		return (String)entity.getProperty(ENT_SUBJECT_TITLE);
@@ -270,7 +278,24 @@ public class Subject extends DBObject implements Serializable{
 		return saveAllSubtopics();
 	}
 	
-	
-	
+	public static ArrayList<Subject> getCategorySubjects(Key cKey) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter categoryFilter = new FilterPredicate(ENT_SUBJECT_CATEGORY,
+				FilterOperator.EQUAL, cKey);
+		Query subtopicQuery = new Query(ENT_SUBJECT).setFilter(
+				categoryFilter).addSort(ENT_SUBJECT_TITLE, SortDirection.ASCENDING);
+		PreparedQuery pq = datastore.prepare(subtopicQuery);
+		ArrayList<Subject> subjects = new ArrayList<Subject>();
+		for (Entity result : pq.asIterable()) {
+			Subject tempSubject = new Subject(result);
+			subjects.add(tempSubject);
+		}
+		return subjects;
+	}
+	public static ArrayList<Subject> getCategorySubjects(String cKey){
+		Key categoryKey = KeyFactory.stringToKey(cKey);
+		return getCategorySubjects(categoryKey);
+	}
 	//public boolean change
 }

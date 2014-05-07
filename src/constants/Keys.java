@@ -19,6 +19,8 @@ public class Keys {
 	public static final String QUESTIONS_LIST = "questionsList"; // Used for holding list of questions
 	public static final String VIDEOS_LIST = "videosList"; // Used for holding list of videos
 	public static final String SUBJECT_LIST = "subjectList"; // Used for holding onto a list of subjects
+	public static final String CATEGORY_LIST = "categoryList";//Used for holding onto the categories
+	public static final String CATEGORY_KEY = "catid";//Used to hold the selected Category
 	public static final String QUESTION_KEY = "qid"; // Used for holding the key of a question
 	public static final String VIDEO_KEY = "vid"; // Used for holding the key of a video
 	public static final String VIDEO = "video"; // Used for holding onto video
