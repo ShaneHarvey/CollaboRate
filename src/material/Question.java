@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import account.Account;
 
@@ -328,11 +329,11 @@ public class Question extends Material implements Serializable {
 				Query photoQuery = new Query(QUESTION).addSort(MATERIAL_DATE,
 						SortDirection.DESCENDING);
 				PreparedQuery pq2 = datastore.prepare(photoQuery);
-				ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
-				Entity recentQuestion = pq2.asList(
-						FetchOptions.Builder.withLimit(1)).get(0);
-				if (recentQuestion != null) {
-					return new Question(recentQuestion);
+				//ArrayList<Question> topRatedQuestions = new ArrayList<Question>();
+				List<Entity> recentQuestions = pq2.asList(
+						FetchOptions.Builder.withLimit(1));
+				if (recentQuestions.size() != 0) {
+					return new Question(recentQuestions.get(0));
 				}
 			}
 			return null;

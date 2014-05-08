@@ -57,7 +57,7 @@ html,body {
 
 /* Used on admin page*/
 .too-thin-hack {
-	min-width: 1000px;
+	min-width: 1200px;
 }
 
 .footer {
@@ -234,9 +234,6 @@ span > a.green:hover {
 	margin-left: 5px;
 	margin-right: -5px;
 }
-.top-padding{
-	padding-top:100px;
-}
 
 .shift-left-5 {
 	margin-left: -5px;
@@ -285,6 +282,7 @@ span > a.green:hover {
 	margin-left: auto;
 	margin-top: 25px;
 	margin-bottom: 25px;
+	color: #58427C;
 }
 
 .question-answers ol {
@@ -493,4 +491,27 @@ ol {
 
 .question-title {
     word-wrap: break-word;	
+}
+
+.img-sm {
+	width: auto;
+	height: 60px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.bc-white {
+	background-color: white !important;
+}
+
+.video-display {
+	top: -25px;
+}
+
+.home-questions-display {
+	top: 50px;
+}
+
+.notes-display {
+	top: 200px;
 }
