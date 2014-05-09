@@ -176,4 +176,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>AddCategoryServlet</servlet-name>
         <url-pattern>/AddCategory</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ApproveSubjectRequestServlet</servlet-name>
+        <servlet-class>servlets.ApproveSubjectRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApproveSubjectRequestServlet</servlet-name>
+        <url-pattern>/ApproveSubjectRequest</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>DeleteSubjectRequestServlet</servlet-name>
+        <servlet-class>servlets.DeleteSubjectRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteSubjectRequestServlet</servlet-name>
+        <url-pattern>/DeleteSubjectRequest</url-pattern>
+    </servlet-mapping>
 </web-app>

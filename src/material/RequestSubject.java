@@ -84,19 +84,19 @@ public class RequestSubject extends Subject implements Serializable{
 	 * @param subjectReqKey The key of the Requested Subject to insert
 	 * @return Return true if the insertion was successful or false if it failed
 	 */
-	public static boolean insertSubjectRequest(Key subjectReqKey){
+	public static Subject insertSubjectRequest(Key subjectReqKey, Key cKey){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Entity subRequest;
 		try {
 			subRequest = datastore.get(subjectReqKey);
 			RequestSubject req = new RequestSubject(subRequest);
-			Subject newSubect = Subject.createSubject(req.getTitle(), req.getDescription(), req.getSubtopicRequests());
+			Subject newSubject = Subject.createSubject(req.getTitle(), req.getDescription(), req.getSubtopicRequests(), cKey);
 			
 			datastore.delete(subjectReqKey);//delete the Subject Request after it has been inserted
-			return true;
+			return newSubject;
 		} catch (EntityNotFoundException e) {
-			return false;
+			return null;
 		}
 		
 	}

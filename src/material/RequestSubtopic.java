@@ -141,7 +141,20 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 			return false;
 		}
 	}
-	
+	public static boolean insertSubtopicRequest(Key subReqKey, Key cKey){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		try {
+			Entity subtopicRequest = datastore.get(subReqKey);
+			RequestSubtopic newRequestedSubtopic = new RequestSubtopic(subtopicRequest);
+			Subtopic newSubtopic = Subtopic.createSubtopic(newRequestedSubtopic.getTitle(), cKey, newRequestedSubtopic.getDescription(), newRequestedSubtopic.getOrder());
+			newSubtopic.save();
+			datastore.delete(subReqKey);//deletes the subject 
+			return true;	
+		} catch (EntityNotFoundException e) {
+			return false;
+		}
+	}
 	
 	/**
 	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it

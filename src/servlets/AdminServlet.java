@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import material.Category;
 import material.MaterialMetadata;
 import material.MaterialMetadata.FlaggedMaterial;
+import material.RequestSubject;
 import material.RequestSubtopic;
 import material.UserMaterialMetadata.MaterialType;
 import material.Notes;
@@ -79,7 +80,7 @@ public class AdminServlet extends HttpServlet {
 				//Stuff for manage subject  -  phil
 
 				request.setAttribute(Keys.CATEGORY_LIST, Category.getAllCategories());
-				
+				request.setAttribute(Keys.SUBJECT_REQUEST_LIST, RequestSubject.getSubjectRequests());
 				String categoryKey = request.getParameter(Keys.CATEGORY_KEY);
 				if(categoryKey == null || categoryKey.equals("")){
 					response.getWriter().print("");

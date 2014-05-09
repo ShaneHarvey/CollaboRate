@@ -30,7 +30,7 @@
 						<li><a href="#tabs1-pane6" data-toggle="tab">Manage
 								Subject</a></li>
 						<li><a href="#tabs1-pane7" data-toggle="tab">Add Category</a></li>
-								
+						<li><a href="#tabs1-pane8" data-toggle="tab">Subject Request</a></li>		
 					</ul>
 					<br />
 					<div class="tab-content">
@@ -189,6 +189,22 @@
 											<td><span class="title">Category:</span></td>
 											<td><input id="categoryName" type="text" /></td>
 										</tr>
+									</table>
+								</div>
+								<a id="btn_addCategory" class="btn btn-cg">Add Category</a>
+							</div>
+						</div>
+						<div class="tab-pane" id="tabs1-pane8">
+							<div class="content-holder tc">
+								<h2 class="tc">Subject Requests</h2>
+								<br />
+								<div class="table-wrapper">
+									<table class="tc">
+											<c:forEach items="${subjectRequestList}" var="req">
+												<tr>
+													<td><a href="/ApproveSubjectRequest?action=load&subjectrequest=${req.keyAsString}">${req.title}</a></td>
+												</tr>
+											</c:forEach>
 									</table>
 								</div>
 								<a id="btn_addCategory" class="btn btn-cg">Add Category</a>
