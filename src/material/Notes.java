@@ -145,6 +145,6 @@ public class Notes extends Material {
 			toReturn = result;
 			break;
 		}
-		return new Notes(toReturn);
+		return toReturn == null ? null : new Notes(toReturn);
 	}	
 }

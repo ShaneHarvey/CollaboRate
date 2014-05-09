@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -188,10 +189,11 @@ public class Video extends Material implements Serializable {
 				Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_DATE,
 						SortDirection.DESCENDING);
 				PreparedQuery pq2 = datastore.prepare(photoQuery);
-				ArrayList<Video> topRatedVideos = new ArrayList<Video>();
-				Entity result = pq2.asList(FetchOptions.Builder.withLimit(1)).get(0);
-				if(result!= null){
-					return new Video(result);
+				//ArrayList<Video> topRatedVideos = new ArrayList<Video>();
+				List<Entity> results = pq2.asList(FetchOptions.Builder.withLimit(1));
+				
+				if(results.size() != 0){
+					return new Video(results.get(0));
 				}
 			}
 			return null;

@@ -19,7 +19,7 @@
 
 /* CUSTOM CAROUSEL*/
 .carousel .item {
-  height: 500px;
+  height: 700px;
   background-color: #FFF;
 }   
 .carousel-caption>h1, .carousel-caption>p {
@@ -30,6 +30,9 @@
 }
 .carousel-indicators> li.active {
 	background-color: #58427C;
+}
+.carousel{
+    padding-top: 53px;
 }
 
 /* CUSTOM DROPDOWN STYLING*/
@@ -43,4 +46,8 @@
 .ansChoice{
 	color: #58427C;
 	text-align: left;
+}
+
+.carousel-indicators {
+	top: 575px;
 }
