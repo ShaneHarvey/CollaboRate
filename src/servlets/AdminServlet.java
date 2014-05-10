@@ -90,7 +90,7 @@ public class AdminServlet extends HttpServlet {
 					Category cat = Category.getCategory(categoryKey);
 					
 					
-					String subjectListHTML = "<h2>Current Subjects</h2><select class=\"subjectList\" id=\"" + categoryKey +"\">";
+					String subjectListHTML = "<h2>Current Subjects</h2><select class=\"subjectSelector\" id=\"" + categoryKey +"\">";
 					subjectListHTML += "<option></option>";
 					//put the subtopics there
 					String nextt = "";
