@@ -41,7 +41,7 @@
 										</tr>
 									</table>
 								</div>
-								<a id="btn_addSubject" class="btn btn-cg">Add Subject</a>
+								<a id="btn_addSubject" class="btn btn-cg">Request Subtopic</a>
 								<div id="subjectLoading" class="tc loadingDiv"
 									style="display: none;">
 									<img src="/images/ajax-loader.gif" alt="loading"><br />

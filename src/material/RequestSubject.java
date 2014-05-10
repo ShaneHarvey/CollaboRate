@@ -91,7 +91,7 @@ public class RequestSubject extends Subject implements Serializable{
 		try {
 			subRequest = datastore.get(subjectReqKey);
 			RequestSubject req = new RequestSubject(subRequest);
-			Subject newSubject = Subject.createSubject(req.getTitle(), req.getDescription(), req.getSubtopicRequests(), cKey);
+			Subject newSubject = Subject.createSubject(req.getTitle(), req.getDescription(), cKey);
 			
 			datastore.delete(subjectReqKey);//delete the Subject Request after it has been inserted
 			return newSubject;
