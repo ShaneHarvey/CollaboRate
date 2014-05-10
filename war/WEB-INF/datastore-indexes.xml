@@ -43,4 +43,9 @@
         <property name="subject" direction="asc"/>
         <property name="order" direction="asc"/>
     </datastore-index>
+    <datastore-index kind="user_material_metadata" ancestor="false" source="manual">
+        <property name="date" direction="asc"/>
+        <property name="materialType" direction="asc"/>
+        <property name="materialID" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>
