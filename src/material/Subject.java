@@ -207,9 +207,9 @@ public class Subject extends DBObject implements Serializable{
 		}
 		//bounds check
 		if (newOrder < 0) {
-			newOrder = 0;
-		} else if (newOrder > subtopicsList.size()) {
-			newOrder = subtopicsList.size();
+			return this.removeSubtopic(subtopic.getOrder());
+		} else if (newOrder >= subtopicsList.size()) {
+			newOrder = subtopicsList.size()-1;
 		}
 		int i = (int)subtopic.getOrder();
 		subtopicsList.remove(i);//remove the subtopic that is being moved
@@ -277,6 +277,24 @@ public class Subject extends DBObject implements Serializable{
 		this.save();
 		//newSubtopic.save();
 		return saveAllSubtopics();
+	}
+	
+	public boolean removeSubtopic(long order){
+		if(subtopicsList == null || subtopicsList.isEmpty()){
+			return false;
+		}
+		
+		Subtopic toDelete = subtopicsList.remove((int)order);
+		
+		int counter = 0;
+		for(Subtopic s: subtopicsList){
+			s.setOrder(counter++);
+		}
+		
+		toDelete.delete();
+		this.save();
+		return saveAllSubtopics();
+
 	}
 	
 	public static ArrayList<Subject> getCategorySubjects(Key cKey) {
