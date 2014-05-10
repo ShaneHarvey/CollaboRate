@@ -299,4 +299,20 @@ public class Subject extends DBObject implements Serializable{
 		return getCategorySubjects(categoryKey);
 	}
 	//public boolean change
+	/**
+	 * deep delete, overrides and calls DataBaseObject delete
+	 */
+	@Override
+	public void delete(){
+		if(subtopicsList == null){
+			getSubtopics();
+		}
+		
+		for(Subtopic s: subtopicsList){
+			s.delete();//will cascade down to materials, metadata.
+		}
+		
+		super.delete();//delete this entity
+	}
+	
 }
