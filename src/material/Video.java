@@ -176,4 +176,23 @@ public class Video extends Material implements Serializable {
 			return null;
 		}
 	}
+	
+	
+	/**
+	 * get all of the videos associated with the given subtopic
+	 * @param subtopicKey
+	 * @return
+	 */
+	public static ArrayList<Video> getAllSubtopicsVideos(Key subtopicKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_SUBTOPIC, FilterOperator.EQUAL, subtopicKey);
+		Query userContent = new Query(ENT_VIDEO).setFilter(userFilter);//.addSort(MATERIAL_RATING, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Video> videos = new ArrayList<Video>();
+		for(Entity result:pq.asIterable()){
+				videos.add(new Video(result));
+		}
+		return videos;
+	}
+
 }

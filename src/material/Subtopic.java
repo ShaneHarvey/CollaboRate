@@ -119,4 +119,36 @@ public class Subtopic extends DBObject implements Serializable {
 			posts = Post.getPostsForSubtopic(getKey());
 		return posts;
 	}
+	
+	/**
+	 * Deep delte a subtopic. Delete it and all of its questions, videos, and notes
+	 */
+	@Override
+	public void delete(){
+		
+		if(this.getKey()==null){
+			return;
+		}
+		
+		ArrayList<Question> allQuestions = Question.getAllSubtopicsQuestions(this.getKey());
+		//first delete all the questions
+		for(Question q: allQuestions){
+			q.delete();
+		}
+		
+		ArrayList<Video> allVideos = Video.getAllSubtopicsVideos(this.getKey());
+		//first delete all the questions
+		for(Video v: allVideos){
+			v.delete();
+		}
+		
+		ArrayList<Notes> allNotes = Notes.getAllSubtopicsNotes(this.getKey());
+		//first delete all the questions
+		for(Notes n: allNotes){
+			n.delete();
+		}
+		//lectures, videos, get ALL material
+		
+		super.delete();
+	}//delete
 }

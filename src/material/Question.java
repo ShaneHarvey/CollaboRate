@@ -100,6 +100,11 @@ public class Question extends Material implements Serializable {
 	public void setVerified(boolean isVerified) {
 		entity.setProperty(QUESTION_VERIFIED, isVerified);
 	}
+	
+	@Override
+	public void delete() {
+		super.delete();
+	}
 
 	/**
 	 * Get a question object that has the given key in the data store
@@ -377,5 +382,25 @@ public class Question extends Material implements Serializable {
 			return null;
 		}
 
+	}
+	/**
+	 * get all of the questions associated with the given subtopic
+	 * @param subtopicKey
+	 * @return
+	 */
+	public static ArrayList<Question> getAllSubtopicsQuestions(Key subtopicKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_SUBTOPIC, FilterOperator.EQUAL, subtopicKey);
+		Query userContent = new Query(QUESTION).setFilter(userFilter);//.addSort(MATERIAL_RATING, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Question> questions = new ArrayList<Question>();
+		for(Entity result:pq.asIterable()){
+				questions.add(new Question(result));
+		}
+		return questions;
+	}
+	
+	public static ArrayList<Question> getAllSubtopicsQuestions(String subtopicKey){
+		return getAllSubtopicsQuestions(KeyFactory.stringToKey(subtopicKey));
 	}
 }

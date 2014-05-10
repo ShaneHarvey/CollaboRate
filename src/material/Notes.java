@@ -149,4 +149,19 @@ public class Notes extends Material {
 		}
 		return toReturn == null ? null : new Notes(toReturn);
 	}	
+	/**
+	 * get all of the notes associated with the given subtopic
+	 * @param subtopicKey
+	 * @return
+	 */
+	public static ArrayList<Notes> getAllSubtopicsNotes(Key subtopicKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_SUBTOPIC, FilterOperator.EQUAL, subtopicKey);
+		Query userContent = new Query(ENT_NOTES).setFilter(userFilter);//.addSort(MATERIAL_RATING, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Notes> notes = new ArrayList();
+		for(Entity result:pq.asIterable()){
+				notes.add(new Notes(result));
+		}		return notes;
+	}
 }
