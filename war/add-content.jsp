@@ -32,6 +32,8 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs1-pane1">
 									<div class="content-holder tc">
+										<h2 class="tc">Question Title:</h2>
+										<textarea class="title-area" id="questionTitle"></textarea>
 										<h2 class="tc">Question Description:</h2>
 										<div id="questionDescription" class="rt"></div>
 										<br>

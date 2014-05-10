@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -110,18 +111,19 @@ public class Notes extends Material {
 		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
 				FilterOperator.EQUAL, sKey);
 		Query randQuery = new Query(ENT_NOTES).setFilter(subtopicFilter);
-		PreparedQuery pq = datastore.prepare(randQuery);
+		List<Entity> results; 
+		if(limit > 0)
+			results = datastore.prepare(randQuery).asList(FetchOptions.Builder.withLimit(limit));
+		else
+			results = new ArrayList<Entity>(0);
 		
 		// Add first x notes
 		ArrayList<Notes> notes = new ArrayList<Notes>();
-		for (Entity result : pq.asIterable()) {
-			if(notes.size() < limit)
-				notes.add(new Notes(result));
-			else
-				break;
-		}
+		for (Entity result : results)
+			notes.add(new Notes(result));
 		return notes;
 	}
+	
 	public static ArrayList<Notes> getUsersGeneratedNotes(Key userKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);

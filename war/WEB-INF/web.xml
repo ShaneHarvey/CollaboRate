@@ -112,14 +112,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/discuss</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>DemoDataServlet</servlet-name>
-		<servlet-class>servlets.DemoDataServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DemoDataServlet</servlet-name>
-		<url-pattern>/DemoDataServlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>NotesServlet</servlet-name>
 		<servlet-class>servlets.NotesServlet</servlet-class>
 	</servlet>
@@ -185,7 +177,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>ApproveSubjectRequestServlet</servlet-name>
         <url-pattern>/ApproveSubjectRequest</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>DeleteSubjectRequestServlet</servlet-name>
         <servlet-class>servlets.DeleteSubjectRequestServlet</servlet-class>
@@ -193,5 +184,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet-mapping>
         <servlet-name>DeleteSubjectRequestServlet</servlet-name>
         <url-pattern>/DeleteSubjectRequest</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TopRatedContentServlet</servlet-name>
+        <servlet-class>servlets.TopRatedContentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TopRatedContentServlet</servlet-name>
+        <url-pattern>/top-content</url-pattern>
     </servlet-mapping>
 </web-app>

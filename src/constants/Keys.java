@@ -48,6 +48,8 @@ public class Keys {
 	
 	public static final String ORDER = "order";
 	public static final String REQUESTED_SUBTOPIC_KEY = "rstid";
+	public static final String FROM_INDEX = "from";
+	public static final String TO_INDEX = "to";
 	
 			
 	// Used in SubjectServlet for statistics

@@ -17,7 +17,7 @@
 					<a href="/home">Home</a> / <a
 						href="/subject?sid=${subject.keyAsString}">${subject.title}</a> /
 					<a href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
-					/ Question
+					/ <c:out value="${question.shortTitle}" />
 				</div>
 				<div class="right-float">
 					<div class="tl">Progress:</div>

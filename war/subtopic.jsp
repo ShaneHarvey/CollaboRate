@@ -31,12 +31,12 @@
 									value="${(metadata == null || !metadata.answerCorrect) ? false : true}" />
 								<li><span><a class="${correct ? " glyphicon
 										glyphicon-ok
-										green" : ""}" href="/question?qid=${q.keyAsString}">${q.title}</a></span></li>
+										green" : ""}" href="/question?qid=${q.keyAsString}">${q.shortTitle}</a></span></li>
 							</c:forEach>
 						</ol>
-						<!--<div class="tc">
-						<a>Load More...</a>
-					</div>-->
+						<div class="tc">
+						  <a href="/top-content?stid=${subtopic.keyAsString}&ctype=question&from=0&to=10">Load More...</a>
+					    </div>
 					</div>
 					<div class="col-lg-6 content-holder shift-right-5">
 						<h4 class="tc">Highest Rated Videos</h4>
@@ -45,9 +45,9 @@
 								<li><a href="/video?vid=${v.keyAsString}">${v.shortTitle}</a></li>
 							</c:forEach>
 						</ol>
-						<!--<div class="tc">
-						<a>Load More...</a>
-					</div>-->
+						<div class="tc">
+                          <a href="/top-content?stid=${subtopic.keyAsString}&ctype=video&from=0&to=10">Load More...</a>
+                        </div>
 					</div>
 					<div class="col-lg-6 content-holder shift-left-5">
 						<h4 class="tc">Highest Rated Notes</h4>
@@ -64,9 +64,9 @@
 										gr="${n.globalRating}"></div></li>
 							</c:forEach>
 						</ol>
-						<!--<div class="tc">
-						<a>Load More...</a>
-					</div>-->
+						<div class="tc">
+                          <a href="/top-content?stid=${subtopic.keyAsString}&ctype=notes&from=0&to=10">Load More...</a>
+                        </div>
 					</div>
 					<div class="col-lg-6 shift-right-5">
 						<div class="tc">
@@ -103,5 +103,5 @@
 </body>
 <jsp:include page="/includes/js.jsp"></jsp:include>
 <script src="/js/plugins/FeedbackDisplay.js"></script>
-<script src="/js/subtopic.js"></script>
+<script src="/js/notes.js"></script>
 </html>

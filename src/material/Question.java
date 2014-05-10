@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.FetchOptions.Builder.*;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -37,6 +38,7 @@ public class Question extends Material implements Serializable {
 	private final static String ANSWER_EXPLAINATION = "answer_explaination";
 	private final static String CORRECT_INDEX = "correct_index";
 	private final static String QUESTION_VERIFIED = "verified";
+	private final static String SHORT_TITLE = "short_title";
 
 	private Question(Entity e) {
 		super(e);
@@ -59,6 +61,10 @@ public class Question extends Material implements Serializable {
 
 	private void setCorrectIndex(int index) {
 		entity.setProperty(CORRECT_INDEX, String.valueOf(index));
+	}
+	
+	private void setShortTitle(String shortTitle) {
+		entity.setProperty(SHORT_TITLE, shortTitle);
 	}
 
 	public String[] getAnswerChoices() {
@@ -85,6 +91,10 @@ public class Question extends Material implements Serializable {
 
 	public boolean checkAnswer(int userChoice) {
 		return (getCorrectIndex() == userChoice);
+	}
+	
+	public String getShortTitle(){
+		return (String)entity.getProperty(SHORT_TITLE);
 	}
 
 	public void setVerified(boolean isVerified) {
@@ -128,7 +138,7 @@ public class Question extends Material implements Serializable {
 	 *            String - which choice is correct
 	 * @return
 	 */
-	public static Question createQuestion(String title,
+	public static Question createQuestion(String title, String shortTitle,
 			String answerDescription, String[] choicesJSON, int correctIndex,
 			Subtopic st, Account acc) {
 		// Took String explanationsJSON out this week, will add back next week
@@ -137,6 +147,7 @@ public class Question extends Material implements Serializable {
 		Entity ent = new Entity(QUESTION);
 		Question newQuestion = new Question(ent);
 		newQuestion.setTitle(title);
+		newQuestion.setShortTitle(shortTitle);
 		newQuestion.setAnswerChoices(choicesJSON);
 		newQuestion.setAnswerExplaination(answerDescription);
 		newQuestion.setCorrectIndex(correctIndex);
@@ -171,16 +182,15 @@ public class Question extends Material implements Serializable {
 		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
 				FilterOperator.EQUAL, sKey);
 		Query randQuery = new Query(QUESTION).setFilter(subtopicFilter);
-		PreparedQuery pq = datastore.prepare(randQuery);
-
+		List<Entity> results; 
+		if(limit > 0)
+			results = datastore.prepare(randQuery).asList(FetchOptions.Builder.withLimit(limit));
+		else
+			results = new ArrayList<Entity>(0);
 		// Add first x questions
 		ArrayList<Question> questions = new ArrayList<Question>();
-		for (Entity result : pq.asIterable()) {
-			if (questions.size() < limit)
-				questions.add(new Question(result));
-			else
-				break;
-		}
+		for (Entity result : results) 
+			questions.add(new Question(result));
 		return questions;
 	}
 
@@ -218,6 +228,32 @@ public class Question extends Material implements Serializable {
 			questions.add(new Question(result));
 		}
 		return questions;
+	}
+	
+	/**
+	 * Get a random question for a give subtopic
+	 * @param stKey The key of the subtopic this question is a part of
+	 * @return A random Question
+	 */
+	public static Question getRandomQuestion(Key stKey) {
+		// Get a list of questions from database
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
+				FilterOperator.EQUAL, stKey);
+		Query randQuery = new Query(QUESTION).setFilter(subtopicFilter);
+		PreparedQuery pq = datastore.prepare(randQuery);
+		ArrayList<Entity> randomKeys = new ArrayList<Entity>();
+		for (Entity result : pq.asIterable()) {
+			randomKeys.add(result);
+		}
+		// Shuffle the list (make random order)
+		Collections.shuffle(randomKeys);
+		// Return the first question in the random ordered list
+		if(randomKeys.size() == 0)
+			return null;
+		else
+			return new Question(randomKeys.get(0));
 	}
 
 	public static ArrayList<Question> getRandomVerifiedQuestions(int limit,

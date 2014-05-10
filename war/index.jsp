@@ -18,7 +18,7 @@
 				<div class="item active">
 					<div class="container">
 						<div class="carousel-caption home-questions-display">
-							<h1>Hottest Question</h1>
+							<h1>Answer and Contribute Questions!</h1>
 							<br /> <br />
 							<div class="question-title">${question.title}</div>
 
@@ -46,7 +46,7 @@
 				<div class="item">
 					<div class="container">
 						<div class="carousel-caption video-display">
-							<h1>${video.title}</h1>
+							<h1>Watch Lecture Videos!</h1>
 							<div class="video-embed">
 								<iframe width="534" height="400" src="${video.URL}"
 									frameborder="0" allowfullscreen></iframe>
@@ -58,7 +58,7 @@
 				<div class="item">
 					<div class="container">
 						<div class="carousel-caption notes-display">
-							<h1>Most Recent Notes</h1>
+							<h1>Get Links to the Best Study Material!</h1>
 							<a href="${notes.URL}" target="_blank">${notes.title}</a>
 						</div>
 					</div>

@@ -48,6 +48,8 @@ $(function() {
 					success : function(data) {
 						$('#answerLoading').hide();
 						var obj = JSON.parse(data);
+						$('#btn_rques').attr('href', 'question?qid=' + obj.rqkey);
+						$('#btn_rques').show();
 						var answer = obj.answer;
 						if (answer === index) {
 							$('#correctAnswer').show();

@@ -75,7 +75,8 @@ public class QuestionServlet extends HttpServlet {
 					a.setAnswer(answer == correctAnswer);
 					a.save();
 				}
-				response.getWriter().print("{ \"answer\" : " + correctAnswer + ", \"explanation\" : " + new Gson().toJson(ques.getAnswerExplaination()) + "}");
+				Question rques = Question.getRandomQuestion(ques.getSubtopicKey());
+				response.getWriter().print("{ \"answer\" : " + correctAnswer + ", \"explanation\" : " + new Gson().toJson(ques.getAnswerExplaination()) + " , \"rqkey\" : \"" + rques.getKeyAsString() + "\" }");
 			} else if ("ratecontent".equals(action)) {
 				// If not logged in can't rate
 				if (user == null)
