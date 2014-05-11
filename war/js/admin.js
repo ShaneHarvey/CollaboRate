@@ -102,6 +102,9 @@ $(function(){
 	
 	$('select[name="categorySelector"]').change(function(){
 		var cid = $(this).val();
+		$('#subjectSelectDiv').empty();
+		$('#requestedSubtopics').empty();
+		$('#subtopicList').empty();
 		if(cid === '')
 			return;
 		$.ajax({
@@ -110,6 +113,8 @@ $(function(){
             url: '/admin',
             success: function(data){
             	$('#subjectSelectDiv').empty();
+            	$('#requestedSubtopics').empty();
+            	$('#subtopicList').empty();
             	var subList = JSON.parse(data);
             	var subSelect = $('<select id="' + cid + '" class="subjectSelector"></select>');
             	subSelect.append('<option></option');
@@ -121,6 +126,8 @@ $(function(){
             	
             	$(subSelect).change(function(){
             		var sid = $(this).val();
+            		$('#requestedSubtopics').empty();
+            		$('#subtopicList').empty();
             		if(sid === '')
             			return;
             		$.ajax({
@@ -170,12 +177,12 @@ $(function(){
 
 function insertInOrder(){
 	var div = $(this);
+	div.remove();
 	$.ajax({
         type: 'POST',
         data: 'rstid=' + $(this).attr('id') + '&sid=' + $('.subjectSelector').val() + '&action=insertOrder',
         url: '/admin',
         success: function(data){
-        	div.remove();
         	var stList = JSON.parse(data);
         	displaySubTopicList(stList);
         }
@@ -191,14 +198,11 @@ function displaySubTopicList(stList){
 		var btn_del = $('<span class="glyphicon glyphicon-remove red hoverHand"></span>');
 		li.append(btn_del);
 		btn_del.click(function(){
-			var div = $(this).parent();
+			var div = $(this).parent().remove();
 			$.ajax({
 		        type: 'POST',
 		        data: 'stid=' + div.attr('stid') + '&action=deletesubtopic',
-		        url: '/admin',
-		        success: function(data){
-		        	div.remove();
-		        }
+		        url: '/admin'
 		    });
 		});
 		optionList.append(li);
