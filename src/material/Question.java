@@ -45,13 +45,8 @@ public class Question extends Material implements Serializable {
 	}
 
 	private void setAnswerChoices(String[] choices) {
-		// Convert each choice to Text
-		Text[] textChoices = new Text[choices.length];
-		for(int i=0; i<choices.length; i++){
-			textChoices[i] = new Text(choices[i]);
-		}
 		// Convert Text array into a Json Text object
-		Text jsonChoices = new Text(new Gson().toJson(textChoices));
+		Text jsonChoices = new Text(new Gson().toJson(choices));
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
 
@@ -69,11 +64,7 @@ public class Question extends Material implements Serializable {
 
 	public String[] getAnswerChoices() {
 		Text jsonChoices = (Text) entity.getProperty(ANSWER_CHOICES);
-		Text[] textChoices = new Gson().fromJson(jsonChoices.getValue(), Text[].class);
-		String[] choices = new String[textChoices.length];
-		for(int i=0; i<textChoices.length; i++){
-			choices[i] = textChoices[i].getValue();
-		}
+		String[] choices = new Gson().fromJson(jsonChoices.getValue(), String[].class);
 		return choices;
 	}
 
