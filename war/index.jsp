@@ -20,24 +20,27 @@
 						<div class="carousel-caption home-questions-display">
 							<h1>Answer and Contribute Questions!</h1>
 							<br /> <br />
-							<div class="question-title">${question.title}</div>
+							<div>
+								<div class="question-title">${question.title}</div>
 
-							<div class="question-answers">
-								<ol id="question-list">
-									<c:forEach items="${question.answerChoices}" var="choice">
-										<li class="tl">${choice}</li>
-									</c:forEach>
-								</ol>
-							</div>
-							<div class="tc">
-								<a id="btn_submitAnswer" class="btn btn-cg"
-									qid="${question.keyAsString}">Submit</a>
-								<div id="answerLoading" class="tc loadingDiv"
-									style="display: none;">
-									<img src="/images/ajax-loader.gif" alt="loading">
+								<div class="question-answers">
+									<ol id="question-list">
+										<c:forEach items="${question.answerChoices}" var="choice">
+											<li class="tl">${choice}</li>
+										</c:forEach>
+									</ol>
 								</div>
-								<h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
-								<h2 id="incorrectAnswer" class="dark-red" style="display: none;">Incorrect</h2>
+								<div class="tc">
+									<a id="btn_submitAnswer" class="btn btn-cg"
+										qid="${question.keyAsString}">Submit</a>
+									<div id="answerLoading" class="tc loadingDiv"
+										style="display: none;">
+										<img src="/images/ajax-loader.gif" alt="loading">
+									</div>
+									<h2 id="correctAnswer" class="green" style="display: none;">Correct!</h2>
+									<h2 id="incorrectAnswer" class="dark-red"
+										style="display: none;">Incorrect</h2>
+								</div>
 							</div>
 						</div>
 					</div>

@@ -54,6 +54,16 @@ public class Question extends Material implements Serializable {
 		Text jsonChoices = new Text(new Gson().toJson(textChoices));
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
+	
+	@Override
+	protected void setTitle(String title) {
+		entity.setProperty(MATERIAL_TITLE, new Text(title));
+	}
+	
+	@Override
+	public String getTitle() {
+		return ((Text)entity.getProperty(MATERIAL_TITLE)).getValue();
+	}
 
 	private void setAnswerExplaination(String answerExp) {
 		entity.setProperty(ANSWER_EXPLAINATION, new Text(answerExp));
@@ -93,6 +103,7 @@ public class Question extends Material implements Serializable {
 		return (getCorrectIndex() == userChoice);
 	}
 	
+	@Override
 	public String getShortTitle(){
 		return (String)entity.getProperty(SHORT_TITLE);
 	}
