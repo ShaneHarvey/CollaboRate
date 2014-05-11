@@ -17,7 +17,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import constants.Keys;
-import account.Account;
 
 public class ApproveSubjectRequestServlet extends HttpServlet {
 
@@ -57,7 +56,6 @@ public class ApproveSubjectRequestServlet extends HttpServlet {
 							checkIndividual.delete();
 						}
 					}
-					//RequestSubject.insertSubjectRequest(insertSubject.getKey(), categoryKey);
 				}
 				response.sendRedirect("/home");
 			}

@@ -3,7 +3,6 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -80,93 +79,7 @@ public class AdminServlet extends HttpServlet {
 				
 				request.setAttribute(Keys.SUBJECT_REQUEST_LIST, RequestSubject.getSubjectRequests());
 				request.setAttribute(Keys.CATEGORY_LIST, Category.getAllCategories());
-				/*
-				if(categoryKey == null || categoryKey.equals("")){
-					response.getWriter().print("");
-				}
-				else{
-					
-					Category cat = Category.getCategory(categoryKey);
-					
-					
-					String subjectListHTML = "<h2>Current Subjects</h2><select class=\"subjectSelector\" id=\"" + categoryKey +"\">";
-					subjectListHTML += "<option></option>";
-					//put the subtopics there
-					String nextt = "";
-					for(Subject s:cat.getSubjects()){
-						nextt = "<option value=\" "+ s.getKeyAsString() +  "\">" + s.getTitle() + "</option>";
-						
-						subjectListHTML += nextt;
-					}
-					 
-					subjectListHTML += "</select><br/><br/>";
-					
-					request.setAttribute(Keys.SUBJECT_LIST,
-							cat.getSubjects());
-					String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
-					if (subjectKey == null || subjectKey.equals("")) {
-						response.getWriter().print(subjectListHTML);
-					}
-					else {
-						// Place the subject in the session;
-						Subject sub = Subject.getFromKeyString(subjectKey);
-						//request.setAttribute(Keys.SUBJECT, sub);
-						sub.getSubtopics();
-						
-						String subtopicListHTML="<h3>Current Subtopics</h3><table class=\"subtopicList\" id=\"" + subjectKey +"\">";
-						String subtopicListHTMLend = "</table>";
-						
-						
-						if("changeOrder".equals(action)){
-							String subtopicKey = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
-							Subtopic subtopic = Subtopic.getFromKeyString(subtopicKey);
-							String newPlaceString = request.getParameter(Keys.ORDER);
-							
-							sub.changeOrder(subtopic, Integer.parseInt(newPlaceString));
-						}
-						else if("insertOrder".equals(action)){
-							String requestedKey = request.getParameter(Keys.REQUESTED_SUBTOPIC_KEY);
-							RequestSubtopic reqSubtopic = RequestSubtopic.getFromKeyString(requestedKey);
-							
-							sub.insertSubtopic(reqSubtopic,reqSubtopic.getOrder());
-						}
-						
-						//put the subtopics there
-						String next = "";
-						for(Subtopic s:sub.getSubtopics()){
-							next = "<tr><td><input id=\"" + s.getKeyAsString() + "\" class=\"subtopicInput\" value=\"" + s.getOrder() + "\" size=\"5\" onchange=\"reOrder(this.id)\"></td>" 
-									+ "<td>" + s.getTitle() + "</td></tr>";
-							
-							subtopicListHTML += next;
-						}
-						
-						//end subtopics
-						subtopicListHTML += "</table><br/><br/><br/>";
-						
-						//start requested subtopics
-						subtopicListHTML += "<h3>Requested Subtopics</h3><table>";
-						
-						
-						//here i include the description
-						for(RequestSubtopic rs: RequestSubtopic.getSubtopicsRequestfromSubject(subjectKey)){
-							next = "<tr><td><span id=\"" + rs.getKeyAsString() + "\" class=\"glyphicon glyphicon-plus hoverHand\""
-									+  "onclick=\"insertInOrder(this.id)\"></td>" 
-									+ "<td>" + rs.getTitle() + "</td><td>" + rs.getDescription()+"</td</tr>";
-							
-							subtopicListHTML += next;
-						}
-						
-						
-						
-						
-						
-						
-						response.getWriter().print(subtopicListHTML);
-					
-					}
-				}*/
 				
-
 				getServletContext().getRequestDispatcher("/admin-home.jsp")
 						.forward(request, response);
 			}
@@ -249,19 +162,6 @@ public class AdminServlet extends HttpServlet {
 			}
 			response.getWriter().print("{ \"sts\" : " + new Gson().toJson(sts) + " , \"strs\" : " + new Gson().toJson(strs) + "}");
 		}
-		/*else if("changeOrder".equals(action)) {
-			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
-			Subject sub = Subject.getFromKeyString(subjectKey);
-			String subtopicKey = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
-			Subtopic subtopic = Subtopic.getFromKeyString(subtopicKey);
-			String newPlaceString = request.getParameter(Keys.ORDER);
-			sub.changeOrder(subtopic, Integer.parseInt(newPlaceString));
-			ArrayList<Triple<String, String, Long>> sts = new ArrayList<Triple<String, String, Long>>();
-			for(Subtopic st : sub.getSubtopics()) {
-				sts.add(new Triple<String, String, Long>(st.getTitle(), st.getKeyAsString(), st.getOrder()));
-			}
-			response.getWriter().print(new Gson().toJson(sts));
-		}*/
 		else if("insertOrder".equals(action)) {
 			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
 			Subject sub = Subject.getFromKeyString(subjectKey);

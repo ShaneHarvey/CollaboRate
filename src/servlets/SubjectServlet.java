@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -73,11 +72,7 @@ public class SubjectServlet extends HttpServlet {
 					request.setAttribute(Keys.NUM_TOP_COMPLETED, Integer.toString(numSubtopicsCompleted));
 					request.setAttribute(Keys.NUM_TOP_NOT_STARTED, Integer.toString(numSubtopicsNotStarted));
 				}
-				//ArrayList<Subtopic> subtopics = sub.getSubtopics();
 				request.setAttribute(Keys.SUBJECT, sub);
-				//request.setAttribute(Keys.SUBJECT_NAME, sub.getTitle());
-				//request.setAttribute(Keys.SUBTOPICS_LIST, subtopics);
-				//request.setAttribute(Keys.SUBJECT_KEY, sub.getKey());
 				
 				/* Used to display drag and drop subtopics or not in jsp*/
 				request.setAttribute("accountIsAdmin", user == null? false : user.getType() == Account.ActorType.ADMIN);

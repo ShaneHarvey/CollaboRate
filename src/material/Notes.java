@@ -1,9 +1,6 @@
 package material;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -15,7 +12,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -51,8 +47,6 @@ public class Notes extends Material {
 		Entity ent = new Entity(ENT_NOTES);
 		Notes l = new Notes(ent);
 		l.setTitle(lTitle);
-		// Remove until using
-		//l.setDescription(lDescription);
 		l.setURL(lURL);
 		l.setSubtopicKey(lKey);
 		l.setAuthor(authorKey);
@@ -61,34 +55,6 @@ public class Notes extends Material {
 		l.save();
 		return l;
 	}
-
-	/*public static ArrayList<Notes> getFlaggedNotes() {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		Query photoQuery = new Query(ENT_NOTES).addSort(MATERIAL_FLAGGED_COUNT,
-				SortDirection.DESCENDING);
-		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Notes> listOfFlagged = new ArrayList<Notes>();
-		for (Entity result : pq.asIterable()) {
-			listOfFlagged.add(new Notes(result));
-		}
-		return listOfFlagged;
-	}*/
-
-	/*public static ArrayList<Notes> getTopRatedNotes(int limit, Key sKey) {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
-				FilterOperator.EQUAL, sKey);
-		Query photoQuery = new Query(ENT_NOTES).setFilter(subtopicFilter);/*.addSort(MATERIAL_RATING,
-				SortDirection.DESCENDING).setFilter(subtopicFilter);
-		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Notes> topRatedLectures = new ArrayList<Notes>();
-		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
-			topRatedLectures.add(new Notes(result));
-		}
-		return topRatedLectures;
-	}*/
 
 	public static ArrayList<Notes> getMostRecentNotes(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -136,6 +102,7 @@ public class Notes extends Material {
 		}
 		return notes;
 	}
+	
 	public static Notes getMostRecentNotes(){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -148,7 +115,8 @@ public class Notes extends Material {
 			break;
 		}
 		return toReturn == null ? null : new Notes(toReturn);
-	}	
+	}
+	
 	/**
 	 * get all of the notes associated with the given subtopic
 	 * @param subtopicKey
@@ -157,9 +125,9 @@ public class Notes extends Material {
 	public static ArrayList<Notes> getAllSubtopicsNotes(Key subtopicKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userFilter = new FilterPredicate(MATERIAL_SUBTOPIC, FilterOperator.EQUAL, subtopicKey);
-		Query userContent = new Query(ENT_NOTES).setFilter(userFilter);//.addSort(MATERIAL_RATING, SortDirection.DESCENDING);
+		Query userContent = new Query(ENT_NOTES).setFilter(userFilter);
 		PreparedQuery pq = datastore.prepare(userContent);
-		ArrayList<Notes> notes = new ArrayList();
+		ArrayList<Notes> notes = new ArrayList<Notes>();
 		for(Entity result:pq.asIterable()){
 				notes.add(new Notes(result));
 		}		return notes;

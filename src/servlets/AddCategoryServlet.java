@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +35,6 @@ public class AddCategoryServlet extends HttpServlet {
 					e.printStackTrace();
 					response.getWriter().print("");
 				}
-			//response.sendRedirect("/home");
 		}
 	}
 

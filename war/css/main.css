@@ -527,3 +527,8 @@ ol {
 .big-list {
 	font-size: 20px;
 }
+
+.home-question {
+	overflow-y: auto;
+    max-height: 360px;
+}

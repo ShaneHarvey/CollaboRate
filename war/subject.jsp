@@ -78,19 +78,11 @@
 								class="detail"><fmt:formatNumber
 									value="${numQuestionsInSubject / numTopicsInSubject}"
 									maxFractionDigits="1" /></span> <br />
-							<!--
-						<span>Active Users:</span><span class="detail">327</span> <br />
-						<span>Average Topics Completed:</span><span class="detail">4</span> <br />
-						<span>Number of Users Completed:</span><span class="detail">16</span> <br />
-						-->
 						</div>
 						<div class="col-lg-6">
 							<h4 class="tc">Personal</h4>
 							<span>Topics Completed:</span><span class="detail">${numTopicsCompleted}</span>
 							<br />
-							<!--
-						<span>Topics In Progress Completed:</span><span class="detail">2</span> <br /> 
-						-->
 							<span>Topics Not Started:</span><span class="detail">${numSubtopicsNotStarted}</span>
 							<br /> <span>Questions Completed:</span><span class="detail">${numQuestionsCompleted}</span>
 							<br /> <span>Questions Correct:</span><span class="detail">${numQuestionsCorrect}</span>

@@ -161,20 +161,6 @@ $(function(){
 	});//category selector
 });//document ready
 
-/*function reOrder(){
-	if($(this).val() === '')
-		return;
-	$.ajax({
-        type: 'POST',
-        data: 'order=' + $(this).val() + '&stid=' + $(this).attr('id') + '&sid=' + $('.subjectSelector').val() + '&action=changeOrder',
-        url: '/admin',
-        success: function(data){    	
-        	var stList = JSON.parse(data);
-        	displaySubTopicList(stList);
-        }
-    });
-}*/
-
 function insertInOrder(){
 	var div = $(this);
 	div.remove();

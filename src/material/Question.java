@@ -16,7 +16,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.FetchOptions.Builder.*;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -393,7 +392,7 @@ public class Question extends Material implements Serializable {
 	public static ArrayList<Question> getAllSubtopicsQuestions(Key subtopicKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userFilter = new FilterPredicate(MATERIAL_SUBTOPIC, FilterOperator.EQUAL, subtopicKey);
-		Query userContent = new Query(QUESTION).setFilter(userFilter);//.addSort(MATERIAL_RATING, SortDirection.DESCENDING);
+		Query userContent = new Query(QUESTION).setFilter(userFilter);
 		PreparedQuery pq = datastore.prepare(userContent);
 		ArrayList<Question> questions = new ArrayList<Question>();
 		for(Entity result:pq.asIterable()){

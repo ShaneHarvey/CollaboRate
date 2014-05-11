@@ -28,10 +28,6 @@
 				<div id="loginLoading" class="tc loadingDiv" style="display: none;">
 					<img src="/images/ajax-loader.gif" alt="loading">
 				</div>
-				<!--
-            <br />
-            NOT YET IMPLEMENTED
-            <a href="#">Forgot Password?</a>-->
 
 			</div>
 

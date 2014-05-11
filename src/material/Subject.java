@@ -2,7 +2,6 @@ package material;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import account.Account;
 
@@ -14,7 +13,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -99,11 +97,8 @@ public class Subject extends DBObject implements Serializable{
 		s.setDescription(sDescription);
 		s.setCategory(cKey);
 		s.save();
-		long order = 0;
-		for(RequestSubtopic st: subtopics) {
+		for(RequestSubtopic st: subtopics)
 			Subtopic.createSubtopic(st.getTitle(), st.getKey(), st.getDescription(), st.getOrder());
-			order ++;
-		}
 		return s;
 	}
 	protected void setTitle(String subjectTitle){

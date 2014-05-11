@@ -43,14 +43,7 @@ public class VideoServlet extends HttpServlet {
 					VideoMetadata data = VideoMetadata
 							.getVideoMetadata(user.getKey(),
 									vid);
-					
-					if(data == null){
-						VideoMetadata newData = VideoMetadata.createVideoMetadata(user.getKey(), vid);
-						request.setAttribute(Keys.META_DATA, data);
-					}
-					else{
-						request.setAttribute(Keys.META_DATA, data);
-					}
+					request.setAttribute(Keys.META_DATA, data);
 				}
 
 				getServletContext().getRequestDispatcher("/video.jsp").forward(
@@ -63,7 +56,6 @@ public class VideoServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String vID = request.getParameter(Keys.CONTENT_KEY);
-				//Key videoKey = KeyFactory.stringToKey(vID);
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				VideoMetadata a = VideoMetadata
 						.getVideoMetadata(user.getKey(), Video.getFromKeyString(vID));
@@ -77,7 +69,6 @@ public class VideoServlet extends HttpServlet {
 				if (user == null)
 					return;
 				String vID = request.getParameter(Keys.CONTENT_KEY);
-				//Key videoKey = KeyFactory.stringToKey(vID);
 				VideoMetadata a = VideoMetadata
 						.getVideoMetadata(user.getKey(), Video.getFromKeyString(vID));
 
