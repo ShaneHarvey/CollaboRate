@@ -81,6 +81,16 @@ public class Subject extends DBObject implements Serializable{
 		}
 		return s;
 	}
+	public static Subject createSubject(String sTitle, String sDescription, Key cKey){
+		Entity subjectE = new Entity(ENT_SUBJECT);
+		//TODO check to make sure sTitle does not match a Subject title in the datastore
+		Subject s = new Subject(subjectE);
+		s.setTitle(sTitle);
+		s.setDescription(sDescription);
+		s.setCategory(cKey);
+		s.save();
+		return s;
+	}
 	public static Subject createSubject(String sTitle, String sDescription,ArrayList<RequestSubtopic> subtopics, Key cKey){
 		Entity subjectE = new Entity(ENT_SUBJECT);
 		//TODO check to make sure sTitle does not match a Subject title in the datastore

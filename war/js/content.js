@@ -129,6 +129,7 @@ $(function(){
 		}
 		//Replace watch?v= with embed/ so that the video can be embed-ed
 		var videoUrl = $('#videoURL').val()
+		videoUrl = videoUrl.replace('http:', 'https:');
 		videoUrl = videoUrl.replace('youtube.com/watch?v=', 'youtube.com/embed/');
 		videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
 		// Show spinner
