@@ -3,6 +3,8 @@
  *  requires jQuery and jQuery-ui
  */
 
+
+
 $(function(){
 	// Set enter key to click the #btn_addSubject button
 	$("#subjectName, #subTopicTable").keyup(function(event){
@@ -98,29 +100,52 @@ $(function(){
         });
 	});
 	
-	
-	
 	$('select[name="categorySelector"]').change(function(){
+		var cid = $(this).val();
+		if(cid === '')
+			return;
 		$.ajax({
             type: 'POST',
-            data: 'catid=' + $(this).val(),
+            data: 'catid=' + cid + '&action=getsubjects',
             url: '/admin',
             success: function(data){
-            	var subList = data.split('<html>')[0];
-            	subList = subList.split('<!')[0];
-            	$('#subjectSelectDiv').html(subList);
+            	$('#subjectSelectDiv').empty();
+            	var subList = JSON.parse(data);
+            	var subSelect = $('<select id="' + cid + '" class="subjectSelector"></select>');
+            	subSelect.append('<option></option');
+            	for(var i = 0; i < subList.length; i++) {
+            		subSelect.append('<option value="' + subList[i].second + '">' + subList[i].first + '</option>');
+            	}
+            	$('#subjectSelectDiv').append('<h3>Current Subjects</h3>');
+            	$('#subjectSelectDiv').append(subSelect);
             	
-            	$('select[class="subjectSelector"]').change(function(){
+            	$(subSelect).change(function(){
+            		var sid = $(this).val();
+            		if(sid === '')
+            			return;
             		$.ajax({
                         type: 'POST',
-                        data: 'sid=' + $(this).val() + '&catid=' + $(this).attr('id'),
+                        data: 'sid=' + sid + '&catid=' + $(this).attr('id') + '&action=getsubtopics',
                         url: '/admin',
                         success: function(data){ 
-                        	var subList = data.split('<html>')[0];
-                        	subList = subList.split('<!')[0];
-                        	$('#subtopicList').html(subList);
+                        	var obj = JSON.parse(data);
+                        	var stList = obj.sts;
+                        	var strList = obj.strs;
+                        	displaySubTopicList(stList);
                         	
-                        
+                        	$('#requestedSubtopics').empty();
+                        	var strTable = $('<table></table>');
+                        	for(var i = 0; i < strList.length; i++) {
+                        		var row = $('<tr></tr>');
+                        		var col = $('<td></td>');
+                        		row.append(col);
+                        		var span = $('<span id="' + strList[i].second + '" class="glyphicon glyphicon-plus hoverHand">' + strList[i].first + '</span>');
+                        		col.append(span);
+                        		span.click(insertInOrder);
+                        		strTable.append(row);
+                        	}
+                        	$('#requestedSubtopics').append('<h3>Requested Subtopics</h3>');
+                        	$('#requestedSubtopics').append(strTable);
                         }//success
                     });   //ajax
             	});//subjectSeletor
@@ -129,29 +154,54 @@ $(function(){
 	});//category selector
 });//document ready
 
-function reOrder(id){
+/*function reOrder(){
+	if($(this).val() === '')
+		return;
 	$.ajax({
         type: 'POST',
-        data: 'order=' + $('#'+id).val() + '&stid=' + id + '&action=changeOrder&sid=' + $('.subtopicList').filter(":first").attr('id') + '&catid=' + $('.subjectSelector').attr('id'),
+        data: 'order=' + $(this).val() + '&stid=' + $(this).attr('id') + '&sid=' + $('.subjectSelector').val() + '&action=changeOrder',
         url: '/admin',
-        success: function(data2){
-        	
-        	var subList2 = data2.split('<html>')[0];
-        	$('#subtopicList').html(subList2);
+        success: function(data){    	
+        	var stList = JSON.parse(data);
+        	displaySubTopicList(stList);
+        }
+    });
+}*/
+
+function insertInOrder(){
+	var div = $(this);
+	$.ajax({
+        type: 'POST',
+        data: 'rstid=' + $(this).attr('id') + '&sid=' + $('.subjectSelector').val() + '&action=insertOrder',
+        url: '/admin',
+        success: function(data){
+        	div.remove();
+        	var stList = JSON.parse(data);
+        	displaySubTopicList(stList);
         }
     });
 }
 
-function insertInOrder(id){
-	$('#' + id).remove();
-	$.ajax({
-        type: 'POST',
-        data: 'rstid=' + id + '&action=insertOrder&sid=' + $('.subtopicList').filter(":first").attr('id') + '&catid=' + $('.subjectSelector').attr('id') ,
-        url: '/admin',
-        success: function(data2){
-        	
-        	var subList2 = data2.split('<html>')[0];
-        	$('#subtopicList').html(subList2);
-        }
-    });
+function displaySubTopicList(stList){
+	$('#subtopicList').empty();
+	$('#subtopicList').append('<h3>Current Subtopics</h3>');
+	var optionList = $('<ol class="big-list"></ol>');
+	for(var i = 0; i < stList.length; i++) {
+		var li = $('<li class="tl" stid="' + stList[i].second + '">' + stList[i].first + '&nbsp&nbsp&nbsp&nbsp</li>');
+		var btn_del = $('<span class="glyphicon glyphicon-remove red hoverHand"></span>');
+		li.append(btn_del);
+		btn_del.click(function(){
+			var div = $(this).parent();
+			$.ajax({
+		        type: 'POST',
+		        data: 'stid=' + div.attr('stid') + '&action=deletesubtopic',
+		        url: '/admin',
+		        success: function(data){
+		        	div.remove();
+		        }
+		    });
+		});
+		optionList.append(li);
+	}
+	$('#subtopicList').append(optionList);
 }

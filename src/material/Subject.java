@@ -233,9 +233,11 @@ public class Subject extends DBObject implements Serializable{
 	 * @return
 	 */
 	public boolean insertSubtopic(RequestSubtopic reqSubtopic, long order){
-		if(subtopicsList == null || subtopicsList.isEmpty()){
+		if(subtopicsList == null)
+			getSubtopics();
+		/*if(subtopicsList == null || subtopicsList.isEmpty()){
 			return false;
-		}
+		}*/
 		//bounds check
 		if(order<0 || order>subtopicsList.size()){
 			order = subtopicsList.size();

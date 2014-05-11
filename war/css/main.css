@@ -522,3 +522,7 @@ ol {
 	max-width: 90%;
 	width: 45%;
 }
+
+.big-list {
+	font-size: 20px;
+}

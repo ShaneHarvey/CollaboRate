@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ import material.Subtopic;
 import material.Video;
 import constants.Keys;
 import account.Account;
+import dataStructures.Pair;
+import dataStructures.Triple;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -38,9 +41,7 @@ public class AdminServlet extends HttpServlet {
 		// Attempt to retrieve account from session
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
 		
-		
-
-		if (action == null || action.equals("changeOrder") || action.equals("insertOrder")) {
+		if (action == null) {// || action.equals("changeOrder") || action.equals("insertOrder")) {
 			// Make sure there is an admin account account
 			if (acc == null || acc.getType() != Account.ActorType.ADMIN)
 				response.sendRedirect("/logout");
@@ -75,13 +76,11 @@ public class AdminServlet extends HttpServlet {
 				// Put all flagged lectures in request
 				request.setAttribute(Keys.FLAGGED_NOTES, fNotes);
 				
-				
-				
 				//Stuff for manage subject  -  phil
-
-				request.setAttribute(Keys.CATEGORY_LIST, Category.getAllCategories());
+				
 				request.setAttribute(Keys.SUBJECT_REQUEST_LIST, RequestSubject.getSubjectRequests());
-				String categoryKey = request.getParameter(Keys.CATEGORY_KEY);
+				request.setAttribute(Keys.CATEGORY_LIST, Category.getAllCategories());
+				/*
 				if(categoryKey == null || categoryKey.equals("")){
 					response.getWriter().print("");
 				}
@@ -163,16 +162,16 @@ public class AdminServlet extends HttpServlet {
 						
 						
 						response.getWriter().print(subtopicListHTML);
-						
+					
 					}
-				}
+				}*/
 				
 
 				getServletContext().getRequestDispatcher("/admin-home.jsp")
 						.forward(request, response);
 			}
-		} else {
-			if ("createsubject".equals(action)) {
+		} 
+		else if ("createsubject".equals(action)) {
 				String category = request.getParameter("categoryKey");
 				Key categoryKey = KeyFactory.stringToKey(category);
 				String subject = request.getParameter("subjectName");
@@ -189,8 +188,8 @@ public class AdminServlet extends HttpServlet {
 					e.printStackTrace();
 					response.getWriter().print("");
 				}
-			} 
-			else if ("removecontent".equals(action)) {
+		} 
+		else if ("removecontent".equals(action)) {
 				String cID = request.getParameter(Keys.CONTENT_KEY);
 				long cType = Long.parseLong(request.getParameter(Keys.CONTENT_TYPE));
 				MaterialType t = MaterialType.fromValue(cType);
@@ -208,8 +207,8 @@ public class AdminServlet extends HttpServlet {
 					n.delete();
 					break;
 				}
-			}
-			else if("unflagcontent".equals(action)) {
+		}
+		else if("unflagcontent".equals(action)) {
 				String cID = request.getParameter(Keys.CONTENT_KEY);
 				long cType = Long.parseLong(request.getParameter(Keys.CONTENT_TYPE));
 				MaterialType t = MaterialType.fromValue(cType);
@@ -227,7 +226,58 @@ public class AdminServlet extends HttpServlet {
 					n.unflag();
 					break;
 				}
+		}
+		else if("getsubjects".equals(action)) {
+			String categoryKey = request.getParameter(Keys.CATEGORY_KEY);
+			Category c = Category.getCategory(categoryKey);
+			ArrayList<Pair<String, String>> subs = new ArrayList<Pair<String, String>>();
+			for(Subject sub : c.getSubjects()) {
+				subs.add(new Pair<String,String>(sub.getTitle(), sub.getKeyAsString()));
 			}
+			response.getWriter().print(new Gson().toJson(subs));
+		}
+		else if("getsubtopics".equals(action)){
+			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+			Subject sub = Subject.getFromKeyString(subjectKey);
+			ArrayList<Triple<String, String, Long>> sts = new ArrayList<Triple<String, String, Long>>();
+			for(Subtopic st : sub.getSubtopics()) {
+				sts.add(new Triple<String, String, Long>(st.getTitle(), st.getKeyAsString(), st.getOrder()));
+			}
+			ArrayList<Pair<String, String>> strs = new ArrayList<Pair<String, String>>();
+			for(RequestSubtopic rs: RequestSubtopic.getSubtopicsRequestfromSubject(subjectKey)){
+				strs.add(new Pair<String,String>(rs.getTitle(), rs.getKeyAsString()));
+			}
+			response.getWriter().print("{ \"sts\" : " + new Gson().toJson(sts) + " , \"strs\" : " + new Gson().toJson(strs) + "}");
+		}
+		/*else if("changeOrder".equals(action)) {
+			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+			Subject sub = Subject.getFromKeyString(subjectKey);
+			String subtopicKey = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
+			Subtopic subtopic = Subtopic.getFromKeyString(subtopicKey);
+			String newPlaceString = request.getParameter(Keys.ORDER);
+			sub.changeOrder(subtopic, Integer.parseInt(newPlaceString));
+			ArrayList<Triple<String, String, Long>> sts = new ArrayList<Triple<String, String, Long>>();
+			for(Subtopic st : sub.getSubtopics()) {
+				sts.add(new Triple<String, String, Long>(st.getTitle(), st.getKeyAsString(), st.getOrder()));
+			}
+			response.getWriter().print(new Gson().toJson(sts));
+		}*/
+		else if("insertOrder".equals(action)) {
+			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+			Subject sub = Subject.getFromKeyString(subjectKey);
+			String requestedKey = request.getParameter(Keys.REQUESTED_SUBTOPIC_KEY);
+			RequestSubtopic reqSubtopic = RequestSubtopic.getFromKeyString(requestedKey);
+			sub.insertSubtopic(reqSubtopic,reqSubtopic.getOrder());
+			ArrayList<Triple<String, String, Long>> sts = new ArrayList<Triple<String, String, Long>>();
+			for(Subtopic st : sub.getSubtopics()) {
+				sts.add(new Triple<String, String, Long>(st.getTitle(), st.getKeyAsString(), st.getOrder()));
+			}
+			response.getWriter().print(new Gson().toJson(sts));
+		}
+		else if("deletesubtopic".equals(action)) {
+			String stid = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
+			Subtopic st = Subtopic.getFromKeyString(stid);
+			st.delete();
 		}
 	}
 
