@@ -26,6 +26,13 @@ public class ApproveSubjectRequestServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
 		String action = request.getParameter("action");
+		// Attempt to retrieve account from session
+		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
+				
+		if (acc == null || acc.getType() != Account.ActorType.ADMIN){
+			response.sendRedirect("/home");
+			return;
+		}
 		if(action!=null){
 			if(action.equals("load")){
 				String subjectRequest = request.getParameter("subjectrequest");
@@ -64,6 +71,8 @@ public class ApproveSubjectRequestServlet extends HttpServlet {
 			else{
 				response.sendRedirect("/home");
 			}
+		}else{
+			response.sendRedirect("/home");
 		}
 		
     }

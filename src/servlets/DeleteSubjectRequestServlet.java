@@ -26,6 +26,12 @@ public class DeleteSubjectRequestServlet extends HttpServlet {
     {
 	
 		String subjectRequest = request.getParameter("subKey");
+		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
+		
+		if (acc == null || acc.getType() != Account.ActorType.ADMIN){
+			response.sendRedirect("/home");
+			return;
+		}
 		if(subjectRequest== null){
 			response.sendRedirect("/home");
 		}
