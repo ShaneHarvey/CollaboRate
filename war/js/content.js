@@ -32,6 +32,13 @@ $(function(){
 	
 	// Try to add a question
 	$('#btn_addQuestion').click(function(){
+		
+		var questionTitle = $('#questionTitle').val();
+		if(questionTitle === '') {
+			$('#questionTitle').effect('shake');
+			return;
+		}
+		
 		// Make sure valid question description
 		var questionDescription = $('#questionDescription_ifr').contents().find('body').html();
 		if(!validTinyInput(questionDescription)) {
@@ -72,7 +79,7 @@ $(function(){
 		// Try to change account info
 		$.ajax({
             type: 'POST',
-            data: 'description=' + encodeURIComponent(questionDescription) + '&answerdescription=' + encodeURIComponent(answerDescription) + '&answersList=' + encodeURIComponent(answersString) + '&answerIndex=' + answerIndex + '&stid=' + $(this).attr('stid') + '&sid=' + $(this).attr('sid') + '&action=createquestion',
+            data: 'description=' + encodeURIComponent(questionDescription) + '&answerdescription=' + encodeURIComponent(answerDescription) + '&answersList=' + encodeURIComponent(answersString) + '&answerIndex=' + answerIndex + '&stid=' + $(this).attr('stid') + '&sid=' + $(this).attr('sid') + '&shorttitle=' + encodeURIComponent(questionTitle) + '&action=createquestion',
             url: '/addcontent',
             success: function(data) {
             	$('#questionLoading').hide();
@@ -86,6 +93,7 @@ $(function(){
             		$('#answerChoiceTable iframe').each(function(){
             			$(this).contents().find('p').replaceWith('<p><br data-mce-bogus="1"></p>');
             		});
+            		$('#questionTitle').val('')
             	}
             	else {
             		// TODO: Give meaningful error message
@@ -121,6 +129,7 @@ $(function(){
 		}
 		//Replace watch?v= with embed/ so that the video can be embed-ed
 		var videoUrl = $('#videoURL').val()
+		videoUrl = videoUrl.replace('http:', 'https:');
 		videoUrl = videoUrl.replace('youtube.com/watch?v=', 'youtube.com/embed/');
 		videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
 		// Show spinner

@@ -83,6 +83,11 @@ public class Post extends DiscussionEntries{
 		super.delete();
 	}
 
+	/**
+	 * Gets all Posts with query in the body or author
+	 * @param query
+	 * @return
+	 */
 	public static ArrayList<Post> search(String query){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

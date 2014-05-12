@@ -2,7 +2,6 @@ package material;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import account.Account;
 
@@ -14,7 +13,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -81,6 +79,16 @@ public class Subject extends DBObject implements Serializable{
 		}
 		return s;
 	}
+	public static Subject createSubject(String sTitle, String sDescription, Key cKey){
+		Entity subjectE = new Entity(ENT_SUBJECT);
+		//TODO check to make sure sTitle does not match a Subject title in the datastore
+		Subject s = new Subject(subjectE);
+		s.setTitle(sTitle);
+		s.setDescription(sDescription);
+		s.setCategory(cKey);
+		s.save();
+		return s;
+	}
 	public static Subject createSubject(String sTitle, String sDescription,ArrayList<RequestSubtopic> subtopics, Key cKey){
 		Entity subjectE = new Entity(ENT_SUBJECT);
 		//TODO check to make sure sTitle does not match a Subject title in the datastore
@@ -89,11 +97,8 @@ public class Subject extends DBObject implements Serializable{
 		s.setDescription(sDescription);
 		s.setCategory(cKey);
 		s.save();
-		long order = 0;
-		for(RequestSubtopic st: subtopics) {
+		for(RequestSubtopic st: subtopics)
 			Subtopic.createSubtopic(st.getTitle(), st.getKey(), st.getDescription(), st.getOrder());
-			order ++;
-		}
 		return s;
 	}
 	protected void setTitle(String subjectTitle){
@@ -207,9 +212,9 @@ public class Subject extends DBObject implements Serializable{
 		}
 		//bounds check
 		if (newOrder < 0) {
-			newOrder = 0;
-		} else if (newOrder > subtopicsList.size()) {
-			newOrder = subtopicsList.size();
+			return this.removeSubtopic(subtopic.getOrder());
+		} else if (newOrder >= subtopicsList.size()) {
+			newOrder = subtopicsList.size()-1;
 		}
 		int i = (int)subtopic.getOrder();
 		subtopicsList.remove(i);//remove the subtopic that is being moved
@@ -233,9 +238,11 @@ public class Subject extends DBObject implements Serializable{
 	 * @return
 	 */
 	public boolean insertSubtopic(RequestSubtopic reqSubtopic, long order){
-		if(subtopicsList == null || subtopicsList.isEmpty()){
+		if(subtopicsList == null)
+			getSubtopics();
+		/*if(subtopicsList == null || subtopicsList.isEmpty()){
 			return false;
-		}
+		}*/
 		//bounds check
 		if(order<0 || order>subtopicsList.size()){
 			order = subtopicsList.size();
@@ -279,6 +286,24 @@ public class Subject extends DBObject implements Serializable{
 		return saveAllSubtopics();
 	}
 	
+	public boolean removeSubtopic(long order){
+		if(subtopicsList == null || subtopicsList.isEmpty()){
+			return false;
+		}
+		
+		Subtopic toDelete = subtopicsList.remove((int)order);
+		
+		int counter = 0;
+		for(Subtopic s: subtopicsList){
+			s.setOrder(counter++);
+		}
+		
+		toDelete.delete();
+		this.save();
+		return saveAllSubtopics();
+
+	}
+	
 	public static ArrayList<Subject> getCategorySubjects(Key cKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -299,4 +324,20 @@ public class Subject extends DBObject implements Serializable{
 		return getCategorySubjects(categoryKey);
 	}
 	//public boolean change
+	/**
+	 * deep delete, overrides and calls DataBaseObject delete
+	 */
+	@Override
+	public void delete(){
+		if(subtopicsList == null){
+			getSubtopics();
+		}
+		
+		for(Subtopic s: subtopicsList){
+			s.delete();//will cascade down to materials, metadata.
+		}
+		
+		super.delete();//delete this entity
+	}
+	
 }

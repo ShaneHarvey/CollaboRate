@@ -17,7 +17,7 @@
 					<a href="/home">Home</a> / <a
 						href="/subject?sid=${subject.keyAsString}">${subject.title}</a> /
 					<a href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
-					/ Question
+					/ <c:out value="${question.shortTitle}" />
 				</div>
 				
 				<br />
@@ -42,6 +42,7 @@
 				</div>
 				<h3 id="explanation" style="display:none;">Explanation:</h3>
 				<div id="answerExplanation" style="display:none;"></div>
+				<div class="tc"><a id="btn_rques" class="btn btn-cg" style="display:none;">Random Question</a></div>
 				<div id="feedback" class="feedback"
 					loggedin="${account == null ? false : true}" url="question"
 					cid="${question.keyAsString}"

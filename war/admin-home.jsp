@@ -165,6 +165,7 @@
 									</select> <br /> <br />
 								</div>
 								<h3>Choose a Subject</h3>
+								<h4>To delete a subtopic give it a negative position</h4>
 								<div class="content-holder side-margins-10 tc" id="subjectSelectDiv">
 									
 								</div>

@@ -89,8 +89,7 @@ public abstract class Material extends DBObject {
 	}
 
 	public String getShortTitle() {
-		String title = (String) entity.getProperty(MATERIAL_TITLE);
-		return title.length() > 20 ? title.substring(0, 20) : title;
+		return (String) entity.getProperty(MATERIAL_TITLE);
 	}
 
 	public Key getSubtopicKey() {

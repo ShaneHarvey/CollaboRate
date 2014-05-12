@@ -8,23 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import material.MaterialMetadata;
-import material.MaterialMetadata.FlaggedMaterial;
-import material.RequestSubject;
-import material.RequestSubtopic;
-import material.UserMaterialMetadata.MaterialType;
 import material.Notes;
 import material.Question;
-import material.Subject;
-import material.Subtopic;
 import material.Video;
-import material.VideoMetadata;
 import constants.Keys;
 import account.Account;
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.gson.*;
 
 public class UserContentServlet extends HttpServlet {
 
@@ -55,11 +43,6 @@ public class UserContentServlet extends HttpServlet {
 
 			getServletContext().getRequestDispatcher("/user-content.jsp").forward(request, response);
 			return;
-		}else {
-			if ("requestsubject".equals(action)) {
-				
-			} 
-			//response.sendRedirect("/home");
 		}
 	} 
 

@@ -61,12 +61,17 @@ public class Comment extends DiscussionEntries{
 		Query photoQuery = new Query(ENT_COMMENT).addSort(DiscussionEntries.ENTRY_DATE,
 				SortDirection.ASCENDING).setFilter(subtopicFilter);
 		PreparedQuery pq = datastore.prepare(photoQuery);
-		//ArrayList<Comment> topRatedQuestions = new ArrayList<Comment>();
 		for (Entity result : pq.asIterable()) {
 			comments.add(new Comment(result));
 		}
 		return comments;
 	}
+	
+	/**
+	 * Gets all Comments with query in the body or author
+	 * @param query
+	 * @return
+	 */
 	public static ArrayList<Comment> search(String query) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

@@ -12,12 +12,12 @@ import material.Category;
 import material.RequestSubject;
 import material.RequestSubtopic;
 import material.Subject;
+import account.Account;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import constants.Keys;
-import account.Account;
 
 public class ApproveSubjectRequestServlet extends HttpServlet {
 
@@ -64,7 +64,6 @@ public class ApproveSubjectRequestServlet extends HttpServlet {
 							checkIndividual.delete();
 						}
 					}
-					//RequestSubject.insertSubjectRequest(insertSubject.getKey(), categoryKey);
 				}
 				response.sendRedirect("/home");
 			}

@@ -1,24 +1,13 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import material.MaterialMetadata;
-import material.MaterialMetadata.FlaggedMaterial;
-import material.RequestSubject;
 import material.RequestSubtopic;
-import material.UserMaterialMetadata.MaterialType;
-import material.Notes;
-import material.Question;
-import material.Subject;
-import material.Subtopic;
-import material.Video;
-import material.VideoMetadata;
 import constants.Keys;
 import account.Account;
 
@@ -48,7 +37,6 @@ public class RequestSubtopicServlet extends HttpServlet {
 			return;
 		}else {
 			if ("requestsubject".equals(action)) {
-				String subject = request.getParameter("subjectName");
 				Key sKey = KeyFactory.stringToKey((String)request.getParameter("sid"));
 				// This is a json array of strings
 				String subTopicList = request.getParameter("subTopicList");
@@ -65,7 +53,6 @@ public class RequestSubtopicServlet extends HttpServlet {
 					response.getWriter().print("");
 				}
 			} 
-			//response.sendRedirect("/home");
 		}
 	}
 

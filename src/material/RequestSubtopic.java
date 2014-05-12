@@ -20,9 +20,11 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 	private static final long serialVersionUID = -8250505173208208901L;
 	private static final String ENT_SUBTOPIC_REQUEST = "subtopic_request";
 	private static final String ENT_SUBJECT_SUBTOPIC_REQUEST = "subject_subtopic_request";
+	
 	private RequestSubtopic(Entity ent){
 		super(ent);
 	}
+	
 	public static RequestSubtopic getSubtopicRequest(Key key) {
 		try {
 			Entity reqSubtopicE = DatastoreServiceFactory.getDatastoreService()
@@ -32,9 +34,11 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 			return null;
 		}
 	}
+	
 	public static RequestSubtopic getFromKeyString(String key) {
 		return getSubtopicRequest(KeyFactory.stringToKey(key));
 	}
+	
 	/**
 	 * Creates a new subtopic request for an already present subject in the datastore 
 	 * @param sTitle The title of the requested subtopic
@@ -55,6 +59,7 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		s.save();
 		return s;
 	}
+	
 	/**
 	 * Creates a sutopic request for a requested subject. The subject is not already present in the datastore
 	 * @param sTitle The title of the subtopic
@@ -74,6 +79,7 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		s.save();
 		return s;
 	}
+	
 	/**
 	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it
 	 * @param sKey the requestedSubject Key
@@ -96,7 +102,6 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		return reqSubtopics;
 	}
 	
-	
 	/**
 	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it
 	 * @param sKey the requestedSubject Key
@@ -105,7 +110,6 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 	public static ArrayList<RequestSubtopic> getSubjectSubtopicsRequest(String sKey) {
 		return getSubjectSubtopicsRequest(KeyFactory.stringToKey(sKey));
 	}
-	
 	
 	/**
 	 * Gets the requested subtopics. Different from the subject subtopic requests.
@@ -122,6 +126,7 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		}
 		return reqSubtopics;
 	}
+	
 	/**
 	 * Inserts the subtopic request into the Subtopic index in the datastore
 	 * @param subReqKey The Requested Subtopic key to enter into the database
@@ -141,6 +146,7 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 			return false;
 		}
 	}
+	
 	public static boolean insertSubtopicRequest(Key subReqKey, Key cKey){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -178,7 +184,6 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 		return reqSubtopics;
 	}
 	
-	
 	/**
 	 * Gets the requested subtopics for a given subject Key. This method is called by insert requested subject to also insert the subtopics assocaiate with it
 	 * @param sKey the requestedSubject Key
@@ -187,6 +192,5 @@ public class RequestSubtopic extends Subtopic implements Serializable {
 	public static ArrayList<RequestSubtopic> getSubtopicsRequestfromSubject(String sKey) {
 		return getSubtopicsRequestfromSubject(KeyFactory.stringToKey(sKey));
 	}
-	
-	
-}//class
+		
+}

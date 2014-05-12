@@ -32,11 +32,14 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabs1-pane1">
 									<div class="content-holder tc">
+										<h2 class="tc">Question Title:</h2>
+										<input id="questionTitle" class="title-area" type="text"
+											maxlength="25" />
 										<h2 class="tc">Question Description:</h2>
 										<div id="questionDescription" class="rt"></div>
-										<br>
+										<br />
 										<h2 class="tc">Answer Description:</h2>
-                                        <div id="answerDescription" class="rt"></div>
+										<div id="answerDescription" class="rt"></div>
 										<h2 class="tc">Answers:</h2>
 										<div class="question-table-wrapper">
 											<table id="answerChoiceTable">
@@ -65,11 +68,11 @@
 								<div class="tab-pane" id="tabs1-pane2">
 									<div class="content-holder tc">
 										<h1 class="tc">Add Video</h1>
-										<span class="title">Video URL:</span> <br /> <input
-											id="videoURL" type="text" /> <br /> <span class="title">Video
-											Description:</span> <br />
-										<textarea id="videoDescription"></textarea>
-										<br /> <br /> <a id="btn_addVideo" class="btn btn-cg white"
+										<span class="title">Video Description:</span> <br /> <input
+											id="videoDescription" class="title-area" type="text"
+											maxlength="25" /> <br /> <span class="title">Video
+											URL:</span> <br /> <input id="videoURL" type="text" /> <br /> <br />
+										<a id="btn_addVideo" class="btn btn-cg white"
 											sid="${subject.keyAsString}" stid="${subtopic.keyAsString}">Add</a>
 										<div id="videoLoading" class="tc loadingDiv"
 											style="display: none;">
@@ -81,11 +84,11 @@
 								<div class="tab-pane" id="tabs1-pane3">
 									<div class="content-holder tc">
 										<h1 class="tc">Add Notes</h1>
-										<span class="title">Notes URL:</span> <br /> <input
-											id="notesURL" type="text"> <br /> <span
-											class="title">Notes Description:</span> <br />
-										<textarea id="notesDescription"></textarea>
-										<br /> <br /> <a id="btn_addNotes" class="btn btn-cg white"
+										<span class="title">Notes Description:</span> <br /> <input
+											id="notesDescription" class="title-area" type="text"
+											maxlength="25" /> <br /> <span class="title">Notes
+											URL:</span> <br /> <input id="notesURL" type="text"> <br />
+										<br /> <a id="btn_addNotes" class="btn btn-cg white"
 											sid="${subject.keyAsString}" stid="${subtopic.keyAsString}">Add</a>
 										<div id="notesLoading" class="tc loadingDiv"
 											style="display: none;">

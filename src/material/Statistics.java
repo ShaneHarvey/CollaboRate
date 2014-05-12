@@ -30,8 +30,8 @@ public class Statistics {
 				  CompositeFilterOperator.and(userFilter, subjectFilter);
 		Query photoQuery = new Query(QuestionMetadata.USER_METADATA).setFilter(user_Subject_Filter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
-		//PreparedQuery pq = datastore.prepare(photoQuery);
 	}
+	
 	/**
 	 * Function counts the number of questions the user answered correctly.
 	 * @param uKey The user key that we are generating the count on
@@ -51,6 +51,7 @@ public class Statistics {
 		Query photoQuery = new Query(QuestionMetadata.USER_METADATA).setFilter(user_Subject_Filter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 	}
+	
 	/**
 	 * Get the percentage of correct at the subject level for a user
 	 * @param uKey The user Key the query will be performed on
@@ -62,6 +63,7 @@ public class Statistics {
 		int correctQuestions = getNumberQuestionsCorrect(uKey, sKey);
 		return  ((double)correctQuestions/totalQuestions)* 100;
 	}
+	
 	/**
 	 * The counts the number of questions there are for a given subject
 	 * @param subKey the subject key for the query
@@ -74,6 +76,7 @@ public class Statistics {
 		Query photoQuery = new Query(Question.QUESTION).setFilter(subjectFilter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 	}
+	
 	/**
 	 * Generates the number of subtopics for a given subject
 	 * @param subjectKey the subject key for a given subject
@@ -86,6 +89,7 @@ public class Statistics {
 		Query photoQuery = new Query(Subtopic.ENT_SUBTOPIC).setFilter(subjectFilter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 	}
+	
 	/**
 	 * Generates the number of passed subtopics for a given subtopic
 	 * @param uKey the user key to generate the query on
@@ -105,6 +109,7 @@ public class Statistics {
 		Query photoQuery = new Query(Test.TEST).setFilter(userSubjectCompletedFilter);
 		return datastore.prepare(photoQuery).countEntities(FetchOptions.Builder.withLimit(max));
 	}
+	
 	/**
 	 * Generates the number of subtopics not passed by a user on a subtopic
 	 * @param uKey the user key to generate the query on 
@@ -116,6 +121,7 @@ public class Statistics {
 		int numberSubtopicsCompleted = getSubtopicsCompleted(uKey, subjectKey);
 		return totalNumberOfSubtopics - numberSubtopicsCompleted;
 	}
+	
 	/**
 	 * Checks if the given subtopic is passed or failed
 	 * @param uKey the user key to generate the query on 

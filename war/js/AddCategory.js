@@ -20,13 +20,10 @@ $(function(){
             url: '/AddCategory',
             success: function(data) {
             	$('#subjectLoading').hide();
-            	if(data === 'success') {
+            	if(data === 'success')
             		$('#categoryName').val("");
-
-            	}
-            	else {
+            	else 
             		$('#categoryName').effect('shake');
-            	}
             },
             error: function(data) {
             	$('#subjectLoading').hide();

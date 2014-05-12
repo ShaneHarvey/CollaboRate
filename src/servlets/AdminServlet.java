@@ -21,6 +21,8 @@ import material.Subtopic;
 import material.Video;
 import constants.Keys;
 import account.Account;
+import dataStructures.Pair;
+import dataStructures.Triple;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -37,140 +39,52 @@ public class AdminServlet extends HttpServlet {
 		String action = (String) request.getParameter("action");
 		// Attempt to retrieve account from session
 		Account acc = (Account) request.getSession().getAttribute(Keys.ACCOUNT);
-		// Make sure there is an admin account account
-		if (acc == null || acc.getType() != Account.ActorType.ADMIN){
-			response.sendRedirect("/home");
-			return;
-		}
 		
-		if (action == null || action.equals("changeOrder") || action.equals("insertOrder")) {
-			ArrayList<FlaggedMaterial> flagged = MaterialMetadata
-					.getSortedFlagged();
-			ArrayList<Question> fQuestions = new ArrayList<Question>();
-			ArrayList<Video> fVideos = new ArrayList<Video>();
-			ArrayList<Notes> fNotes = new ArrayList<Notes>();
-			
-			// Iterate over all flagged data and place them into their
-			// respective lists
-			for (FlaggedMaterial fm : flagged) {
-				MaterialType t = MaterialType.fromValue(fm
-						.getMaterialType());
-				switch (t) {
-					case VIDEO:
-						fVideos.add(Video.getVideo(fm.getKey()));
-						break;
-					case QUESTION:
-						fQuestions.add(Question.getQuestion(fm.getKey()));
-						break;
-					case NOTES:
-						fNotes.add(Notes.getNotes(fm.getKey()));
+		if (action == null) {// || action.equals("changeOrder") || action.equals("insertOrder")) {
+			// Make sure there is an admin account account
+			if (acc == null || acc.getType() != Account.ActorType.ADMIN)
+				response.sendRedirect("/logout");
+			else {
+				ArrayList<FlaggedMaterial> flagged = MaterialMetadata
+						.getSortedFlagged();
+				ArrayList<Question> fQuestions = new ArrayList<Question>();
+				ArrayList<Video> fVideos = new ArrayList<Video>();
+				ArrayList<Notes> fNotes = new ArrayList<Notes>();
+				
+				// Iterate over all flagged data and place them into their
+				// respective lists
+				for (FlaggedMaterial fm : flagged) {
+					MaterialType t = MaterialType.fromValue(fm
+							.getMaterialType());
+					switch (t) {
+						case VIDEO:
+							fVideos.add(Video.getVideo(fm.getKey()));
+							break;
+						case QUESTION:
+							fQuestions.add(Question.getQuestion(fm.getKey()));
+							break;
+						case NOTES:
+							fNotes.add(Notes.getNotes(fm.getKey()));
+					}
 				}
-			}
 
-			// Put all flagged questions in request
-			request.setAttribute(Keys.FLAGGED_QUESTIONS, fQuestions);
-			// Put all flagged videos in request
-			request.setAttribute(Keys.FLAGGED_VIDEOS, fVideos);
-			// Put all flagged lectures in request
-			request.setAttribute(Keys.FLAGGED_NOTES, fNotes);
-			
-			
-			
-			//Stuff for manage subject  -  phil
-
-			request.setAttribute(Keys.CATEGORY_LIST, Category.getAllCategories());
-			request.setAttribute(Keys.SUBJECT_REQUEST_LIST, RequestSubject.getSubjectRequests());
-			String categoryKey = request.getParameter(Keys.CATEGORY_KEY);
-			if(categoryKey == null || categoryKey.equals("")){
-				response.getWriter().print("");
+				// Put all flagged questions in request
+				request.setAttribute(Keys.FLAGGED_QUESTIONS, fQuestions);
+				// Put all flagged videos in request
+				request.setAttribute(Keys.FLAGGED_VIDEOS, fVideos);
+				// Put all flagged lectures in request
+				request.setAttribute(Keys.FLAGGED_NOTES, fNotes);
+				
+				//Stuff for manage subject  -  phil
+				
+				request.setAttribute(Keys.SUBJECT_REQUEST_LIST, RequestSubject.getSubjectRequests());
+				request.setAttribute(Keys.CATEGORY_LIST, Category.getAllCategories());
+				
+				getServletContext().getRequestDispatcher("/admin-home.jsp")
+						.forward(request, response);
 			}
-			else{
-				
-				Category cat = Category.getCategory(categoryKey);
-				
-				
-				String subjectListHTML = "<h2>Current Subjects</h2><select class=\"subjectList\" id=\"" + categoryKey +"\">";
-				subjectListHTML += "<option></option>";
-				//put the subtopics there
-				String nextt = "";
-				for(Subject s:cat.getSubjects()){
-					nextt = "<option value=\" "+ s.getKeyAsString() +  "\">" + s.getTitle() + "</option>";
-					
-					subjectListHTML += nextt;
-				}
-				 
-				subjectListHTML += "</select><br/><br/>";
-				
-				request.setAttribute(Keys.SUBJECT_LIST,
-						cat.getSubjects());
-				String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
-				if (subjectKey == null || subjectKey.equals("")) {
-					response.getWriter().print(subjectListHTML);
-				}
-				else {
-					// Place the subject in the session;
-					Subject sub = Subject.getFromKeyString(subjectKey);
-					//request.setAttribute(Keys.SUBJECT, sub);
-					sub.getSubtopics();
-					
-					String subtopicListHTML="<h3>Current Subtopics</h3><table class=\"subtopicList\" id=\"" + subjectKey +"\">";
-					String subtopicListHTMLend = "</table>";
-					
-					
-					if("changeOrder".equals(action)){
-						String subtopicKey = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
-						Subtopic subtopic = Subtopic.getFromKeyString(subtopicKey);
-						String newPlaceString = request.getParameter(Keys.ORDER);
-						
-						sub.changeOrder(subtopic, Integer.parseInt(newPlaceString));
-					}
-					else if("insertOrder".equals(action)){
-						String requestedKey = request.getParameter(Keys.REQUESTED_SUBTOPIC_KEY);
-						RequestSubtopic reqSubtopic = RequestSubtopic.getFromKeyString(requestedKey);
-						
-						sub.insertSubtopic(reqSubtopic,reqSubtopic.getOrder());
-					}
-					
-					//put the subtopics there
-					String next = "";
-					for(Subtopic s:sub.getSubtopics()){
-						next = "<tr><td><input id=\"" + s.getKeyAsString() + "\" class=\"subtopicInput\" value=\"" + s.getOrder() + "\" size=\"5\" onchange=\"reOrder(this.id)\"></td>" 
-								+ "<td>" + s.getTitle() + "</td></tr>";
-						
-						subtopicListHTML += next;
-					}
-					
-					//end subtopics
-					subtopicListHTML += "</table><br/><br/><br/>";
-					
-					//start requested subtopics
-					subtopicListHTML += "<h3>Requested Subtopics</h3><table>";
-					
-					
-					//here i include the description
-					for(RequestSubtopic rs: RequestSubtopic.getSubtopicsRequestfromSubject(subjectKey)){
-						next = "<tr><td><span id=\"" + rs.getKeyAsString() + "\" class=\"glyphicon glyphicon-plus hoverHand\""
-								+  "onclick=\"insertInOrder(this.id)\"></td>" 
-								+ "<td>" + rs.getTitle() + "</td><td>" + rs.getDescription()+"</td</tr>";
-						
-						subtopicListHTML += next;
-					}
-					
-					
-					
-					
-					
-					
-					response.getWriter().print(subtopicListHTML);
-					
-				}
-			}
-			
-
-			getServletContext().getRequestDispatcher("/admin-home.jsp")
-					.forward(request, response);
-		} else {
-			if ("createsubject".equals(action)) {
+		} 
+		else if ("createsubject".equals(action)) {
 				String category = request.getParameter("categoryKey");
 				Key categoryKey = KeyFactory.stringToKey(category);
 				String subject = request.getParameter("subjectName");
@@ -187,8 +101,8 @@ public class AdminServlet extends HttpServlet {
 					e.printStackTrace();
 					response.getWriter().print("");
 				}
-			} 
-			else if ("removecontent".equals(action)) {
+		} 
+		else if ("removecontent".equals(action)) {
 				String cID = request.getParameter(Keys.CONTENT_KEY);
 				long cType = Long.parseLong(request.getParameter(Keys.CONTENT_TYPE));
 				MaterialType t = MaterialType.fromValue(cType);
@@ -206,8 +120,8 @@ public class AdminServlet extends HttpServlet {
 					n.delete();
 					break;
 				}
-			}
-			else if("unflagcontent".equals(action)) {
+		}
+		else if("unflagcontent".equals(action)) {
 				String cID = request.getParameter(Keys.CONTENT_KEY);
 				long cType = Long.parseLong(request.getParameter(Keys.CONTENT_TYPE));
 				MaterialType t = MaterialType.fromValue(cType);
@@ -225,7 +139,45 @@ public class AdminServlet extends HttpServlet {
 					n.unflag();
 					break;
 				}
+		}
+		else if("getsubjects".equals(action)) {
+			String categoryKey = request.getParameter(Keys.CATEGORY_KEY);
+			Category c = Category.getCategory(categoryKey);
+			ArrayList<Pair<String, String>> subs = new ArrayList<Pair<String, String>>();
+			for(Subject sub : c.getSubjects()) {
+				subs.add(new Pair<String,String>(sub.getTitle(), sub.getKeyAsString()));
 			}
+			response.getWriter().print(new Gson().toJson(subs));
+		}
+		else if("getsubtopics".equals(action)){
+			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+			Subject sub = Subject.getFromKeyString(subjectKey);
+			ArrayList<Triple<String, String, Long>> sts = new ArrayList<Triple<String, String, Long>>();
+			for(Subtopic st : sub.getSubtopics()) {
+				sts.add(new Triple<String, String, Long>(st.getTitle(), st.getKeyAsString(), st.getOrder()));
+			}
+			ArrayList<Pair<String, String>> strs = new ArrayList<Pair<String, String>>();
+			for(RequestSubtopic rs: RequestSubtopic.getSubtopicsRequestfromSubject(subjectKey)){
+				strs.add(new Pair<String,String>(rs.getTitle(), rs.getKeyAsString()));
+			}
+			response.getWriter().print("{ \"sts\" : " + new Gson().toJson(sts) + " , \"strs\" : " + new Gson().toJson(strs) + "}");
+		}
+		else if("insertOrder".equals(action)) {
+			String subjectKey = request.getParameter(Keys.SUBJECT_KEY);
+			Subject sub = Subject.getFromKeyString(subjectKey);
+			String requestedKey = request.getParameter(Keys.REQUESTED_SUBTOPIC_KEY);
+			RequestSubtopic reqSubtopic = RequestSubtopic.getFromKeyString(requestedKey);
+			sub.insertSubtopic(reqSubtopic,reqSubtopic.getOrder());
+			ArrayList<Triple<String, String, Long>> sts = new ArrayList<Triple<String, String, Long>>();
+			for(Subtopic st : sub.getSubtopics()) {
+				sts.add(new Triple<String, String, Long>(st.getTitle(), st.getKeyAsString(), st.getOrder()));
+			}
+			response.getWriter().print(new Gson().toJson(sts));
+		}
+		else if("deletesubtopic".equals(action)) {
+			String stid = request.getParameter(Keys.SUBJECT_TOPIC_KEY);
+			Subtopic st = Subtopic.getFromKeyString(stid);
+			st.delete();
 		}
 	}
 

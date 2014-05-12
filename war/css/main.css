@@ -57,7 +57,7 @@ html,body {
 
 /* Used on admin page*/
 .too-thin-hack {
-	min-width: 1200px;
+	min-width: 1250px;
 }
 
 .footer {
@@ -491,6 +491,8 @@ ol {
 
 .question-title {
     word-wrap: break-word;	
+    color: #58427C;
+    text-align: left;
 }
 
 .img-sm {
@@ -514,6 +516,21 @@ ol {
 
 .notes-display {
 	top: 200px;
+}
+
+.title-area{
+	width: 55%;
+	padding: 5px;
+	font-size: 20px;
+}
+
+.big-list {
+	font-size: 20px;
+}
+
+.home-question {
+	overflow-y: auto;
+    max-height: 360px;
 }
 
 /* To center forms in bootstrap div */

@@ -65,34 +65,6 @@ public class Video extends Material implements Serializable {
 		return v;
 	}
 
-	/*public static ArrayList<Video> getFlaggedVideos() {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		Query photoQuery = new Query(ENT_VIDEO).addSort(MATERIAL_FLAGGED_COUNT,
-				SortDirection.DESCENDING);
-		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Video> listOfFlagged = new ArrayList<Video>();
-		for (Entity result : pq.asIterable()) {
-			listOfFlagged.add(new Video(result));
-		}
-		return listOfFlagged;
-	}*/
-
-	/*public static ArrayList<Video> getTopRatedVideos(int limit, Key sKey) {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
-				FilterOperator.EQUAL, sKey);
-		Query photoQuery = new Query(ENT_VIDEO).setFilter(subtopicFilter);/*.addSort(MATERIAL_RATING,
-				SortDirection.DESCENDING).setFilter(subtopicFilter);
-		PreparedQuery pq = datastore.prepare(photoQuery);
-		ArrayList<Video> topRatedVideos = new ArrayList<Video>();
-		for (Entity result : pq.asList(FetchOptions.Builder.withLimit(limit))) {
-			topRatedVideos.add(new Video(result));
-		}
-		return topRatedVideos;
-	}*/
-
 	public static ArrayList<Video> getMostRecentVideos(int limit, Key sKey) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -114,18 +86,19 @@ public class Video extends Material implements Serializable {
 		Filter subtopicFilter = new FilterPredicate(MATERIAL_SUBTOPIC,
 				FilterOperator.EQUAL, sKey);
 		Query randQuery = new Query(ENT_VIDEO).setFilter(subtopicFilter);
-		PreparedQuery pq = datastore.prepare(randQuery);
+		List<Entity> results; 
+		if(limit > 0)
+			results = datastore.prepare(randQuery).asList(FetchOptions.Builder.withLimit(limit));
+		else
+			results = new ArrayList<Entity>(0);
 		
 		// Add first x videos
 		ArrayList<Video> videos = new ArrayList<Video>();
-		for (Entity result : pq.asIterable()) {
-			if(videos.size() < limit)
-				videos.add(new Video(result));
-			else
-				break;
-		}
+		for (Entity result : results)
+			videos.add(new Video(result));
 		return videos;
 	}
+	
 	public static ArrayList<Video> getUsersGeneratedVideo(Key userKey){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter userFilter = new FilterPredicate(MATERIAL_AUTHOR, FilterOperator.EQUAL, userKey);
@@ -137,6 +110,7 @@ public class Video extends Material implements Serializable {
 		}
 		return videos;
 	}
+
 	public static Video getHottestVideo(){
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		//Sort based on MaterialID
@@ -202,7 +176,11 @@ public class Video extends Material implements Serializable {
 			return null;
 		}
 	}
-
+	/**
+	 * Gets all Videos that contain query in the title
+	 * @param query
+	 * @return
+	 */
 	public static ArrayList<Video> search(String query) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -215,5 +193,22 @@ public class Video extends Material implements Serializable {
 				matching.add(videoResult);
 		}
 		return matching;
+	}
+
+	/**
+	 * get all of the videos associated with the given subtopic
+	 * @param subtopicKey
+	 * @return
+	 */
+	public static ArrayList<Video> getAllSubtopicsVideos(Key subtopicKey){
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter userFilter = new FilterPredicate(MATERIAL_SUBTOPIC, FilterOperator.EQUAL, subtopicKey);
+		Query userContent = new Query(ENT_VIDEO).setFilter(userFilter);//.addSort(MATERIAL_RATING, SortDirection.DESCENDING);
+		PreparedQuery pq = datastore.prepare(userContent);
+		ArrayList<Video> videos = new ArrayList<Video>();
+		for(Entity result:pq.asIterable()){
+				videos.add(new Video(result));
+		}
+		return videos;
 	}
 }

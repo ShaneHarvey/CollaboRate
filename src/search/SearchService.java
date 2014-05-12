@@ -34,7 +34,7 @@ public class SearchService {
 		for(Question q: Question.search(query)){
 			SearchResult r = new SearchResult();
 			r.setType("Question");
-			r.setTitle(q.getTitle());
+			r.setTitle(q.getShortTitle());
 			r.setDate(q.getDate());
 			r.setAuthor(Account.getAccount(q.getAuthor()).getDisplayNameOrEmail());
 			results.add(r);

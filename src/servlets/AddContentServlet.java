@@ -72,7 +72,8 @@ public class AddContentServlet extends HttpServlet {
 					
 					int answerIndex = Integer.parseInt(request
 							.getParameter("answerIndex"));
-					Question.createQuestion(questionDescription, answerDescription, safeAnswers,
+					String shortTitle = request.getParameter("shorttitle");
+					Question.createQuestion(questionDescription, shortTitle, answerDescription, safeAnswers,
 							answerIndex, subtopic, acc);
 
 					response.getWriter().print("success");

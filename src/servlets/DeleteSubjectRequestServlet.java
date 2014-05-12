@@ -8,15 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import material.Category;
 import material.RequestSubject;
 import material.RequestSubtopic;
+import account.Account;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import constants.Keys;
-import account.Account;
 
 public class DeleteSubjectRequestServlet extends HttpServlet {
 
