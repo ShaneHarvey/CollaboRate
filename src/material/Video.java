@@ -202,4 +202,18 @@ public class Video extends Material implements Serializable {
 			return null;
 		}
 	}
+
+	public static ArrayList<Video> search(String query) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query allNotes = new Query(ENT_VIDEO);
+		PreparedQuery pq = datastore.prepare(allNotes);
+		ArrayList<Video> matching = new ArrayList<Video>();
+		for (Entity result : pq.asIterable()) {
+			Video videoResult = new Video(result);
+			if(videoResult.getTitle().toLowerCase().contains(query.toLowerCase()))
+				matching.add(videoResult);
+		}
+		return matching;
+	}
 }

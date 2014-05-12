@@ -67,4 +67,18 @@ public class Comment extends DiscussionEntries{
 		}
 		return comments;
 	}
+	public static ArrayList<Comment> search(String query) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query allComments = new Query(ENT_COMMENT);
+		PreparedQuery pq = datastore.prepare(allComments);
+		ArrayList<Comment> matchingComments = new ArrayList<Comment>();
+		for (Entity result : pq.asIterable()) {
+			Comment commentResult = new Comment(result);
+			if(commentResult.getBody().toLowerCase().contains(query.toLowerCase())
+					|| commentResult.getAuthor().getDisplayNameOrEmail().toLowerCase().contains(query.toLowerCase()))
+				matchingComments.add(commentResult);
+		}
+		return matchingComments;
+	}
 }

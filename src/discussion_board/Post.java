@@ -82,4 +82,19 @@ public class Post extends DiscussionEntries{
 		// Remove this post
 		super.delete();
 	}
+
+	public static ArrayList<Post> search(String query){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query allPosts = new Query(ENT_POST);
+		PreparedQuery pq = datastore.prepare(allPosts);
+		ArrayList<Post> matchingPosts = new ArrayList<Post>();
+		for (Entity result : pq.asIterable()) {
+			Post postResult = new Post(result);
+			if(postResult.getBody().toLowerCase().contains(query.toLowerCase())
+					|| postResult.getAuthor().getDisplayNameOrEmail().toLowerCase().contains(query.toLowerCase()))
+				matchingPosts.add(postResult);
+		}
+		return matchingPosts;
+	}
 }

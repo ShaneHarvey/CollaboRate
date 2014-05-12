@@ -194,4 +194,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>DeleteSubjectRequestServlet</servlet-name>
         <url-pattern>/DeleteSubjectRequest</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>servlets.SearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <taglib>
+		<taglib-uri>http://displaytag.sourceforge.net/</taglib-uri>
+		<taglib-location>/WEB-INF/displaytag.tld</taglib-location>
+	</taglib>
+    
 </web-app>

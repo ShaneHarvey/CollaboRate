@@ -28,6 +28,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.*;
 
+import discussion_board.Comment;
+
 public class Question extends Material implements Serializable {
 
 	private static final long serialVersionUID = -3534572743954510719L;
@@ -43,13 +45,8 @@ public class Question extends Material implements Serializable {
 	}
 
 	private void setAnswerChoices(String[] choices) {
-		// Convert each choice to Text
-		Text[] textChoices = new Text[choices.length];
-		for(int i=0; i<choices.length; i++){
-			textChoices[i] = new Text(choices[i]);
-		}
-		// Convert Text array into a Json Text object
-		Text jsonChoices = new Text(new Gson().toJson(textChoices));
+		// Convert String array into a Json Text object
+		Text jsonChoices = new Text(new Gson().toJson(choices));
 		entity.setProperty(ANSWER_CHOICES, jsonChoices);
 	}
 
@@ -63,11 +60,7 @@ public class Question extends Material implements Serializable {
 
 	public String[] getAnswerChoices() {
 		Text jsonChoices = (Text) entity.getProperty(ANSWER_CHOICES);
-		Text[] textChoices = new Gson().fromJson(jsonChoices.getValue(), Text[].class);
-		String[] choices = new String[textChoices.length];
-		for(int i=0; i<textChoices.length; i++){
-			choices[i] = textChoices[i].getValue();
-		}
+		String[] choices = new Gson().fromJson(jsonChoices.getValue(), String[].class);
 		return choices;
 	}
 
@@ -341,5 +334,19 @@ public class Question extends Material implements Serializable {
 			return null;
 		}
 
+	}
+
+	public static ArrayList<Question> search(String query) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query allQuestions = new Query(QUESTION);
+		PreparedQuery pq = datastore.prepare(allQuestions);
+		ArrayList<Question> matching = new ArrayList<Question>();
+		for (Entity result : pq.asIterable()) {
+			Question questionResult = new Question(result);
+			if(questionResult.getTitle().toLowerCase().contains(query.toLowerCase()))
+				matching.add(questionResult);
+		}
+		return matching;
 	}
 }

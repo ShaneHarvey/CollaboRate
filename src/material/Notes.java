@@ -146,5 +146,19 @@ public class Notes extends Material {
 			break;
 		}
 		return toReturn == null ? null : new Notes(toReturn);
+	}
+
+	public static ArrayList<Notes> search(String query) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query allNotes = new Query(ENT_NOTES);
+		PreparedQuery pq = datastore.prepare(allNotes);
+		ArrayList<Notes> matching = new ArrayList<Notes>();
+		for (Entity result : pq.asIterable()) {
+			Notes notesResult = new Notes(result);
+			if(notesResult.getTitle().toLowerCase().contains(query.toLowerCase()))
+				matching.add(notesResult);
+		}
+		return matching;
 	}	
 }

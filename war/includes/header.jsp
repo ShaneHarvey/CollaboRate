@@ -27,6 +27,7 @@
 					</c:if>
 					<li><a href="/discuss">Discuss</a></li>
 				</ul>
+				
 				<!-- Right side of nav bar -->
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
@@ -45,6 +46,17 @@
 						</c:otherwise>
 					</c:choose>
 				</ul>
+				<!-- Search Bar -->
+				<div class="col-sm-3 col-md-3 navbar-right">
+			        <form class="navbar-form" action="search" method="get" onsubmit="return validateSearch()">
+				        <div class="input-group">
+				            <input type="text" class="form-control" placeholder="Search" name="q" id ="search-query">
+				            <div class="input-group-btn">
+				                <button class="btn btn-default" type="submit" id="btn-searchbar"><i class="glyphicon glyphicon-search"></i></button>
+				            </div>
+				        </div>
+			        </form>
+			    </div>
 			</div>
 		</div>
 	</div>

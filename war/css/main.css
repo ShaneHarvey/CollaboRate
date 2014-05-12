@@ -515,3 +515,8 @@ ol {
 .notes-display {
 	top: 200px;
 }
+
+/* To center forms in bootstrap div */
+form {
+    display:inline-block;
+}
