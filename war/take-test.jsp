@@ -17,7 +17,7 @@
 					<a href="/home">Home</a> / <a
 						href="/subject?sid=${subject.keyAsString}">${subject.title}</a> /
 					<a href="/subtopic?stid=${subtopic.keyAsString}">${subtopic.title}</a>
-					/ <c:out value="${question.shortTitle}" />
+					/ <!--<c:out value="${question.shortTitle}" /> -->
 				</div>
 				<div class="right-float">
 					<div class="tl">Progress:</div>
@@ -28,7 +28,7 @@
 				</div>
 				<br />
 				<br />
-				<div class="question-title">${question.title}</div>
+				<div class="question-title" id="question-title">${question.title}</div>
 				<div class="question-answers">
 					<ol id="question-list">
 						<c:forEach items="${question.answerChoices}" var="choice">

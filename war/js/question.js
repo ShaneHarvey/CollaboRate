@@ -126,7 +126,7 @@ $(function() {
 							$('#progress-bar').attr('style', 'width: ' + response.pct + '%');
 							$('#progress-bar').text(response.pct + '%');
 							// Load the next question
-							$('#question-title').text(response.nextQuestion.title);
+							$('#question-title').html(response.nextQuestion.title);
 							$('#question-list').empty();
 							
 							for(var i =0; i< response.nextQuestion.answerChoices.length; i++){

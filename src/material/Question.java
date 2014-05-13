@@ -79,7 +79,7 @@ public class Question extends Material implements Serializable {
 	}
 
 	public String getAnswerChoicesJson() {
-		return (String) entity.getProperty(ANSWER_CHOICES);
+		return ((Text)entity.getProperty(ANSWER_CHOICES)).getValue();
 	}
 
 	public String getAnswerExplaination() {
